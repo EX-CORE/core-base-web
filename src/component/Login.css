@@ -1,0 +1,23 @@
+.LoginForm {
+    padding: 24vh 0;
+    text-align: center;
+}
+
+.LoginFormLogo {
+    height: 12vmin;
+    pointer-events: none;
+}
+
+.LoginButton {
+    padding: 2vmin 5vmin;
+    display: block;
+    box-sizing: border-box;
+    background: #FFF;
+    border-color: #b6b6b6;
+    font-weight: bold;
+    margin-top: 1vw;
+    border-radius: 10px;
+    font-size: 25px;
+    color: #818181;
+    box-shadow: none;
+}
