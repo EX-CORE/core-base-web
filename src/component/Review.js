@@ -1,5 +1,6 @@
-import React, {useState} from "react";
-import styles from './review.css';
+import './review.css';
+
+import React, { useState } from 'react';
 
 
 function Review({title, surveyPeriod, reviewPeriod, state}) {

@@ -1,9 +1,11 @@
+import '../style/Login.css';
+
 import React from 'react';
+
+import { BASE_URL } from '../api/api-config';
+import logo from '../logo/core-base-logo.svg';
 import reviewerLoginLogo from './../logo/core-base-login-logo-1.svg';
 import managerLoginLogo from './../logo/core-base-login-logo-2.svg';
-import styles from './Login.css';
-import logo from "../logo/core-base-logo.svg";
-import { BASE_URL } from '../api/api-config';
 
 function Login() {
 

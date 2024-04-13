@@ -1,7 +1,4 @@
-import './App.css';
-import './component/Review'
-import Review from "./component/Review";
-import Login from "./component/Login";
+import '../style/App.css';
 
 function App() {
     return (
