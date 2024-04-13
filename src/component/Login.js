@@ -10,8 +10,8 @@ function Login() {
     return (
         <div className='LoginForm'>
             <img className='LoginFormLogo' src={logo} alt="logo" />
-            <a className='LoginButton' href={`${BASE_URL}/auth/code`} ><img src={reviewerLoginLogo} />평가 대상자로 Google 로그인</a>
-            <a className='LoginButton' href={`${BASE_URL}/auth/code`} ><img src={managerLoginLogo} />평가 관리자로 Google 로그인</a>
+            <a className='LoginButton' href={`${BASE_URL}/auth/code?type=REVIEWER`} ><img src={reviewerLoginLogo} />평가 대상자로 Google 로그인</a>
+            <a className='LoginButton' href={`${BASE_URL}/auth/code?type=MANAGER`} ><img src={managerLoginLogo} />평가 관리자로 Google 로그인</a>
         </div>
     )
 }
