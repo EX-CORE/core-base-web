@@ -1,0 +1,1 @@
+export const BASE_URL = "https://core-base-5103db8db361.herokuapp.com";

@@ -1,23 +1,41 @@
 .LoginForm {
-    padding: 24vh 0;
+    height: 100vh;
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .LoginFormLogo {
-    height: 12vmin;
+    width: 80px;
     pointer-events: none;
+    margin-bottom: 38px;
 }
 
 .LoginButton {
-    padding: 2vmin 5vmin;
-    display: block;
+    padding: 11px 46px 11px 31px;
+    margin-bottom: 12px;
+    text-decoration: none;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+
     box-sizing: border-box;
     background: #FFF;
-    border-color: #b6b6b6;
+    border: 1px solid #B6B6B6;
     font-weight: bold;
-    margin-top: 1vw;
-    border-radius: 10px;
-    font-size: 25px;
+    border-radius: 5px;
     color: #818181;
-    box-shadow: none;
+
+    width: 321px;
+    height: 50px;
+}
+
+.LoginButton:last-child {
+    margin-bottom: 0px;
 }
