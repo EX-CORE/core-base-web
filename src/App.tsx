@@ -1,17 +1,20 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Login } from './components';
+import ReactQueryProvider from './providers/ReactQueryProvider';
 
 
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home/>}></Route>
-                <Route path="/login" element={<Login/>}></Route>
-            </Routes>
-        </BrowserRouter>
+        <ReactQueryProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Home/>}></Route>
+                    <Route path="/login" element={<Login/>}></Route>
+                </Routes>
+            </BrowserRouter>
+        </ReactQueryProvider>
     )
 }
 
