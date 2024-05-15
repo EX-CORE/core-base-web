@@ -1,11 +1,12 @@
 import '../style/App.css';
 
-function App() {
+function Home() {
     return (
-        <div className="App">
+        <div className="Home">
             {/* TODO 기본 페이지 */}
+            홈
         </div>
     );
 }
 
-export default App;
+export default Home;
