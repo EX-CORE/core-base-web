@@ -3,8 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Login } from './components';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 
-
-
 function App() {
     return (
         <ReactQueryProvider>
