@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, Login } from './components';
+import { Home, Login } from './pages';
 import ReactQueryProvider from './providers/ReactQueryProvider';
 
 function App() {

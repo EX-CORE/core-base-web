@@ -1,5 +1,5 @@
 import '../style/App.css';
-import { Badge } from './ui/badge';
+import { Badge } from '../components/ui/badge';
 
 function Home() {
     return (

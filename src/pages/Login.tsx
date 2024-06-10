@@ -2,9 +2,9 @@ import '../style/Login.css';
 
 import React from 'react';
 
-import logo from '../logo/core-base-logo.svg';
-import reviewerLoginLogo from './../logo/core-base-login-logo-1.svg';
-import managerLoginLogo from './../logo/core-base-login-logo-2.svg';
+import logo from '../assets/core-base-logo.svg';
+import reviewerLoginLogo from './../assets/core-base-login-logo-1.svg';
+import managerLoginLogo from './../assets/core-base-login-logo-2.svg';
 
 function Login() {
 
