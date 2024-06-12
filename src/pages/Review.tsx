@@ -1,9 +1,14 @@
-import './review.css';
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 
-function Review({title, surveyPeriod, reviewPeriod, state}) {
+type Props = {
+    title: string,
+    surveyPeriod: {startDate: string, endDate: string},
+    reviewPeriod: {startDate: string, endDate: string},
+    state: {text: string}
+}
+
+function Review({title, surveyPeriod, reviewPeriod, state}: Props) {
     // const [state] = useState('TEMP');
     // const [state] = useState('TEMP'); PROCESS PAUSE DELETED
 
