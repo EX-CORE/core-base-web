@@ -1,0 +1,15 @@
+import { getRoleMenuList } from "src/lib/utils";
+
+export default function HeaderNavbar() {
+  const USER_ROLE = "ADMIN";
+
+  const MENU_LIST = getRoleMenuList(USER_ROLE);
+
+  return (
+    <div>
+      {MENU_LIST.map(({ CATEGORY }) => (
+        <div key={CATEGORY}>{CATEGORY}</div>
+      ))}
+    </div>
+  );
+}
