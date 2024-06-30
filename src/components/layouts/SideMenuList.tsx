@@ -14,7 +14,9 @@ export default function SideMenuList() {
   return (
     <div>
       {target.MENU_LIST.map((menu) => (
-        <div key={menu}>{menu}</div>
+        <div key={menu} className="p-4">
+          {menu}
+        </div>
       ))}
     </div>
   );

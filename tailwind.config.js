@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-import colors from "tailwindcss/colors";
+import colors from "./src/style/colors";
 
 module.exports = {
   darkMode: ["class"],
@@ -12,6 +12,9 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    fontSize: {
+      1: "1.2rem",
+    },
     container: {
       center: true,
       padding: "2rem",

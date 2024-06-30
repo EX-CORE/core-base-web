@@ -1,5 +1,5 @@
 const colors = {
-  gray300: "#DBDAD9",
+  bodyGray: "#f5f7f9",
 };
 
 export default colors;
