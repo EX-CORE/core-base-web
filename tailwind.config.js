@@ -1,14 +1,20 @@
 /** @type {import('tailwindcss').Config} */
+
+import colors from "./src/style/colors";
+
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
+    fontSize: {
+      1: "1.2rem",
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -18,6 +24,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        ...colors,
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -74,4 +81,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

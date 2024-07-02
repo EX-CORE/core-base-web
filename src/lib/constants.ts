@@ -1,32 +1,104 @@
 export const ROLE = {
-    MATER_ADMIN: {
-        LABEL: '마스터관리자',
-        VALUE: 'MASTER_ADMIN',
-    },
-    COMPANY_ADMIN: {
-        LABEL: '일반관리자',
-        VALUE: 'ADMIN',
-    },
-    COMPANY_USER: {
-        LABEL: '일반사용자',
-        VALUE: 'USER',
-    },
+  MATER_ADMIN: {
+    LABEL: "마스터관리자",
+    VALUE: "MASTER_ADMIN",
+  },
+  COMPANY_ADMIN: {
+    LABEL: "일반관리자",
+    VALUE: "ADMIN",
+  },
+  COMPANY_USER: {
+    LABEL: "일반사용자",
+    VALUE: "USER",
+  },
 } as const;
 
-export const roleLabelMap = {
-    [ROLE.MATER_ADMIN.VALUE]: ROLE.MATER_ADMIN.LABEL,
-    [ROLE.COMPANY_ADMIN.VALUE]: ROLE.COMPANY_ADMIN.LABEL,
-    [ROLE.COMPANY_USER.VALUE]: ROLE.COMPANY_USER.LABEL,
+export const MENU = {
+  DASHBOARD: {
+    LABEL: "대시보드",
+    VALUE: "DASHBOARD",
+  },
+  REVIEW_MANAGEMENT: {
+    LABEL: "리뷰관리",
+    VALUE: "REVIEW_MANAGEMENT",
+  },
+  COMPANY_MANAGEMENT: {
+    LABEL: "회사관리",
+    VALUE: "COMPANY_MANAGEMENT",
+  },
+  COMPANY_INFO: {
+    LABEL: "회사정보",
+    VALUE: "COMPANY_INFO",
+  },
+  COMPANY_MEMBER_MANAGEMENT: {
+    LABEL: "그룹/구성원 관리",
+    VALUE: "COMPANY_MEMBER_MANAGEMENT",
+  },
+  REVIEW_PROGRESS: {
+    LABEL: "리뷰진행",
+    VALUE: "REVIEW_PROGRESS",
+  },
+  REVIEW_RESULT: {
+    LABEL: "리뷰결과",
+    VALUE: "REVIEW_RESULT",
+  },
+  MORESEE: {
+    LABEL: "더보기",
+    VALUE: "MORESEE",
+  },
+  SETTING: {
+    LABEL: "내설정",
+    VALUE: "SETTING",
+  },
+  ACCOUNT_SETTING: {
+    LABEL: "계정 설정",
+    VALUE: "ACCOUNT_SETTING",
+  },
 } as const;
 
-export const roleMenuListMap = {
-    [ROLE.MATER_ADMIN.VALUE]: [{category: '조직', menuList:[]}, {category: '평가', menuList:[]}],
-    [ROLE.COMPANY_ADMIN.VALUE]: [],
-    [ROLE.COMPANY_USER.VALUE]: [],
-} as const;
+// export const ROLE_LABEL_MAP = {
+//   [ROLE.COMPANY_ADMIN.VALUE]: ROLE.COMPANY_ADMIN.LABEL,
+//   [ROLE.COMPANY_USER.VALUE]: ROLE.COMPANY_USER.LABEL,
+// } as const;
 
-export const roleDefaultUrlMap = {
-    [ROLE.MATER_ADMIN.VALUE]: '/home',
-    [ROLE.COMPANY_ADMIN.VALUE]: '/home',
-    [ROLE.COMPANY_USER.VALUE]: '/home',
+export const ROLE_MENULIST_MAP = {
+  [ROLE.COMPANY_ADMIN.VALUE]: [
+    { CATEGORY: MENU.DASHBOARD.LABEL, MENU_LIST: [] },
+    { CATEGORY: MENU.REVIEW_MANAGEMENT.LABEL, MENU_LIST: [] },
+    {
+      CATEGORY: MENU.COMPANY_MANAGEMENT.LABEL,
+      MENU_LIST: [
+        MENU.COMPANY_INFO.LABEL,
+        MENU.COMPANY_MEMBER_MANAGEMENT.LABEL,
+      ],
+    },
+  ],
+  [ROLE.COMPANY_USER.VALUE]: [
+    { CATEGORY: MENU.REVIEW_PROGRESS.LABEL, MENU_LIST: [] },
+    { CATEGORY: MENU.REVIEW_MANAGEMENT.LABEL, MENU_LIST: [] },
+    {
+      CATEGORY: MENU.MORESEE.LABEL,
+      MENU_LIST: [MENU.SETTING.LABEL, MENU.ACCOUNT_SETTING.LABEL],
+    },
+  ],
+
+  // {
+  //   [MENU.DASHBOARD.VALUE]: [],
+  //   [MENU.REVIEW_MANAGEMENT.VALUE]: [],
+  //   [MENU.COMPANY_MANAGEMENT.VALUE]: [
+  //     MENU.COMPANY_INFO.LABEL,
+  //     MENU.COMPANY_MEMBER_MANAGEMENT.LABEL,
+  //   ],
+  // },
+  // [ROLE.COMPANY_USER.VALUE]: {
+  //   [MENU.REVIEW_PROGRESS.VALUE]: [],
+  //   [MENU.REVIEW_MANAGEMENT.VALUE]: [],
+  //   [MENU.MORESEE.VALUE]: [MENU.SETTING, MENU.ACCOUNT_SETTING],
+  // },
+};
+
+export const ROLE_DEFAULT_URL_MAP = {
+  [ROLE.MATER_ADMIN.VALUE]: "/home",
+  [ROLE.COMPANY_ADMIN.VALUE]: "/home",
+  [ROLE.COMPANY_USER.VALUE]: "/home",
 } as const;
