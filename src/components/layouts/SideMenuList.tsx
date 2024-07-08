@@ -9,8 +9,12 @@ export default function SideMenuList() {
   return (
     <div>
       {target.MENU_LIST.map((menu) => (
-        <div key={menu} className="p-4">
-          {menu}
+        <div
+          onClick={() => (window.location.href = menu.LINK)}
+          key={menu.VALUE}
+          className="p-4"
+        >
+          {menu.LABEL}
         </div>
       ))}
     </div>
