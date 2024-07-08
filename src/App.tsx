@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Login } from "./pages";
+import { OrganizationInfo, OrganizationMember } from "./pages/organization";
 import ReactQueryProvider from "./providers/ReactQueryProvider";
 import Layout from "./components/layouts";
 
@@ -22,6 +23,22 @@ function App() {
             element={
               <Layout>
                 <Home />
+              </Layout>
+            }
+          ></Route>
+          <Route
+            path="/organization/information"
+            element={
+              <Layout>
+                <OrganizationInfo />
+              </Layout>
+            }
+          ></Route>
+          <Route
+            path="/organization/member"
+            element={
+              <Layout>
+                <OrganizationMember />
               </Layout>
             }
           ></Route>
