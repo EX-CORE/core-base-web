@@ -1,14 +1,10 @@
 import "../../style/App.css";
-import { Badge } from "../../components/ui/badge";
 
 function OrganizationMember() {
   return (
-    <div className="OrganizationInfo">
+    <div>
       {/* TODO 기본 페이지 */}
-      <h1 className="font-bold">
-        그룹 구성원 관리
-        <Badge variant="outline">배찌</Badge>
-      </h1>
+      <h1 className="font-bold">그룹 구성원 관리</h1>
     </div>
   );
 }
