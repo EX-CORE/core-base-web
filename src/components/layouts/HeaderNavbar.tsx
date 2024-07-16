@@ -8,7 +8,7 @@ export default function HeaderNavbar() {
   return (
     <div className="flex justify-around h-full items-center gap-8 pt-2">
       {MENU_LIST.map(({ CATEGORY }) => (
-        <div key={CATEGORY}>{CATEGORY}</div>
+        <div key={CATEGORY.VALUE}>{CATEGORY.LABEL}</div>
       ))}
     </div>
   );

@@ -17,42 +17,52 @@ export const MENU = {
   DASHBOARD: {
     LABEL: "대시보드",
     VALUE: "DASHBOARD",
+    LINK: "/dashboard",
   },
   REVIEW_MANAGEMENT: {
     LABEL: "리뷰관리",
     VALUE: "REVIEW_MANAGEMENT",
+    LINK: "/review",
   },
   COMPANY_MANAGEMENT: {
     LABEL: "회사관리",
     VALUE: "COMPANY_MANAGEMENT",
+    LINK: "/organization",
   },
   COMPANY_INFO: {
     LABEL: "회사정보",
     VALUE: "COMPANY_INFO",
+    LINK: "/organization/information",
   },
   COMPANY_MEMBER_MANAGEMENT: {
     LABEL: "그룹/구성원 관리",
     VALUE: "COMPANY_MEMBER_MANAGEMENT",
+    LINK: "/organization/member",
   },
   REVIEW_PROGRESS: {
     LABEL: "리뷰진행",
     VALUE: "REVIEW_PROGRESS",
+    LINK: "/review/detail",
   },
   REVIEW_RESULT: {
     LABEL: "리뷰결과",
     VALUE: "REVIEW_RESULT",
+    LINK: "/review/result",
   },
   MORESEE: {
     LABEL: "더보기",
     VALUE: "MORESEE",
+    LINK: "/moresee",
   },
   SETTING: {
     LABEL: "내설정",
     VALUE: "SETTING",
+    LINK: "/setting",
   },
   ACCOUNT_SETTING: {
     LABEL: "계정 설정",
     VALUE: "ACCOUNT_SETTING",
+    LINK: "/account",
   },
 } as const;
 
@@ -63,22 +73,19 @@ export const MENU = {
 
 export const ROLE_MENULIST_MAP = {
   [ROLE.COMPANY_ADMIN.VALUE]: [
-    { CATEGORY: MENU.DASHBOARD.LABEL, MENU_LIST: [] },
-    { CATEGORY: MENU.REVIEW_MANAGEMENT.LABEL, MENU_LIST: [] },
+    { CATEGORY: MENU.DASHBOARD, MENU_LIST: [] },
+    { CATEGORY: MENU.REVIEW_MANAGEMENT, MENU_LIST: [] },
     {
-      CATEGORY: MENU.COMPANY_MANAGEMENT.LABEL,
-      MENU_LIST: [
-        MENU.COMPANY_INFO.LABEL,
-        MENU.COMPANY_MEMBER_MANAGEMENT.LABEL,
-      ],
+      CATEGORY: MENU.COMPANY_MANAGEMENT,
+      MENU_LIST: [MENU.COMPANY_INFO, MENU.COMPANY_MEMBER_MANAGEMENT],
     },
   ],
   [ROLE.COMPANY_USER.VALUE]: [
-    { CATEGORY: MENU.REVIEW_PROGRESS.LABEL, MENU_LIST: [] },
-    { CATEGORY: MENU.REVIEW_MANAGEMENT.LABEL, MENU_LIST: [] },
+    { CATEGORY: MENU.REVIEW_PROGRESS, MENU_LIST: [] },
+    { CATEGORY: MENU.REVIEW_MANAGEMENT, MENU_LIST: [] },
     {
-      CATEGORY: MENU.MORESEE.LABEL,
-      MENU_LIST: [MENU.SETTING.LABEL, MENU.ACCOUNT_SETTING.LABEL],
+      CATEGORY: MENU.MORESEE,
+      MENU_LIST: [MENU.SETTING, MENU.ACCOUNT_SETTING],
     },
   ],
 
