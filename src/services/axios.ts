@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 // import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
 import type { AxiosRequestConfig } from "axios";
