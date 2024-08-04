@@ -1,8 +1,8 @@
 export const ROLE = {
-  MATER_ADMIN: {
-    LABEL: "마스터관리자",
-    VALUE: "MASTER_ADMIN",
-  },
+  // MATER_ADMIN: {
+  //   LABEL: "마스터관리자",
+  //   VALUE: "MASTER_ADMIN",
+  // },
   COMPANY_ADMIN: {
     LABEL: "일반관리자",
     VALUE: "ADMIN",
@@ -38,6 +38,11 @@ export const MENU = {
     LABEL: "그룹/구성원 관리",
     VALUE: "COMPANY_MEMBER_MANAGEMENT",
     LINK: "/organization/member",
+  },
+  COMPANY_ORGANIZATION_STRUCTURE: {
+    LABEL: "조직 관리",
+    VALUE: "COMPANY_MEMBER_MANAGEMENT",
+    LINK: "/organization/structure",
   },
   REVIEW_PROGRESS: {
     LABEL: "리뷰진행",
@@ -77,7 +82,11 @@ export const ROLE_MENULIST_MAP = {
     { CATEGORY: MENU.REVIEW_MANAGEMENT, MENU_LIST: [] },
     {
       CATEGORY: MENU.COMPANY_MANAGEMENT,
-      MENU_LIST: [MENU.COMPANY_INFO, MENU.COMPANY_MEMBER_MANAGEMENT],
+      MENU_LIST: [
+        MENU.COMPANY_INFO,
+        MENU.COMPANY_MEMBER_MANAGEMENT,
+        MENU.COMPANY_ORGANIZATION_STRUCTURE,
+      ],
     },
   ],
   [ROLE.COMPANY_USER.VALUE]: [
@@ -105,7 +114,6 @@ export const ROLE_MENULIST_MAP = {
 };
 
 export const ROLE_DEFAULT_URL_MAP = {
-  [ROLE.MATER_ADMIN.VALUE]: "/home",
   [ROLE.COMPANY_ADMIN.VALUE]: "/home",
   [ROLE.COMPANY_USER.VALUE]: "/home",
 } as const;
