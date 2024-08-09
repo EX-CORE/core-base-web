@@ -1,7 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Login } from "./pages";
-import { OrganizationInfo, OrganizationMember } from "./pages/organization";
+import {
+  OrganizationInfo,
+  OrganizationMember,
+  OrganizationStructure,
+} from "./pages/organization";
 import ReactQueryProvider from "./providers/ReactQueryProvider";
 import Layout from "./components/layouts";
 
@@ -34,6 +38,14 @@ function App() {
               </Layout>
             }
           ></Route>
+          <Route
+            path="/organization/structure"
+            element={
+              <Layout>
+                <OrganizationStructure />
+              </Layout>
+            }
+          />
           <Route
             path="/organization/member"
             element={

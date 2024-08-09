@@ -1,6 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-
+import type { Config } from "tailwindcss";
 import colors from "./src/style/colors";
+import fontSize from "./src/style/fonts";
 
 module.exports = {
   darkMode: ["class"],
@@ -80,5 +80,12 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-};
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwindcss/plugin")(function ({ addComponents }: Config) {
+      addComponents({
+        ...fontSize,
+      });
+    }),
+  ],
+} satisfies Config;
