@@ -1,20 +1,22 @@
-import { getRoleSubMenuList } from "src/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { getRoleMenuList, getRoleSubMenuList } from "src/lib/utils";
 
 export default function SideMenuList() {
-  const USER_ROLE = "ADMIN";
-  const clickedCategory = "회사관리";
+  const navigate = useNavigate();
 
-  const target = getRoleSubMenuList(USER_ROLE, clickedCategory);
+  const USER_ROLE = "ADMIN";
+
+  const MENU_LIST = getRoleMenuList(USER_ROLE);
 
   return (
     <div>
-      {target.MENU_LIST.map((menu) => (
+      {MENU_LIST.map(({ MENU }) => (
         <div
-          onClick={() => (window.location.href = menu.LINK)}
-          key={menu.VALUE}
-          className="p-4"
+          key={MENU.VALUE}
+          onClick={() => navigate(MENU.LINK)}
+          className="p-2"
         >
-          {menu.LABEL}
+          {MENU.LABEL}
         </div>
       ))}
     </div>

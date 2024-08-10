@@ -1,8 +1,13 @@
+import { cn } from "src/lib/utils";
 import { Button } from "../ui/button";
 
-export default function InfoBox() {
+type Props = {
+  className?: string;
+};
+
+export default function InfoBox({ className }: Props) {
   return (
-    <div>
+    <div className={cn(className)}>
       <div>
         <div>
           <span>홍길동 님</span>
@@ -11,8 +16,7 @@ export default function InfoBox() {
         <div>shongs27@naver.com</div>
       </div>
 
-      <Button>계정설정</Button>
-      <Button>리뷰어로 전환하기</Button>
+      <Button>로그아웃</Button>
     </div>
   );
 }
