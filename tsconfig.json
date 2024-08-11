@@ -110,6 +110,6 @@
     //   "@/*": ["src/*"],
     // }
   },
-  "include": ["**/*.ts", "**/*.tsx", "tailwind.config.js"],
+  "include": ["**/*.ts", "**/*.tsx", "tailwind.config.js", "src/lib/role.tsx"],
   "exclude": ["node_modules"]
 }

@@ -1,3 +1,5 @@
+import { Building2, ClipboardPenLine, House, SmilePlus } from "lucide-react";
+
 export const ROLE = {
   // MATER_ADMIN: {
   //   LABEL: "마스터관리자",
@@ -18,6 +20,7 @@ export const MENU = {
     LABEL: "기본홈",
     VALUE: "HOME",
     LINK: "/home",
+    ICON: <House />,
   },
   // 홈 서브메뉴
   DASH_BORAD: {
@@ -34,16 +37,19 @@ export const MENU = {
     LABEL: "리뷰",
     VALUE: "REVIEW",
     LINK: "/review",
+    ICON: <SmilePlus />,
   },
   MANAGEMENT_REVIEW: {
     LABEL: "리뷰관리",
     VALUE: "MANAGEMENT_REVIEW",
     LINK: "/management/review",
+    ICON: <ClipboardPenLine />,
   },
   MANAGEMENT_ORGANIZATION: {
     LABEL: "조직 관리",
     VALUE: "MANAGEMENT_ORGANIZATION",
     LINK: "/management/organization",
+    ICON: <Building2 />,
   },
   // 조직관리 서브메뉴
   MANAGEMENT_ORGANIZTION_INFO: {
@@ -87,8 +93,8 @@ export const ROLE_MENULIST_MAP = {
       MENU: MENU.MANAGEMENT_ORGANIZATION,
       SUB_MENU: [
         MENU.MANAGEMENT_ORGANIZTION_INFO,
-        MENU.MANAGEMENT_ORGANIZTION_MEMBER,
         MENU.MANAGEMENT_ORGANIZTION_STRUCTURE,
+        MENU.MANAGEMENT_ORGANIZTION_MEMBER,
       ],
     },
   ],

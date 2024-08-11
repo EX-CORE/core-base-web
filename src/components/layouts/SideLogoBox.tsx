@@ -1,6 +1,6 @@
 import { cn } from "src/lib/utils";
 
-export default function LogoBox() {
+export default function SideLogoBox() {
   const companyName = "휴레이포지티브";
 
   return (

@@ -4,7 +4,7 @@ import { ROLE, ROLE_MENULIST_MAP } from "src/lib/role";
 export default function SubMenu() {
   const matches = useMatches();
   const targetPath = matches[matches.length - 1].pathname;
-  console.log(targetPath);
+
   // 관리자로 가정
   const subMenuList =
     ROLE_MENULIST_MAP[ROLE.COMPANY_ADMIN.VALUE].find(({ MENU }) =>
@@ -13,7 +13,7 @@ export default function SubMenu() {
 
   return (
     <div>
-      <div>
+      <div className="p-8 flex items-center font-bold gap-4 border-b">
         {subMenuList.map((subMenu) => (
           <NavLink
             key={subMenu.VALUE}
@@ -26,8 +26,6 @@ export default function SubMenu() {
           </NavLink>
         ))}
       </div>
-
-      <div className="w-full border-b-2 p-4" />
 
       <Outlet />
     </div>
