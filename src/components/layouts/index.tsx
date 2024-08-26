@@ -4,7 +4,7 @@ import Sider from "./Sider";
 
 export default function Layout() {
   return (
-    <div className="w-screen h-screen flex">
+    <div className="w-full h-full max-w-[1500px] flex">
       <Sider />
       <Container>
         <Outlet />

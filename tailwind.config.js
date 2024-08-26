@@ -23,6 +23,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        // pretendard: ['"Pretendard-Regular"'],
+        pretendard: ["Pretendard"],
+      },
       colors: {
         ...colors,
         border: "hsl(var(--border))",

@@ -13,7 +13,7 @@ export default function SubMenu() {
 
   return (
     <div>
-      <div className="p-8 flex items-center font-bold gap-4 border-b">
+      <div className="p-8 flex items-center font-black gap-4 border-b font-pretendard">
         {subMenuList.map((subMenu) => (
           <NavLink
             key={subMenu.VALUE}

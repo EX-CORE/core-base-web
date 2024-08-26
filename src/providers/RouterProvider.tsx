@@ -47,6 +47,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "organization",
+            element: <OrganizationInfo />,
             children: [
               {
                 path: "info",
