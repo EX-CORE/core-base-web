@@ -1,11 +1,10 @@
-import InfoBox from "./InfoBox";
-import SideMenuList from "./SideMenuList";
+import Toggle from "./Toggle";
+import Wrapper from "./Wrapper";
 
 export default function Sider() {
   return (
-    <div className="flex flex-col justify-between h-full p-4">
-      <SideMenuList />
-      <InfoBox />
-    </div>
+    <Wrapper>
+      <Toggle />
+    </Wrapper>
   );
 }

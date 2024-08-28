@@ -7,7 +7,7 @@ const getLineHeightRem = (fontSize: number) => {
 const fontSize: ResolvableTo<
   KeyValuePair<string, [fontSize: string, lineHeight: string]>
 > = {
-  Emphasis2: ["3rem", getLineHeightRem(3)], // 48px
+  ".Emphasis2": ["3rem", getLineHeightRem(3)], // 48px
   Emphasis1: ["2.625rem", getLineHeightRem(2.625)], // 42px
   Body4: ["2.25rem", getLineHeightRem(2.25)], // 36px
   Body3: ["2.0625rem", getLineHeightRem(2.0625)], // 33px

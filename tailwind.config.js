@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+/** @type {import('tailwindcss').Config} */
 import colors from "./src/style/colors";
 import fontSize from "./src/style/fonts";
 
@@ -23,6 +23,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        // pretendard: ['"Pretendard-Regular"'],
+        pretendard: ["Pretendard"],
+      },
       colors: {
         ...colors,
         border: "hsl(var(--border))",
@@ -82,10 +86,10 @@ module.exports = {
   },
   plugins: [
     require("tailwindcss-animate"),
-    require("tailwindcss/plugin")(function ({ addComponents }: Config) {
+    require("tailwindcss/plugin")(function ({ addComponents }) {
       addComponents({
         ...fontSize,
       });
     }),
   ],
-} satisfies Config;
+};
