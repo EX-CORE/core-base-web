@@ -11,7 +11,7 @@ export default function Wrapper({ children }: Props) {
   return (
     <aside
       className={cn(
-        "bg-gray300 fixed left-0 w-72 h-full border-r z-50",
+        "bg-gray300 absolute left-0 w-72 h-full border-r z-50",
         !toggle && "w-16"
       )}
     >
