@@ -40,7 +40,7 @@ export const MENU = {
     ICON: <SmilePlus />,
   },
   MANAGEMENT_REVIEW: {
-    LABEL: "리뷰관리",
+    LABEL: "리뷰 관리",
     VALUE: "MANAGEMENT_REVIEW",
     LINK: "/management/review",
     ICON: <ClipboardPenLine />,

@@ -38,6 +38,7 @@ export const router = createBrowserRouter([
           />
         ),
       },
+
       {
         path: "/management",
         element: <SubMenu />,
@@ -47,7 +48,6 @@ export const router = createBrowserRouter([
           },
           {
             path: "organization",
-            element: <OrganizationInfo />,
             children: [
               {
                 path: "info",
