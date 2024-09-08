@@ -3,6 +3,8 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
 import { cn } from "src/lib/utils";
+import { Button } from "./button";
+import { useModal } from "src/store/use-modal";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -42,10 +44,10 @@ const DialogContent = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+      {/* <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
         <X className="h-4 w-4" />
-        {/* <span className="sr-only">Close</span> */}
-      </DialogPrimitive.Close>
+        <span className="sr-only">Close</span>
+      </DialogPrimitive.Close> */}
     </DialogPrimitive.Content>
   </DialogPortal>
 ));
@@ -106,6 +108,56 @@ const DialogDescription = React.forwardRef<
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
+type Props = {
+  title: string | React.ReactNode;
+  description?: string | React.ReactNode;
+  handleClickCancel?: () => void;
+  handleClickConfirm?: () => void;
+  cancelText?: string;
+  confirmText?: string;
+} & React.PropsWithChildren;
+
+function DialogContainer({
+  children,
+  title,
+  description,
+  handleClickCancel,
+  handleClickConfirm,
+  cancelText = "취소",
+  confirmText = "추가",
+}: Props) {
+  const closeModal = useModal((state) => state.closeModal);
+
+  const onClickCancel = () => {
+    closeModal();
+    handleClickCancel?.();
+  };
+  const onClickConfirm = () => {
+    closeModal();
+    handleClickConfirm?.();
+  };
+
+  return (
+    <Dialog defaultOpen>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
+        <DialogDescription>{description}</DialogDescription>
+
+        {children}
+
+        <DialogFooter>
+          <Button onClick={onClickCancel}>{cancelText}</Button>
+          <Button type="submit" onClick={onClickConfirm}>
+            {confirmText}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export {
   Dialog,
   DialogPortal,
@@ -117,4 +169,5 @@ export {
   DialogFooter,
   DialogTitle,
   DialogDescription,
+  DialogContainer,
 };
