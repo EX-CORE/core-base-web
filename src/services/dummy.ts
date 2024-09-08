@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-const dummyFetch = (dummyData: any) =>
+const dummyFetch = <T>(dummyData: T): Promise<T> =>
   new Promise((resolve) => {
     setTimeout(() => {
       resolve(dummyData);
@@ -61,7 +61,7 @@ export const useGetOrganizationStructure = () => {
           lastModifiedTime: "2021-09-01T00:00:00Z",
         },
         {
-          id: 5,
+          id: 6,
           parentId: 4,
           name: "Unit-U",
           visible: true,
@@ -69,12 +69,62 @@ export const useGetOrganizationStructure = () => {
           lastModifiedTime: "2021-09-01T00:00:00Z",
         },
         {
-          id: 5,
+          id: 7,
           parentId: 4,
           name: "Unit-O",
           visible: true,
           displayOrder: 3,
           lastModifiedTime: "2021-09-01T00:00:00Z",
+        },
+      ]),
+  });
+};
+
+export type DndTreeViewData = {
+  id: number;
+  parent: number;
+  droppable?: boolean;
+  text: string;
+  data?: any;
+};
+
+export const useGetDummyOrganizationStructure = () => {
+  return useQuery({
+    queryKey: ["organizationDndStructure"],
+    queryFn: async () =>
+      await dummyFetch<DndTreeViewData[]>([
+        {
+          id: 1,
+          parent: 0,
+          droppable: true,
+          text: "Folder 1",
+        },
+        {
+          id: 2,
+          parent: 1,
+          text: "File 1-1",
+        },
+        {
+          id: 3,
+          parent: 1,
+          text: "File 1-2",
+        },
+        {
+          id: 4,
+          parent: 0,
+          droppable: true,
+          text: "Folder 2",
+        },
+        {
+          id: 5,
+          parent: 4,
+          droppable: true,
+          text: "Folder 2-1",
+        },
+        {
+          id: 6,
+          parent: 5,
+          text: "File 2-1-1",
         },
       ]),
   });
