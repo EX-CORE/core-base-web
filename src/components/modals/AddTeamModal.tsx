@@ -10,18 +10,27 @@ import {
   DialogTrigger,
 } from "src/components/ui/dialog";
 import { Input } from "src/components/ui/input";
+import { useModal } from "src/store/use-modal";
 
 export function AddTeamModal() {
+  const closeModal = useModal((state) => state.closeModal);
+
+  const handleClick = () => {
+    closeModal();
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Dialog defaultOpen>
+      {/* <DialogTrigger asChild>
         <Button variant="outline">팀 추가하기</Button>
-      </DialogTrigger>
+      </DialogTrigger> */}
 
       <DialogContent className="sm:max-w-[425px]">
+        {/* 여기서부터는 개별화 {children} */}
         <DialogHeader>
           <DialogTitle>팀 추가하기</DialogTitle>
         </DialogHeader>
+        <DialogDescription></DialogDescription>
 
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -44,7 +53,7 @@ export function AddTeamModal() {
         </div>
 
         <DialogFooter>
-          <Button>취소</Button>
+          <Button onClick={handleClick}>취소</Button>
           <Button type="submit">추가</Button>
         </DialogFooter>
       </DialogContent>
