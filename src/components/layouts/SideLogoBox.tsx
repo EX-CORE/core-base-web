@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { cn } from "src/lib/utils";
 import React from "react";
-import { CirclePlus, CircleX } from "lucide-react";
+import { CirclePlus, CircleX, SquarePlus } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -14,8 +14,12 @@ import { Separator } from "../ui/separator";
 
 import { Button } from "../Button";
 
+import { useGetCompanyList, List } from "../../services/profile";
+
 export default function SideLogoBox() {
   const companyName = "휴레이포지티브";
+  const { data: companyList } = useGetCompanyList();
+  console.log(companyList);
 
   const components: { title: string; href: string; description: string }[] = [
     {
@@ -43,19 +47,43 @@ export default function SideLogoBox() {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger>
-              <CompanyLogo title={companyName}></CompanyLogo>
+              <CompanyLogo
+                title={companyName}
+                content="/logo192.png"
+              ></CompanyLogo>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[400px] ">
                 <li>
                   <NavigationMenuLink>
                     <div className="block space-y-1 rounded-md p-3 leading-none no-underline outline-none ">
-                      <div className="text-sm font-medium leading-none">
-                        회사 목록
-                      </div>
-                      <div className="block flex select-none space-y-1 rounded-md p-3">
-                        <CompanyLogo title={"조직 추가하기"}></CompanyLogo>
-                      </div>
+                      <>
+                        {companyList == null ||
+                        companyList.participationOrganizations === null ||
+                        companyList.participationOrganizations.length === 0 ? (
+                          <div className="block flex justfy-center">
+                            참여 중인 회사가 없습니다
+                          </div>
+                        ) : (
+                          <>
+                            {companyList.participationOrganizations(
+                              (companys: List) => (
+                                <div>
+                                  <div className="text-sm font-medium leading-none">
+                                    회사 목록
+                                  </div>
+                                  <div className="block flex select-none space-y-1 rounded-md p-3">
+                                    <CompanyLogo
+                                      title={companys.name}
+                                      content={companys.logo}
+                                    ></CompanyLogo>
+                                  </div>
+                                </div>
+                              )
+                            )}
+                          </>
+                        )}
+                      </>
                     </div>
                   </NavigationMenuLink>
                 </li>
@@ -63,12 +91,33 @@ export default function SideLogoBox() {
                 <li>
                   <NavigationMenuLink>
                     <div className="block space-y-1 rounded-md p-3 leading-none no-underline outline-none ">
-                      <div className="text-sm font-medium leading-none">
-                        초대 대기중
-                      </div>
-                      <div className="block flex select-none space-y-1 rounded-md p-3 ">
-                        <WaitingCompany title={companyName}></WaitingCompany>
-                      </div>
+                      <>
+                        {companyList == null ||
+                        companyList.participationOrganizations === null ||
+                        companyList.participationOrganizations.length === 0 ? (
+                          <div className="block flex justfy-center">
+                            초대 대기중
+                          </div>
+                        ) : (
+                          <>
+                            {companyList.invitedOrganizations(
+                              (companys: List) => (
+                                <div>
+                                  <div className="text-sm font-medium leading-none">
+                                    회사 목록
+                                  </div>
+                                  <div className="block flex select-none space-y-1 rounded-md p-3 ">
+                                    <WaitingCompany
+                                      title={companys.name}
+                                      content={companys.logo}
+                                    ></WaitingCompany>
+                                  </div>
+                                </div>
+                              )
+                            )}
+                          </>
+                        )}
+                      </>
                     </div>
                   </NavigationMenuLink>
                 </li>
@@ -120,16 +169,22 @@ ListItem.displayName = "ListItem";
 const CompanyLogo = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
->(({ title }, ref) => {
+>(({ title, content }, ref) => {
   return (
     <>
-      <img
-        src="/logo192.png"
-        className="mr-2"
-        alt={title}
-        width={30}
-        height={30}
-      />
+      {content == null || content === "" ? (
+        <div className="mr-2">
+          <SquarePlus />
+        </div>
+      ) : (
+        <img
+          src={content}
+          className="mr-2"
+          alt={title}
+          width={30}
+          height={30}
+        />
+      )}
       <p className="text-1 font-semibold">{title}</p>
     </>
   );
@@ -138,10 +193,10 @@ const CompanyLogo = React.forwardRef<
 const WaitingCompany = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
->(({ title }, ref) => {
+>(({ title, content }, ref) => {
   return (
     <>
-      <CompanyLogo title={title}></CompanyLogo>
+      <CompanyLogo title={title} content={content}></CompanyLogo>
       <Button variant={"ghost"}>
         <CirclePlus />
       </Button>
