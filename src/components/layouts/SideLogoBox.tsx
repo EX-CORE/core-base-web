@@ -1,15 +1,18 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { cn } from "src/lib/utils";
 import React from "react";
+import { CirclePlus, CircleX } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "../ui/navigation-menu";
+import { Separator } from "../ui/separator";
+
+import { Button } from "../Button";
 
 export default function SideLogoBox() {
   const companyName = "휴레이포지티브";
@@ -40,25 +43,45 @@ export default function SideLogoBox() {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger>
-              <img
-                src="/logo192.png"
-                alt={companyName}
-                width={50}
-                height={50}
-              />
-              <p className="text-1 font-semibold">{companyName}</p>
+              <CompanyLogo title={companyName}></CompanyLogo>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[200px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[300px] ">
-                {components.map((component) => (
-                  <ListItem
-                    key={component.title}
-                    title={component.title}
-                    href={component.href}
-                  >
-                    {component.description}
-                  </ListItem>
-                ))}
+              <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[400px] ">
+                <li>
+                  <NavigationMenuLink>
+                    <div className="block space-y-1 rounded-md p-3 leading-none no-underline outline-none ">
+                      <div className="text-sm font-medium leading-none">
+                        회사 목록
+                      </div>
+                      <div className="block flex select-none space-y-1 rounded-md p-3">
+                        <CompanyLogo title={"조직 추가하기"}></CompanyLogo>
+                      </div>
+                    </div>
+                  </NavigationMenuLink>
+                </li>
+                <Separator />
+                <li>
+                  <NavigationMenuLink>
+                    <div className="block space-y-1 rounded-md p-3 leading-none no-underline outline-none ">
+                      <div className="text-sm font-medium leading-none">
+                        초대 대기중
+                      </div>
+                      <div className="block flex select-none space-y-1 rounded-md p-3 ">
+                        <WaitingCompany title={companyName}></WaitingCompany>
+                      </div>
+                    </div>
+                  </NavigationMenuLink>
+                </li>
+                <Separator />
+                <li>
+                  <NavigationMenuLink>
+                    <div className="block space-y-1 rounded-md p-3 leading-none no-underline outline-none ">
+                      <div className="block flex select-none space-y-1 rounded-md p-3 justify-center">
+                        <CompanyLogo title={"조직 추가하기"}></CompanyLogo>
+                      </div>
+                    </div>
+                  </NavigationMenuLink>
+                </li>
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
@@ -93,3 +116,38 @@ const ListItem = React.forwardRef<
   );
 });
 ListItem.displayName = "ListItem";
+
+const CompanyLogo = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ title }, ref) => {
+  return (
+    <>
+      <img
+        src="/logo192.png"
+        className="mr-2"
+        alt={title}
+        width={30}
+        height={30}
+      />
+      <p className="text-1 font-semibold">{title}</p>
+    </>
+  );
+});
+
+const WaitingCompany = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ title }, ref) => {
+  return (
+    <>
+      <CompanyLogo title={title}></CompanyLogo>
+      <Button variant={"ghost"}>
+        <CirclePlus />
+      </Button>
+      <Button variant={"ghost"}>
+        <CircleX />
+      </Button>
+    </>
+  );
+});
