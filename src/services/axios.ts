@@ -3,8 +3,10 @@ import axios, { AxiosError } from "axios";
 import type { AxiosRequestConfig } from "axios";
 import { allDeleteCookie, getCookieValue } from "src/lib/cookies";
 
-const client = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+export const client = axios.create({
+  baseURL:
+    process.env.REACT_APP_API_BASE_URL ||
+    "https://core-base-5103db8db361.herokuapp.com",
 });
 
 client.interceptors.request.use(
