@@ -1,29 +1,19 @@
 import { Button } from "src/components/Button";
 import SearchInput from "src/components/SearchInput";
 import {
-  DndTreeViewData,
   useGetDummyOrganizationStructure,
   useGetOrganizationStructure,
 } from "src/services/dummy";
 import { MODAL_TYPES, useModal } from "src/store/use-modal";
 
-import {
-  Tree,
-  getBackendOptions,
-  MultiBackend,
-} from "@minoru/react-dnd-treeview";
-import { DndProvider } from "react-dnd";
-import { useEffect, useState } from "react";
+import StructureDnD from "src/components/dnd/StructureDnD";
 
 export default function OrganizationStructure() {
   const { data: organizationStructure } = useGetOrganizationStructure();
-  const { data: dummyOrganizationStructure } =
+  const { data: dummyOrganizationStructure = [] } =
     useGetDummyOrganizationStructure();
 
   console.log(dummyOrganizationStructure);
-
-  const [treeData, setTreeData] = useState<DndTreeViewData[]>();
-  const handleDrop = (newTreeData: any) => setTreeData(newTreeData);
 
   const openModal = useModal((state) => state.openModal);
 
@@ -32,10 +22,6 @@ export default function OrganizationStructure() {
       type: MODAL_TYPES.ADD_TEAM,
     });
   };
-
-  useEffect(() => {
-    setTreeData(dummyOrganizationStructure);
-  }, [dummyOrganizationStructure]);
 
   return (
     <div>
@@ -52,24 +38,16 @@ export default function OrganizationStructure() {
 
       {/* 본 컨텐츠 */}
       <div>
-        <div>{JSON.stringify(organizationStructure)}</div>
+        {/* <div>{JSON.stringify(organizationStructure)}</div> */}
 
         <div>
-          <DndProvider backend={MultiBackend} options={getBackendOptions()}>
-            <Tree
-              tree={treeData || []}
-              rootId={0}
-              onDrop={handleDrop}
-              render={(node, { depth, isOpen, onToggle }) => (
-                <div style={{ marginLeft: depth * 10 }}>
-                  {node.droppable && (
-                    <span onClick={onToggle}>{isOpen ? "[-]" : "[+]"}</span>
-                  )}
-                  {node.text}
-                </div>
-              )}
-            />
-          </DndProvider>
+          <div className="flex w-full text-center bg-gray-100 py-4">
+            <span className="flex-[3_3_0%]">팀명</span>
+            <span className="flex-1">팀 리더</span>
+            <span className="flex-1">설정</span>
+          </div>
+
+          <StructureDnD data={dummyOrganizationStructure} />
         </div>
       </div>
     </div>

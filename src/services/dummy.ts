@@ -4,7 +4,7 @@ const dummyFetch = <T>(dummyData: T): Promise<T> =>
   new Promise((resolve) => {
     setTimeout(() => {
       resolve(dummyData);
-    }, 2000);
+    }, 1000);
   });
 
 export const useGetOrganizationStructure = () => {
@@ -97,34 +97,71 @@ export const useGetDummyOrganizationStructure = () => {
           id: 1,
           parent: 0,
           droppable: true,
-          text: "Folder 1",
+          text: "휴레이포지티브",
+          data: {
+            leader: "최두아",
+            icon: undefined,
+          },
         },
         {
           id: 2,
           parent: 1,
-          text: "File 1-1",
+          text: "백엔드",
+          data: {
+            leader: "홍지은",
+            icon: undefined,
+            fileType: "organization",
+          },
         },
         {
           id: 3,
           parent: 1,
-          text: "File 1-2",
+          text: "프론트",
+          data: {
+            leader: "공필상",
+            icon: undefined,
+            fileType: "organization",
+          },
+        },
+        {
+          id: 7,
+          parent: 1,
+          droppable: true,
+          text: "AI",
+          data: {
+            leader: "",
+            icon: undefined,
+          },
         },
         {
           id: 4,
           parent: 0,
           droppable: true,
-          text: "Folder 2",
+          text: "dx레몬",
+          data: {
+            leader: "홍원배",
+            icon: undefined,
+          },
         },
         {
           id: 5,
           parent: 4,
-          droppable: true,
-          text: "Folder 2-1",
+          text: "UNIT-SI",
+          data: {
+            leader: "손인영",
+            icon: undefined,
+            fileType: "organization",
+          },
         },
         {
-          id: 6,
-          parent: 5,
-          text: "File 2-1-1",
+          id: 8,
+          parent: 7,
+          text: "데이터전처리",
+          data: {
+            leader: "홍원배",
+            icon: undefined,
+            fileType: "organization",
+          },
         },
       ]),
   });
