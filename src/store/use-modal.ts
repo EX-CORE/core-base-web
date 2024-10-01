@@ -1,12 +1,15 @@
 import { AddTeamModal } from "src/components/modals/AddTeamModal";
+import { AddOrganizationModal } from "src/components/modals/AddOrganizationModal";
 import { create } from "zustand";
 
 export const MODAL_TYPES = {
   ADD_TEAM: "ADD_TEAM",
+  ADD_ORGANIZATION: "ADD_ORGANIZATION",
 } as const;
 
 export const MODAL_COMPONENT = {
   [MODAL_TYPES.ADD_TEAM]: AddTeamModal,
+  [MODAL_TYPES.ADD_ORGANIZATION]: AddOrganizationModal,
 };
 
 type Modal = {
