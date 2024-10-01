@@ -11,6 +11,7 @@ import {
   NavigationMenuTrigger,
 } from "../ui/navigation-menu";
 import { Separator } from "../ui/separator";
+import { Router, useLocation, useNavigate } from "react-router-dom";
 
 import { Button } from "../Button";
 
@@ -20,6 +21,7 @@ import { MODAL_TYPES, useModal } from "src/store/use-modal";
 import { getCookieValue, setCookie } from "src/lib/cookies";
 
 export default function SideLogoBox() {
+  const navigate = useNavigate();
 
   const { data: companyList } = useGetCompanyList();
   const { data: company } = useGetCompany(getCookieValue("organizationId"));
@@ -30,6 +32,11 @@ export default function SideLogoBox() {
     openModal({
       type: MODAL_TYPES.ADD_ORGANIZATION,
     });
+  };
+
+  const navigateCompany = (organizationId: string) => {
+    setCookie("organizationId", organizationId);
+    navigate("/management/organization/info");
   };
 
   return (
@@ -65,6 +72,7 @@ export default function SideLogoBox() {
                           {companyList?.participationOrganizations?.map(
                             (companys) => (
                               <NavigationMenuLink
+                                onClick={() => navigateCompany(companys.id)}
                               >
                                 <div className="block flex select-none space-y-1 rounded-md p-3">
                                   <CompanyLogo
