@@ -6,8 +6,11 @@ import {
   OrganizationCreateReq,
 } from "src/services/organization";
 import { setCookie } from "src/lib/cookies";
+import { useNavigate } from "react-router-dom";
 
 export function AddOrganizationModal() {
+  const navigate = useNavigate();
+
   const { mutateAsync, data, isSuccess } = useCreateOrganization();
 
   const organizationNameRef = useRef<HTMLInputElement>(null);
@@ -29,8 +32,7 @@ export function AddOrganizationModal() {
         const data = await mutateAsync(companyReq);
         console.log("조직 생성 성공:", data);
         setCookie("organizationId", data.id);
-        //TODO :: 모달에서 navigate가 되지 않음.
-        // navigate("/management/organization/info");
+        navigate("/management/organization/info");
       } catch (error) {
         console.error("조직 생성 실패:", error);
         throw error;

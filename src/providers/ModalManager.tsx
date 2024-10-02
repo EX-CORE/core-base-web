@@ -5,7 +5,7 @@ export const ModalContext = createContext<null | ReturnType<typeof useModal>>(
   null
 );
 
-export default function ModalManager({ children }: PropsWithChildren) {
+export default function ModalManager() {
   const modal = useModal((state) => state.modal);
 
   const renderPopup = () => {
