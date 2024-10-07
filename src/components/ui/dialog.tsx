@@ -132,9 +132,11 @@ function DialogContainer({
     closeModal();
     handleClickCancel?.();
   };
-  const onClickConfirm = () => {
+  const onClickConfirm = async () => {
+    if (handleClickConfirm) {
+      await handleClickConfirm();
+    }
     closeModal();
-    handleClickConfirm?.();
   };
 
   return (

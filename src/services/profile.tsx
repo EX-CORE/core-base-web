@@ -9,9 +9,12 @@ export const useGetCompanyList = () => {
 };
 
 async function getCompanyList() {
-  const response = await client.get("/users/organizations");
+  const response: { data: CompanyListType } = await client.get(
+    "/users/organizations"
+  );
   return response.data;
 }
+
 export interface CompanyListType {
   error: null;
   errors: null;
@@ -20,7 +23,7 @@ export interface CompanyListType {
 }
 
 export interface List {
-  id: number;
+  id: string;
   name: string;
   logo: string;
 }

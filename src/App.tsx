@@ -9,9 +9,8 @@ function App() {
     <React.StrictMode>
       <ReactQueryProvider>
         <RouterProvider router={router} />
+        <ModalManager />
       </ReactQueryProvider>
-
-      <ModalManager />
     </React.StrictMode>
   );
 }

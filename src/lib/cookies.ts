@@ -1,4 +1,5 @@
 export function setCookie(name: string, value: string) {
+  console.log("쿠키", name, value);
   document.cookie = `${name}=${value};path=/;`;
 }
 
