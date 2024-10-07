@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import ModalManager from "src/providers/ModalManager";
 import Container from "./Container";
 import Sider from "./Sider";
 
@@ -8,6 +9,7 @@ export default function Layout() {
       <Sider />
       <Container>
         <Outlet />
+        <ModalManager />
       </Container>
     </div>
   );
