@@ -15,16 +15,21 @@ import { Router, useLocation, useNavigate } from "react-router-dom";
 
 import { Button } from "../Button";
 
-import { useGetCompanyList, List } from "../../services/profile";
-import { useGetCompany, OrganizationRes } from "../../services/organization";
+import { useGetOrganizationList, List } from "../../services/profile";
+import {
+  useGetOrganization,
+  OrganizationRes,
+} from "../../services/organization";
 import { MODAL_TYPES, useModal } from "src/store/use-modal";
 import { getCookieValue, setCookie } from "src/lib/cookies";
 
 export default function SideLogoBox() {
   const navigate = useNavigate();
 
-  const { data: companyList } = useGetCompanyList();
-  const { data: company } = useGetCompany(getCookieValue("organizationId"));
+  const { data: companyList } = useGetOrganizationList();
+  const { data: company } = useGetOrganization(
+    getCookieValue("organizationId")
+  );
 
   const openModal = useModal((state) => state.openModal);
 

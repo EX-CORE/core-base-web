@@ -13,23 +13,6 @@ export function useGetRoleMenubar() {
   });
 }
 
-// export function useLogin(authCode: String) {
-//   return useQuery({
-//     queryKey: ["login"],
-//     queryFn: async () =>
-//       await axios.post(
-//         "https://core-base-5103db8db361.herokuapp.com/auth/login",
-//         {
-//           // Query 파라미터
-//           params: {
-//             code: authCode,
-//             type: "REVIEWER",
-//           },
-//         }
-//       ),
-//   });
-// }
-
 export function useLogin(authCode: String) {
   return useMutation({
     mutationFn: async () =>

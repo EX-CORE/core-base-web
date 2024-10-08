@@ -115,6 +115,8 @@ type Props = {
   handleClickConfirm?: () => void;
   cancelText?: string;
   confirmText?: string;
+  useCancle?: boolean;
+  useConfirm?: boolean;
 } & React.PropsWithChildren;
 
 function DialogContainer({
@@ -125,6 +127,8 @@ function DialogContainer({
   handleClickConfirm,
   cancelText = "취소",
   confirmText = "추가",
+  useCancle = true,
+  useConfirm = true,
 }: Props) {
   const closeModal = useModal((state) => state.closeModal);
 
@@ -150,10 +154,23 @@ function DialogContainer({
         {children}
 
         <DialogFooter>
-          <Button onClick={onClickCancel}>{cancelText}</Button>
-          <Button type="submit" onClick={onClickConfirm}>
-            {confirmText}
-          </Button>
+          <>
+            {useCancle == true ? (
+              <Button onClick={onClickCancel}>{cancelText}</Button>
+            ) : (
+              <span></span>
+            )}
+          </>
+
+          <>
+            {useConfirm == true ? (
+              <Button type="submit" onClick={onClickConfirm}>
+                {confirmText}
+              </Button>
+            ) : (
+              <span></span>
+            )}
+          </>
         </DialogFooter>
       </DialogContent>
     </Dialog>
