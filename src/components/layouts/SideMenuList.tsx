@@ -2,9 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { getRoleMenuList, getRoleSubMenuList } from "src/lib/utils";
 import { useSidebar } from "src/store/use-sidebar";
 
-export default function SideMenuList() {
+type Props = {
+  toggle?: boolean;
+};
+
+export default function SideMenuList({ toggle = true }: Props) {
   const navigate = useNavigate();
-  const { toggle } = useSidebar();
 
   const USER_ROLE = "ADMIN";
 
