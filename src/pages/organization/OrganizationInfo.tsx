@@ -1,8 +1,6 @@
 import { Input } from "src/components/ui/input";
 import { Button } from "src/components/ui/button";
-import DaumPostcode from "react-daum-postcode";
-import React, { useEffect, useState } from "react";
-import { useRef } from "react";
+import React from "react";
 import { getCookieValue, setCookie } from "src/lib/cookies";
 import {
   useGetOrganization,
@@ -11,143 +9,209 @@ import {
   OrganizationCreateReq,
 } from "../../services/organization";
 import { MODAL_TYPES, useModal } from "src/store/use-modal";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "src/components/ui/form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Asterisk } from "lucide-react";
+
+/** 렌더링 지연 이유
+ * 1. API 호출 시간
+ * 2. ref, useState 관리 통일
+ */
+
+const formSchema = z.object({
+  organizationName: z
+    .string()
+    .trim()
+    .min(1, { message: "이름은 필수 입력값입니다." }),
+  organizationLogo: z.instanceof(File, { message: "로고도 입력해주세요" }),
+  organizationCeo: z.string().trim().optional(),
+  organizationTelNumber: z
+    .string()
+    .trim()
+    .min(1, { message: "전화번호는 필수 입력값입니다." })
+    .regex(/^(?:\d{3}-\d{3}-\d{4}|\d{2}-\d{3}-\d{4})$/, {
+      message: "올바른 전화번호 형식이 아닙니다. (ex. 010-123-4567)",
+    }),
+  organizationAddress: z.any(),
+});
+
+const parsingOrganizationInfoToFormValues = (
+  organizationInfo?: OrganizationRes
+) => {
+  if (!organizationInfo) return;
+
+  const { name, logoFileName, ceo, telNumber, address, id, teams } =
+    organizationInfo;
+
+  const fakeLogoFile = new File([""], "logo.png", { type: "image/png" });
+
+  return {
+    organizationName: name,
+    organizationLogo: fakeLogoFile, // TODO : 내려오는 logoFile에 대한 url 필요
+    organizationCeo: ceo,
+    organizationTelNumber: telNumber || "",
+    organizationAddress: address || "",
+  };
+};
 
 function OrganizationInfo() {
-  const organizationNameRef = useRef<HTMLInputElement>(null);
-  const organizationLogoRef = useRef<HTMLInputElement>(null);
-  const organizationCeoRef = useRef<HTMLInputElement>(null);
-  const organizationTelRef = useRef<HTMLInputElement>(null);
-
-  const { data: organization } = useGetOrganization(
+  const { data: organizationInfo } = useGetOrganization(
     getCookieValue("organizationId")
   );
-
-  useEffect(() => {
-    setAddress(organization?.address);
-  }, [organization]);
-
   const { mutateAsync, data, isSuccess } = useUpdateOrganization(
     getCookieValue("organizationId")
   );
 
   const openModal = useModal((state) => state.openModal);
-  const handleTestOpenModal = () => {
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    values: parsingOrganizationInfoToFormValues(organizationInfo),
+    resetOptions: {
+      keepDirtyValues: true,
+    },
+    defaultValues: {
+      organizationName: "",
+      organizationCeo: "",
+      organizationTelNumber: "",
+      organizationAddress: "",
+    },
+  });
+  const fileRef = form.register("organizationLogo");
+
+  const handleOpenAddressModal = () => {
     openModal({
       type: MODAL_TYPES.SEARCH_ADDRESS,
-      props: { setAddress },
+      props: {
+        setAddress: (address: string) =>
+          form.setValue("organizationAddress", address),
+      },
     });
   };
-  console.log(organization);
-  const [address, setAddress] = useState(organization?.address);
 
-  const updateOrganization = async () => {
-    const organizationName = organizationNameRef.current?.value;
-    const organizationLogo = organizationLogoRef.current?.files?.[0];
-    const organizationCeo = organizationCeoRef.current?.value;
-    const organizationTel = organizationTelRef.current?.value;
+  const updateOrganization = async (formData: z.infer<typeof formSchema>) => {
+    const {
+      organizationName,
+      organizationLogo,
+      organizationCeo,
+      organizationTelNumber,
+      organizationAddress,
+    } = formData;
 
     const companyReq: OrganizationCreateReq = {
-      name: organizationName || "",
+      name: organizationName,
       logo: organizationLogo,
       ceo: organizationCeo,
-      telNumber: organizationTel,
-      address: address,
+      telNumber: organizationTelNumber,
+      address: organizationAddress,
     };
 
     const result = await mutateAsync(companyReq);
-    console.log(result);
+    console.log("결과", result);
   };
 
   return (
-    <div>
-      <div className="flex flex-col">
-        <div className="ml-20 mt-10 mb-5"></div>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(updateOrganization)}
+        className="flex flex-col justify-center gap-8 m-10"
+      >
+        <FormField
+          name="organizationName"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex gap items-center">
+                조직명
+                <Asterisk size={10} />
+              </FormLabel>
+              <FormControl>
+                <Input placeholder="조직명을 입력해주세요" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <div className="flex flex-row gap-5 mb-5 ">
-          <label
-            htmlFor="organzationName"
-            className="basis-1/6 text-right content-center"
-          >
-            조직명
-          </label>
-          <div className="basis-1/4 text-center">
-            <Input
-              id="organzationName"
-              value={organization?.name}
-              ref={organizationNameRef}
-              placeholder="조직명을 입력해주세요"
-            />
-          </div>
-        </div>
+        <FormField
+          name="organizationLogo"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex gap items-center">
+                조직 프로필
+                <Asterisk size={10} />
+              </FormLabel>
+              <FormControl>
+                <Input type="file" className="cursor-pointer" {...fileRef} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <div className="flex flex-row gap-5 mb-5">
-          <label
-            htmlFor="organzationLogo"
-            className="basis-1/6 text-right content-center"
-          >
-            조직 프로필
-          </label>
-          <div className="basis-1/4 text-center">
-            <Input id="organzationLogo" type="file" ref={organizationLogoRef} />
-          </div>
-        </div>
+        <FormField
+          name="organizationCeo"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>대표자명</FormLabel>
+              <FormControl>
+                <Input placeholder="대표자명을 입력해주세요" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <div className="flex flex-row gap-5 mb-5">
-          <label htmlFor="ceo" className="basis-1/6 text-right content-center">
-            대표자명
-          </label>
-          <div className="basis-1/4 text-center">
-            <Input
-              id="ceo"
-              type="text"
-              value={organization?.ceo}
-              ref={organizationCeoRef}
-              placeholder="대표자명을 입력해주세요"
-            />
-          </div>
-        </div>
+        <FormField
+          name="organizationTelNumber"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="flex gap items-center">
+                대표번호
+                <Asterisk size={10} />
+              </FormLabel>
+              <FormControl>
+                <Input placeholder="00-000-0000" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <div className="flex flex-row gap-5 mb-5">
-          <label
-            htmlFor="telNumber"
-            className="basis-1/6 text-right content-center"
-          >
-            대표번호
-          </label>
-          <div className="basis-1/4 text-center">
-            <Input
-              id="telNumber"
-              type="tel"
-              value={organization?.telNumber}
-              ref={organizationTelRef}
-              placeholder="00-000-0000"
-            />
-          </div>
-        </div>
-        <div className="flex flex-row gap-5 mb-5">
-          <label
-            htmlFor="address"
-            className="basis-1/6 text-right content-center"
-          >
-            주소
-          </label>
-          <div className="basis-1/4 text-center">
-            <Input
-              onClick={handleTestOpenModal}
-              id="address"
-              type="text"
-              value={address}
-              placeholder="회사 주소를 입력해주세요"
-            />
-          </div>
-          <div className="flex flex-row gap-5 mb-5 ">
-            <div className="basis-1/4 text-center">
-              <Button onClick={() => updateOrganization()}> 저장 </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        <FormField
+          name="organizationAddress"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>주소</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  type="button"
+                  onClick={handleOpenAddressModal}
+                  value={field.value || "주소를 입력해주세요"}
+                  className="text-left cursor-pointer"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">저장</Button>
+      </form>
+    </Form>
   );
 }
 
