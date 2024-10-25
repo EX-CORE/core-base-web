@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { client } from "./axios";
 
-export const useGetCompanyList = () => {
+export const useGetOrganizationList = () => {
   return useQuery({
-    queryKey: ["companyList"],
-    queryFn: async () => await getCompanyList(),
+    queryKey: ["organizationList"],
+    queryFn: async () => await getOrganizationList(),
   });
 };
 
@@ -15,7 +15,7 @@ export const useGetUserInfo = () => {
   });
 };
 
-async function getCompanyList() {
+async function getOrganizationList() {
   const response: { data: CompanyListType } = await client.get(
     "/users/organizations"
   );

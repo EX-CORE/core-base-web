@@ -21,8 +21,6 @@ export function AddOrganizationModal() {
     const organizationName = organizationNameRef.current?.value;
     const organizationLogo = organizationLogoRef.current?.files?.[0];
 
-    console.log("조직명:", organizationName);
-    console.log("조직 프로필:", organizationLogo);
     if (organizationName) {
       const companyReq: OrganizationCreateReq = {
         name: organizationName,
@@ -30,7 +28,6 @@ export function AddOrganizationModal() {
       };
       try {
         const data = await mutateAsync(companyReq);
-        console.log("조직 생성 성공:", data);
         setCookie("organizationId", data.id);
         navigate("/management/organization/info");
       } catch (error) {
