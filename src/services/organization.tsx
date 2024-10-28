@@ -27,9 +27,6 @@ export function useUpdateOrganization(organizationId: string) {
       );
       return response.data;
     },
-    onSuccess(data: OrganizationRes) {
-      return data;
-    },
   });
 }
 
@@ -41,7 +38,8 @@ export const useGetOrganization = (organizationId: string) => {
 };
 
 async function getOrganization(organizationId: string) {
-  if (organizationId == undefined) return null;
+  if (!organizationId) return;
+
   const response: { data: OrganizationRes } = await client.get(
     "/organization/" + organizationId
   );
