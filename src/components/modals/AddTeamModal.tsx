@@ -19,7 +19,7 @@ export function AddTeamModal(props: any) {
     if (teamName) {
       const teamReq: TeamCreateReq = {
         name: teamName,
-        parentsId: props.parentsId, // Adjust according to your actual field naming
+        parentsId: props.parentsId,
       };
       try {
         await mutateAsync(teamReq);

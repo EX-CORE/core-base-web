@@ -76,14 +76,26 @@ export function useCreateOrganizationTeams(organizationId: string) {
   });
 }
 
-export function useUpdateOrganizatioTeams(
-  organizationId: string,
-  teamId: string
-) {
-  return useMutation<TeamRes[], Error, TeamCreateReq[]>({
-    mutationFn: async (req: TeamCreateReq[]) => {
+export function useUpdateOrganizatioTeams(organizationId: string) {
+  return useMutation<TeamRes[], Error, TeamUpdateReq[]>({
+    mutationFn: async (req: TeamUpdateReq[]) => {
       const response = await client.put(
-        "/organization/" + organizationId + "/teams/" + teamId,
+        "/organization/" + organizationId + "/teams",
+        req
+      );
+      return response.data;
+    },
+    onSuccess(data: TeamRes[]) {
+      return data;
+    },
+  });
+}
+
+export function useUpdateOrganizatioTeamsOrder(organizationId: string) {
+  return useMutation<TeamRes[], Error, TeamOrderUpdateReq[]>({
+    mutationFn: async (req: TeamOrderUpdateReq[]) => {
+      const response = await client.patch(
+        "/organization/" + organizationId + "/teams/order",
         req
       );
       return response.data;
@@ -119,9 +131,22 @@ export interface TeamCreateReq {
 }
 
 export interface TeamRes {
-  id: string;
+  id: number;
   parentsId?: string | null;
   name: string;
+  order?: number | null;
+}
+
+export interface TeamUpdateReq {
+  id: number;
+  name: string;
+  parentsId?: string | null;
+  order?: number | null;
+}
+
+export interface TeamOrderUpdateReq {
+  id: number;
+  parentsId?: number | null;
   order?: number | null;
 }
 
@@ -138,7 +163,7 @@ export function convertTeamResToDndTreeViewData(
 ): DndTreeViewData[] {
   if (!teamResArray) return [];
   return teamResArray.map((teamRes) => ({
-    id: parseInt(teamRes.id),
+    id: teamRes.id,
     parent: teamRes.parentsId ? parseInt(teamRes.parentsId) : 0,
     text: teamRes.name,
     droppable: true,
