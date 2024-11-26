@@ -84,6 +84,9 @@ export default function CustomNode(props: any) {
   const handleClickOrganization = () => {
     openModal({
       type: MODAL_TYPES.ADD_TEAM,
+      props: {
+        parentsId: id,
+      },
     });
   };
 

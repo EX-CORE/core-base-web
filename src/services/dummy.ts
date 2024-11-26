@@ -99,6 +99,7 @@ export const useGetDummyOrganizationStructure = () => {
           droppable: true,
           text: "휴레이포지티브",
           data: {
+            id: 1,
             leader: "최두아",
             icon: undefined,
           },
@@ -108,6 +109,7 @@ export const useGetDummyOrganizationStructure = () => {
           parent: 1,
           text: "백엔드",
           data: {
+            id: 1,
             leader: "홍지은",
             icon: undefined,
             fileType: "organization",
@@ -118,6 +120,7 @@ export const useGetDummyOrganizationStructure = () => {
           parent: 1,
           text: "프론트",
           data: {
+            id: 1,
             leader: "공필상",
             icon: undefined,
             fileType: "organization",
@@ -129,6 +132,7 @@ export const useGetDummyOrganizationStructure = () => {
           droppable: true,
           text: "AI",
           data: {
+            id: 1,
             leader: "",
             icon: undefined,
           },
@@ -139,6 +143,7 @@ export const useGetDummyOrganizationStructure = () => {
           droppable: true,
           text: "dx레몬",
           data: {
+            id: 1,
             leader: "홍원배",
             icon: undefined,
           },
@@ -148,6 +153,7 @@ export const useGetDummyOrganizationStructure = () => {
           parent: 4,
           text: "UNIT-SI",
           data: {
+            id: 1,
             leader: "손인영",
             icon: undefined,
             fileType: "organization",

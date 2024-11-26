@@ -4,16 +4,19 @@ import {
   useGetDummyOrganizationStructure,
   useGetOrganizationStructure,
 } from "src/services/dummy";
+import {
+  useGetOrganizationTeams,
+  convertTeamResToDndTreeViewData,
+} from "../../services/organization";
 import { MODAL_TYPES, useModal } from "src/store/use-modal";
+import { getCookieValue } from "src/lib/cookies";
 
 import StructureDnD from "src/components/dnd/StructureDnD";
 
 export default function OrganizationStructure() {
-  const { data: organizationStructure } = useGetOrganizationStructure();
-  const { data: dummyOrganizationStructure = [] } =
-    useGetDummyOrganizationStructure();
-
-  console.log(dummyOrganizationStructure);
+  const { data: organizationStructure } = useGetOrganizationTeams(
+    getCookieValue("organizationId")
+  );
 
   const openModal = useModal((state) => state.openModal);
 
@@ -47,7 +50,9 @@ export default function OrganizationStructure() {
             <span className="flex-1">설정</span>
           </div>
 
-          <StructureDnD data={dummyOrganizationStructure} />
+          <StructureDnD
+            data={convertTeamResToDndTreeViewData(organizationStructure) || []}
+          />
         </div>
       </div>
     </div>

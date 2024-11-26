@@ -120,7 +120,30 @@ export interface TeamCreateReq {
 
 export interface TeamRes {
   id: string;
+  parentsId?: string | null;
   name: string;
   order?: number | null;
-  parentsId?: string | null;
+}
+
+export type DndTreeViewData = {
+  id: number;
+  parent: number;
+  droppable?: boolean;
+  text: string;
+  data?: any;
+};
+
+export function convertTeamResToDndTreeViewData(
+  teamResArray: TeamRes[] | null | undefined
+): DndTreeViewData[] {
+  if (!teamResArray) return [];
+  return teamResArray.map((teamRes) => ({
+    id: parseInt(teamRes.id),
+    parent: teamRes.parentsId ? parseInt(teamRes.parentsId) : 0,
+    text: teamRes.name,
+    droppable: true,
+    data: {
+      order: teamRes.order || null,
+    },
+  }));
 }
