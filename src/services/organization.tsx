@@ -106,6 +106,64 @@ export function useUpdateOrganizatioTeamsOrder(organizationId: string) {
   });
 }
 
+export const useGetOrganizationMembers = (organizationId: string) => {
+  return useQuery({
+    queryKey: ["organization/" + organizationId + "/members"],
+    queryFn: async () => await getOrganizationMembers(organizationId),
+  });
+};
+
+async function getOrganizationMembers(organizationId: string) {
+  if (organizationId == undefined) return null;
+  const response: { data: MemberRes[] } = await client.get(
+    "/organization/" + organizationId + "/members"
+  );
+  return response.data;
+}
+
+export function useCreateOrganizationMembers(organizationId: string) {
+  return useMutation<MemberRes, Error, MemberReq>({
+    mutationFn: async (req: MemberReq) => {
+      const response = await client.post(
+        "/organization/" + organizationId + "/members",
+        req
+      );
+      return response.data;
+    },
+    onSuccess(data: MemberRes) {
+      return data;
+    },
+  });
+}
+
+export interface MemberRes {
+  id: number;
+  name: string;
+  email: string;
+  teamName?: string | undefined;
+  permission: PermissionType;
+  state: MemberState;
+}
+
+export interface MemberReq {
+  name: string;
+  email: string;
+  teamId?: string | undefined;
+  permission: PermissionType;
+}
+
+export enum PermissionType {
+  MANAGER = "MANAGER",
+  REVIEWER = "REVIEWER",
+}
+
+export enum MemberState {
+  WAIT = "WAIT",
+  JOIN = "JOIN",
+  QUIT = "QUIT",
+  DENY = "DENY",
+}
+
 export interface OrganizationCreateReq {
   name: string;
   logo?: File | undefined;
