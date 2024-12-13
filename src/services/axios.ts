@@ -1,5 +1,6 @@
 // import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 import type { AxiosRequestConfig } from "axios";
 import { allDeleteCookie, getCookieValue } from "src/lib/cookies";
 
@@ -11,7 +12,13 @@ export const client = axios.create({
 
 client.interceptors.request.use(
   (config) => {
-    config.headers.Authorization = `Bearer ${getCookieValue("accessToken")}`;
+    const accessToken = getCookieValue("accessToken");
+    if (!accessToken || accessToken === "") {
+      window.location.href = "/login";
+      throw new Error("AccessToken is missing. Redirecting to login.");
+    }
+
+    config.headers.Authorization = `Bearer ${accessToken}`;
     return config;
   },
   (error) => {

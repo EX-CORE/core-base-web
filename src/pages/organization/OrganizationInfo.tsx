@@ -32,7 +32,7 @@ const formSchema = z.object({
     .string()
     .trim()
     .min(1, { message: "이름은 필수 입력값입니다." }),
-  organizationLogo: z.instanceof(File, { message: "로고도 입력해주세요" }),
+  organizationLogo: z.any(),
   organizationCeo: z.string().trim().optional(),
   organizationTelNumber: z
     .string()
