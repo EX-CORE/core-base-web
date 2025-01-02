@@ -1,7 +1,14 @@
 import { createBrowserRouter, Link } from "react-router-dom";
 import Layout from "src/components/layouts";
 import SubMenu from "src/components/layouts/SubMenu";
-import { Dashboard, Login, Notice, Review } from "src/pages";
+import {
+  Dashboard,
+  Login,
+  Notice,
+  NoticeEditor,
+  Review,
+  NoticeDetail,
+} from "src/pages";
 import {
   OrganizationInfo,
   OrganizationMember,
@@ -24,6 +31,22 @@ export const router = createBrowserRouter([
           {
             path: "notice",
             element: <Notice />,
+          },
+          {
+            path: "notice/new",
+            element: <NoticeEditor />,
+          },
+          {
+            path: "notice/:id",
+            element: <NoticeEditor />,
+          },
+          {
+            path: "notice/:id/detail",
+            element: <NoticeDetail />,
+          },
+          {
+            path: "notice/:id/edit",
+            element: <NoticeEditor />,
           },
         ],
       },

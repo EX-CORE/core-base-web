@@ -20,16 +20,19 @@ function Login() {
   const { mutate, data, isSuccess } = useLogin(code);
 
   useEffect(() => {
-    if (code) {
+    if (code && !isSuccess) {
+      // isSuccess가 false일 때만 mutate 실행
       mutate();
-      if (isSuccess) {
-        const { accessToken, refreshToken } = data.data;
-        document.cookie = `accessToken=${accessToken};path=/;`;
-        document.cookie = `refreshToken=${refreshToken};path=/;`;
-        navigate("/");
-      }
     }
-  }, [code, mutate, isSuccess, data]);
+
+    if (isSuccess && data) {
+      // 데이터가 있을 때만 처리
+      const { accessToken, refreshToken } = data.data;
+      document.cookie = `accessToken=${accessToken};path=/;`;
+      document.cookie = `refreshToken=${refreshToken};path=/;`;
+      navigate("/");
+    }
+  }, [code, isSuccess, data]); // mutate 제거
 
   return (
     <div className="LoginForm">
