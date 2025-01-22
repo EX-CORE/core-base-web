@@ -14,15 +14,19 @@ import { getCookieValue } from "src/lib/cookies";
 import StructureDnD from "src/components/dnd/StructureDnD";
 
 export default function OrganizationStructure() {
-  const { data: organizationStructure } = useGetOrganizationTeams(
+  const { data: organizationStructure, refetch } = useGetOrganizationTeams(
     getCookieValue("organizationId")
   );
 
   const openModal = useModal((state) => state.openModal);
+  const refetchOrganizationStructure = async () => {
+    await refetch();
+  };
 
   const handleTestOpenModal = () => {
     openModal({
       type: MODAL_TYPES.ADD_TEAM,
+      onClose: refetchOrganizationStructure
     });
   };
 
