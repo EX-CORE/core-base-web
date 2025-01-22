@@ -82,8 +82,6 @@ export default function CustomNode(props: any) {
   const openModal = useModal((state) => state.openModal);
 
   const handleClickOrganization = () => {
-    console.log(data);
-    console.log(props);
     openModal({
       type: MODAL_TYPES.UPDATE_TEAM,
       props: {
