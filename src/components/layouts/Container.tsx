@@ -5,15 +5,10 @@ import { useSidebar } from "src/store/use-sidebar";
 export default function Container({ children }: { children: React.ReactNode }) {
   // useScreenSize();
 
-  // const { toggle } = useSidebar();
+  const { isOpen, temporaryOpen } = useSidebar();
 
   return (
-    <div
-      className={cn(
-        "flex-1 ml-72"
-        //  toggle && "ml-16"
-      )}
-    >
+    <div className={cn("flex-1 ml-72", !isOpen && !temporaryOpen && "ml-16")}>
       {children}
     </div>
   );

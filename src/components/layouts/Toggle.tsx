@@ -1,45 +1,48 @@
 import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
 import { useSidebar } from "src/store/use-sidebar";
 import { Button } from "../Button";
-import { Hint } from "../Hint";
 import SideInfoBox from "./SideInfoBox";
 import SideLogoBox from "./SideLogoBox";
 import SideMenuList from "./SideMenuList";
 
 export default function Toggle() {
-  // const { toggle, onToggle } = useSidebar();
-
-  // const label = toggle ? "사이드바 접기" : "사이드바 참깨";
+  const { isOpen, onOpen, onClose, temporaryOpen, onMouseOver, onMouseLeave } =
+    useSidebar();
 
   return (
     <>
-      {/* {toggle ? ( */}
-      <div className="flex flex-col w-full h-full p-6 relative">
-        <SideLogoBox />
-
-        {/* <Hint label={label} side="right" asChild>
-          <Button variant={"ghost"} onClick={onToggle} className="justify-end">
-            <ArrowLeftFromLine className="h-4 w-4" />
+      {isOpen && (
+        <div className="flex flex-col w-full h-full p-6 relative">
+          <Button variant={"ghost"} onClick={onClose}>
+            <ArrowLeftFromLine className="h-4 w-4 ml-auto" />
           </Button>
-        </Hint> */}
-
-        <SideMenuList />
-
-        <SideInfoBox className="absolute bottom-4" />
-      </div>
-      {/* ) : (
-        <div className="flex flex-col w-full h-full p-6 relative gap-6">
-          <div className="hidden lg:flex -w-full items-center justify-center pt-4 mb-4">
-            <Hint label={label} side="right" asChild>
-              <Button variant={"ghost"} onClick={onToggle}>
-                <ArrowRightFromLine className="h-4 w-4 ml-auto" />
-              </Button>
-            </Hint>
-          </div>
-
+          <SideLogoBox />
           <SideMenuList />
+          <SideInfoBox className="absolute bottom-4" />
         </div>
-      )} */}
+      )}
+
+      {!isOpen && temporaryOpen && (
+        <div
+          className="flex flex-col w-full h-full p-6 relative"
+          onMouseLeave={onMouseLeave}
+        >
+          <Button variant={"ghost"} onClick={onOpen}>
+            <ArrowRightFromLine className="h-4 w-4 ml-auto" />
+          </Button>
+          <SideLogoBox />
+          <SideMenuList />
+          <SideInfoBox className="absolute bottom-4" />
+        </div>
+      )}
+
+      {!isOpen && !temporaryOpen && (
+        <div className="flex flex-col w-full h-full pt-6 relative ">
+          <Button variant={"ghost"} onClick={onOpen} onMouseOver={onMouseOver}>
+            <ArrowRightFromLine className="h-4 w-4 " />
+          </Button>
+        </div>
+      )}
     </>
   );
 }
