@@ -126,7 +126,7 @@ function DialogContainer({
   handleClickCancel,
   handleClickConfirm,
   cancelText = "취소",
-  confirmText = "추가",
+  confirmText = "확인",
   useCancle = true,
   useConfirm = true,
 }: Props) {
