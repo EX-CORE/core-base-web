@@ -71,7 +71,7 @@ const IconParser = (src: string) => {
 
 export default function CustomNode(props: any) {
   const {
-    node: { id, droppable, text, data },
+    node: { id, droppable, text, data, parent },
     depth,
     isOpen,
     onToggle,
@@ -82,11 +82,14 @@ export default function CustomNode(props: any) {
   const openModal = useModal((state) => state.openModal);
 
   const handleClickOrganization = () => {
+    console.log(data);
+    console.log(props);
     openModal({
       type: MODAL_TYPES.UPDATE_TEAM,
       props: {
         id: id,
         name: text,
+        parentsId: parent,
       },
     });
   };

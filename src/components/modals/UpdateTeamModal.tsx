@@ -3,7 +3,8 @@ import { DialogContainer } from "src/components/ui/dialog";
 import { Input } from "src/components/ui/input";
 import { getCookieValue } from "src/lib/cookies";
 import {
-  TeamUpdateReq, useUpdateOrganizationTeams,
+  TeamUpdateReq,
+  useUpdateOrganizationTeams,
 } from "src/services/organization";
 
 export function UpdateTeamModal(props: any) {
@@ -16,11 +17,14 @@ export function UpdateTeamModal(props: any) {
 
   const updateTeam = async (): Promise<void> => {
     if (teamName) {
-      const teamReq: TeamUpdateReq[] = [{
-        id: props.id,
-        name: teamName,
-        parentsId: props.parentsId,
-      }];
+      const teamReq: TeamUpdateReq[] = [
+        {
+          id: props.id,
+          name: teamName,
+          parentsId: props.parentsId,
+          order: props.order,
+        },
+      ];
 
       try {
         await mutateAsync(teamReq);
