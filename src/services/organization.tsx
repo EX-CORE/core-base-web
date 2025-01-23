@@ -76,7 +76,7 @@ export function useCreateOrganizationTeams(organizationId: string) {
   });
 }
 
-export function useUpdateOrganizatioTeams(organizationId: string) {
+export function useUpdateOrganizationTeams(organizationId: string) {
   return useMutation<TeamRes[], Error, TeamUpdateReq[]>({
     mutationFn: async (req: TeamUpdateReq[]) => {
       const response = await client.put(
