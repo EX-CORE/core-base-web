@@ -39,7 +39,7 @@ function Login() {
       <img className="LoginFormLogo" src={logo} alt="logo" />
       <a
         className="LoginButton"
-        href={`https://accounts.google.com/o/oauth2/v2/auth?client_id=597589376829-aiiurcdf6557jok9vdkt4rukbjjb7odq.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/calendar.readonly%20https://www.googleapis.com/auth/calendar&response_type=code&access_type=offline&state=state_parameter_passthrough_value&include_granted_scopes=true&redirect_uri=http://localhost:3000/login&prompt=consent`}
+        href={`https://accounts.google.com/o/oauth2/v2/auth?client_id=597589376829-aiiurcdf6557jok9vdkt4rukbjjb7odq.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/calendar.readonly%20https://www.googleapis.com/auth/calendar&response_type=code&access_type=offline&state=state_parameter_passthrough_value&include_granted_scopes=true&redirect_uri=https://core-base-web.vercel.app/login&prompt=consent`}
       >
         <img src={reviewerLoginLogo} />
         Google 로그인
