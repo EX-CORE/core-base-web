@@ -21,15 +21,23 @@ export const MODAL_COMPONENT = {
 type Modal = {
   type: keyof typeof MODAL_TYPES;
   props?: Object; // 각 모달 마다 props가 다를 수 있기 때문에 Object로 설정
+  onClose?: Function | null; // 모들이 닫길 때 호출되는 callback 함수
 };
 type ModalStore = {
   modal: null | Modal;
-  openModal: ({ type, props }: Modal) => void;
+  openModal: ({ type, props, onClose }: Modal) => void;
   closeModal: () => void;
 };
 
-export const useModal = create<ModalStore>((set) => ({
+export const useModal = create<ModalStore>((set, get) => ({
   modal: null,
-  openModal: ({ type, props }) => set({ modal: { type, props } }),
-  closeModal: () => set({ modal: null }),
+  openModal: ({ type, props, onClose }) =>
+    set({ modal: { type, props, onClose } }),
+  closeModal: () => {
+    const {modal} = get();
+    if(modal?.onClose) {
+      modal.onClose()
+    }
+    set({modal: null})
+  },
 }));
