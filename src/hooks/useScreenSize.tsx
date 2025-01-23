@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSidebar } from "src/store/use-sidebar";
 
 export default function useScreenSize() {
-  const { toggle, onToggle } = useSidebar();
+  const { isOpen, onOpen } = useSidebar();
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
@@ -22,8 +22,8 @@ export default function useScreenSize() {
 
   useEffect(() => {
     // 모바일 화면일 때는 사이드바가 열려있는 상태로 시작
-    if ((isMobile && toggle) || (!isMobile && !toggle)) {
-      onToggle();
+    if ((isMobile && !isOpen) || (!isMobile && isOpen)) {
+      onOpen();
     }
   }, [isMobile]);
 }
