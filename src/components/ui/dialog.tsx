@@ -144,7 +144,12 @@ function DialogContainer({
   };
 
   return (
-    <Dialog defaultOpen>
+    <Dialog
+      defaultOpen
+      onOpenChange={(open) => {
+        if (!open) closeModal();
+      }}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
