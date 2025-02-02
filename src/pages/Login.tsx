@@ -12,11 +12,11 @@ function Login() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const redirect_uri =
-    process.env.REACT_APP_REDIRECT_URL ||
-    "http://localhost:3000/login?type=LOCAL";
+    process.env.REACT_APP_REDIRECT_URL || "http://localhost:3000/login";
 
   console.log(redirect_uri);
   console.log(process.env.REACT_APP_REDIRECT_URL);
+  console.log(process.env.REACT_APP_ACTIVE_PROFILES);
 
   const navigate = useNavigate();
 
