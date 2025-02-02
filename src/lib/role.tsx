@@ -36,7 +36,7 @@ export const MENU = {
   REVIEW: {
     LABEL: "리뷰",
     VALUE: "REVIEW",
-    LINK: "/review",
+    LINK: "/user/review",
     ICON: <SmilePlus />,
   },
   MANAGEMENT_REVIEW: {
