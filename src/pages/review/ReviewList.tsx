@@ -1,8 +1,5 @@
 import SearchInput from "src/components/SearchInput";
-import {
-  // useGetOrganizationReviews,
-  ReviewState,
-} from "../../services/review";
+import { ReviewState } from "../../services/review";
 import {
   Table,
   TableBody,
@@ -47,29 +44,31 @@ function ReviewList() {
           </TableHeader>
           <TableBody>
             {reviewListData && reviewListData.length > 0 ? (
-              reviewListData.map((review) => (
-                <TableRow key={review.id}>
-                  <TableCell className="font-medium text-center">
-                    {review.title}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {review.reviewPeriod}
-                  </TableCell>
-                  <TableCell className="flex items-center justify-center gap-2">
-                    <Badge
-                      variant={"outline"}
-                      className={getBadgeColorClass(review.state)}
-                    >
-                      {getBadgeLabelClass(review.state)}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <button className="flex-1">
-                      <EllipsisVertical />
-                    </button>
-                  </TableCell>
-                </TableRow>
-              ))
+              reviewListData
+                .filter((review) => isVisibleState(review.state))
+                .map((review) => (
+                  <TableRow key={review.id}>
+                    <TableCell className="font-medium text-center">
+                      {review.title}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {review.reviewPeriod}
+                    </TableCell>
+                    <TableCell className="flex items-center justify-center gap-2">
+                      <Badge
+                        variant={"outline"}
+                        className={getBadgeColorClass(review.state)}
+                      >
+                        {getBadgeLabelClass(review.state)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <button className="flex-1">
+                        <EllipsisVertical />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))
             ) : (
               <TableRow>
                 <TableCell colSpan={5} className="text-center">
@@ -115,6 +114,12 @@ function getBadgeLabelClass(state: ReviewState): string {
     default:
       return "Unknown"; // 기본값 - 회색
   }
+}
+
+function isVisibleState(state: ReviewState): boolean {
+  if (state === ReviewState.DELETED) return false;
+
+  return true;
 }
 
 export default ReviewList;
