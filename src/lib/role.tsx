@@ -36,7 +36,7 @@ export const MENU = {
   REVIEW: {
     LABEL: "리뷰",
     VALUE: "REVIEW",
-    LINK: "/review",
+    LINK: "/user/review",
     ICON: <SmilePlus />,
   },
   MANAGEMENT_REVIEW: {
@@ -44,6 +44,11 @@ export const MENU = {
     VALUE: "MANAGEMENT_REVIEW",
     LINK: "/management/review",
     ICON: <ClipboardPenLine />,
+  },
+  MANAGEMENT_REVIEW_LIST: {
+    LABEL: "리뷰 목록",
+    VALUE: "MANAGEMENT_REVIEW_LIST",
+    LINK: "/management/review/list",
   },
   MANAGEMENT_ORGANIZATION: {
     LABEL: "조직 관리",
@@ -88,7 +93,7 @@ export const ROLE_MENULIST_MAP = {
   [ROLE.COMPANY_ADMIN.VALUE]: [
     { MENU: MENU.HOME, SUB_MENU: [MENU.DASH_BORAD, MENU.NOTICE] },
     { MENU: MENU.REVIEW, SUB_MENU: [] },
-    { MENU: MENU.MANAGEMENT_REVIEW, SUB_MENU: [] },
+    { MENU: MENU.MANAGEMENT_REVIEW, SUB_MENU: [MENU.MANAGEMENT_REVIEW_LIST] },
     {
       MENU: MENU.MANAGEMENT_ORGANIZATION,
       SUB_MENU: [

@@ -14,6 +14,7 @@ import {
   OrganizationMember,
   OrganizationStructure,
 } from "src/pages/organization";
+import { ReviewList } from "src/pages/review";
 
 export const router = createBrowserRouter([
   {
@@ -51,7 +52,7 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "/review",
+        path: "/user/review",
         element: (
           <Review
             title="리뷰"
@@ -68,6 +69,12 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "review",
+            children: [
+              {
+                path: "list",
+                element: <ReviewList />,
+              },
+            ],
           },
           {
             path: "organization",

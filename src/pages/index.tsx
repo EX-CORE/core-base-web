@@ -7,4 +7,4 @@ export { default as OrganizationMember } from "./organization/OrganizationMember
 export { default as OrganizationStructure } from "./organization/OrganizationStructure";
 
 export { default as Login } from "./Login";
-export { default as Review } from "./Review";
+export { default as Review } from "./review/Review";
