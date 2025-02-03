@@ -18,7 +18,7 @@ export const useGetOrganizationReviews = (organizationId: string) => {
           title: "헬스투두 2024 상반기 평가",
           organizationId: organizationId,
           reviewPeriod: "2024-07-01 ~ 2024-07-23",
-          state: ReviewState.TEMP,
+          state: ReviewState.READY,
         },
         {
           id: "MV0amPXD0Z",
@@ -39,14 +39,14 @@ export const useGetOrganizationReviews = (organizationId: string) => {
           title: "체크 2024 하반기 평가",
           organizationId: organizationId,
           reviewPeriod: "2025-02-01 ~ 2025-02-14",
-          state: ReviewState.PAUSE,
+          state: ReviewState.STOPPED,
         },
         {
           id: "pVEkqPjx0M",
           title: "암케어 2024 하반기 평가",
           organizationId: organizationId,
           reviewPeriod: "2025-02-15 ~ 2025-01-21",
-          state: ReviewState.TEMP,
+          state: ReviewState.READY,
         },
         {
           id: "pVEkqPjx0M",

@@ -86,14 +86,14 @@ function ReviewList() {
 
 function getBadgeColorClass(state: ReviewState): string {
   switch (state) {
-    case ReviewState.TEMP:
+    case ReviewState.READY:
       return "border-yellow-500 bg-yellow-500 text-white"; // 임시, 시작 전 - 노란색
     case ReviewState.DONE:
     case ReviewState.DELETED:
       return "border-gray-300 bg-gray-300 text-white"; // 완료 - 회색
     case ReviewState.PROCESS:
       return "border-blue-500 bg-blue-500 text-white"; // 진행중 - 파란색
-    case ReviewState.PAUSE:
+    case ReviewState.STOPPED:
       return "border-red-500 bg-red-500 text-white"; // 중단됨 - 빨간색
     default:
       return "bg-gray-500"; // 기본값 - 회색
@@ -102,11 +102,11 @@ function getBadgeColorClass(state: ReviewState): string {
 
 function getBadgeLabelClass(state: ReviewState): string {
   switch (state) {
-    case ReviewState.TEMP:
+    case ReviewState.READY:
       return "시작전"; // 임시, 시작 전 - 노란색
     case ReviewState.PROCESS:
       return "진행중"; // 진행중 - 파란색
-    case ReviewState.PAUSE:
+    case ReviewState.STOPPED:
       return "중단됨"; // 중단됨 - 빨간색
     case ReviewState.DONE:
       return "완료"; // 완료 - 회색

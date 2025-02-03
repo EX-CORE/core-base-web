@@ -18,9 +18,9 @@ import { client } from "./axios";
 // }
 
 export enum ReviewState {
-  TEMP = "TEMP",
+  READY = "READY",
   PROCESS = "PROCESS",
-  PAUSE = "PAUSE",
+  STOPPED = "STOPPED",
   DONE = "DONE",
   DELETED = "DELETED",
 }
