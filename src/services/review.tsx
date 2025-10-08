@@ -40,7 +40,7 @@ export interface ReviewRes {
   // 임시로 다 string 으로 해둠
   description?: String;
   sections?: [] | undefined;
-  state?: string | undefined;
+  state?: ReviewState | undefined;
   surveyPeriod?: string | undefined;
   reviewPeriod?: string | undefined;
 }

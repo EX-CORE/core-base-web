@@ -14,7 +14,7 @@ import {
   OrganizationMember,
   OrganizationStructure,
 } from "src/pages/organization";
-import { ReviewList } from "src/pages/review";
+import { ReviewListPage } from "src/pages/review";
 
 export const router = createBrowserRouter([
   {
@@ -62,7 +62,6 @@ export const router = createBrowserRouter([
           />
         ),
       },
-
       {
         path: "/management",
         element: <SubMenu />,
@@ -72,7 +71,7 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: "list",
-                element: <ReviewList />,
+                element: <ReviewListPage />, 
               },
             ],
           },

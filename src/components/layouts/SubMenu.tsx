@@ -11,21 +11,25 @@ export default function SubMenu() {
       new RegExp(MENU.LINK).test(targetPath)
     )?.SUB_MENU || [];
 
+  const hideSubMenuBar = /^\/management\/review/.test(targetPath);
+
   return (
     <div>
-      <div className="p-8 flex items-center font-black gap-4 border-b font-pretendard">
-        {subMenuList.map((subMenu) => (
-          <NavLink
-            key={subMenu.VALUE}
-            to={subMenu.LINK}
-            className={({ isActive, isPending }) =>
-              isPending ? "pending" : isActive ? "active" : ""
-            }
-          >
-            {subMenu.LABEL}
-          </NavLink>
-        ))}
-      </div>
+      {!hideSubMenuBar && (
+        <div className="p-8 flex items-center font-black gap-4 border-b font-pretendard">
+          {subMenuList.map((subMenu) => (
+            <NavLink
+              key={subMenu.VALUE}
+              to={subMenu.LINK}
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "active" : ""
+              }
+            >
+              {subMenu.LABEL}
+            </NavLink>
+          ))}
+        </div>
+      )}
 
       <Outlet />
     </div>
