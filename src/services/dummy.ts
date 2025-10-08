@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { ReviewState } from "./review";
+import { ReviewState, ReviewRes } from "./review";
+import { mockReviews } from "../pages/review/mockData";
 
 const dummyFetch = <T>(dummyData: T): Promise<T> =>
   new Promise((resolve) => {
@@ -9,53 +10,20 @@ const dummyFetch = <T>(dummyData: T): Promise<T> =>
   });
 
 export const useGetOrganizationReviews = (organizationId: string) => {
-  return useQuery({
-    queryKey: ["reviewListData"],
-    queryFn: async () =>
-      await dummyFetch([
-        {
-          id: "5xEwmYk50b",
-          title: "헬스투두 2024 상반기 평가",
-          organizationId: organizationId,
-          reviewPeriod: "2024-07-01 ~ 2024-07-23",
-          state: ReviewState.READY,
-        },
-        {
-          id: "MV0amPXD0Z",
-          title: "체크 2024 상반기 평가",
-          organizationId: organizationId,
-          reviewPeriod: "2024-07-01 ~ 2024-07-23",
-          state: ReviewState.DONE,
-        },
-        {
-          id: "MV0amPXD0Z",
-          title: "헬스투두 2024 하반기 평가",
-          organizationId: organizationId,
-          reviewPeriod: "2025-02-01 ~ 2025-02-07",
-          state: ReviewState.PROCESS,
-        },
-        {
-          id: "MV0amPXD0Z",
-          title: "체크 2024 하반기 평가",
-          organizationId: organizationId,
-          reviewPeriod: "2025-02-01 ~ 2025-02-14",
-          state: ReviewState.STOPPED,
-        },
-        {
-          id: "pVEkqPjx0M",
-          title: "암케어 2024 하반기 평가",
-          organizationId: organizationId,
-          reviewPeriod: "2025-02-15 ~ 2025-01-21",
-          state: ReviewState.READY,
-        },
-        {
-          id: "pVEkqPjx0M",
-          title: "암케어 2024 상반기 평가",
-          organizationId: organizationId,
-          reviewPeriod: "2025-02-15 ~ 2025-01-21",
-          state: ReviewState.DELETED,
-        },
-      ]),
+  return useQuery<ReviewRes[]>({
+    queryKey: ["reviewListData", organizationId],
+    queryFn: async () => {
+      const orgId = Number(organizationId) || 0;
+      const mapped: ReviewRes[] = mockReviews.map((r) => ({
+        id: String(r.id),
+        title: r.title,
+        organizationId: orgId,
+        reviewPeriod: `${r.startDate} ~ ${r.endDate}`,
+        description: undefined,
+        state: r.status,
+      }));
+      return await dummyFetch<ReviewRes[]>(mapped);
+    },
   });
 };
 export const useGetOrganizationStructure = () => {

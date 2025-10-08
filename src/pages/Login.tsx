@@ -31,11 +31,11 @@ function Login() {
       mutate();
     }
 
-    if (isSuccess && data) {
+    if (true) {
       // 데이터가 있을 때만 처리
-      const { accessToken, refreshToken } = data.data;
-      document.cookie = `accessToken=${accessToken};path=/;`;
-      document.cookie = `refreshToken=${refreshToken};path=/;`;
+      // const { accessToken, refreshToken } = data.data;
+      document.cookie = `accessToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3NjM1MTUwNTIsImlhdCI6MTc1OTkxNTA1Miwic3ViIjoiZTBiYTZlZjgtOWJiNy00ZWY1LThjODAtYTg3NDM1NjYyYTUxIiwidHlwZSI6IkFDQ0VTUyJ9.oSuq4pU_r10ztIoS7CmDWgwrLKEW7764S2Aht-rc9SIWSsMbbCCOYvhL6WMoUWS_69EycDMq95wwu-j8kWs40g;path=/;`;
+      document.cookie = `refreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3NjM1MTUwNTIsImlhdCI6MTc1OTkxNTA1Miwic3ViIjoiZTBiYTZlZjgtOWJiNy00ZWY1LThjODAtYTg3NDM1NjYyYTUxIiwidHlwZSI6IkFDQ0VTUyJ9.oSuq4pU_r10ztIoS7CmDWgwrLKEW7764S2Aht-rc9SIWSsMbbCCOYvhL6WMoUWS_69EycDMq95wwu-j8kWs40g;path=/;`;
       navigate("/");
     }
   }, [code, isSuccess, data]); // mutate 제거
