@@ -15,6 +15,7 @@ import {
   OrganizationStructure,
 } from "src/pages/organization";
 import {ReviewDetailPage, ReviewListPage} from "src/pages/review";
+import ReviewResultsPage from "../pages/review/ReviewResultsPage";
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ export const router = createBrowserRouter([
                 element: <ReviewListPage />,
               },
             ],
+          },
+          {
+            path: "review/results",
+            element: <ReviewResultsPage />,
           },
           {
             path: "review/:reviewId",
