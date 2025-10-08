@@ -146,7 +146,7 @@ const CompanyLogo = React.forwardRef<
       ) : (
         <img
           src={content}
-          alt={title}
+          // alt={title}
           width={24}
           height={24}
           className="rounded-sm object-cover"
