@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { Button } from './ui/button';
-import { Card } from './ui/card';
-import { Badge } from './ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Checkbox } from './ui/checkbox';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from './ui/alert-dialog';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Button } from '../../components/ui/button';
+import { Card } from '../../components/ui/card';
+import { Badge } from '../../components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import { Checkbox } from '../../components/ui/checkbox';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '../../components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../../components/ui/alert-dialog';
+import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
 import { BarChart3, Users, Calendar, ArrowLeft, ChevronRight, PieChart, TrendingUp, Search, Filter, ChevronDown, Eye, FileText, Settings, Plus, X, UserCheck } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
-import { IndividualResultView } from './IndividualResultViewNew';
+import { IndividualResultView } from '../../components/IndividualResultViewNew';
 
 // Mock 데이터 - 실제로는 API에서 가져올 데이터
-const mockCompletedSurveys = [
+const mockCompletedReviews = [
   {
     id: 1,
     title: '2024년 4분기 성과 평가',
@@ -86,8 +86,8 @@ const mockCompletedSurveys = [
         evaluatedCount: 3,
         totalEvaluators: 3,
         responses: [
-          { 
-            questionId: 1, 
+          {
+            questionId: 1,
             sectionId: 1,
             evaluations: [
               { evaluatorId: 1, score: 5, option: '매우 우수' },
@@ -95,8 +95,8 @@ const mockCompletedSurveys = [
               { evaluatorId: 3, score: 5, option: '매우 우수' }
             ]
           },
-          { 
-            questionId: 2, 
+          {
+            questionId: 2,
             sectionId: 1,
             evaluations: [
               { evaluatorId: 1, option: '직접적이고 명확한 소통' },
@@ -104,26 +104,26 @@ const mockCompletedSurveys = [
               { evaluatorId: 3, option: '직접적이고 명확한 소통' }
             ]
           },
-          { 
-            questionId: 3, 
+          {
+            questionId: 3,
             sectionId: 2,
             evaluations: [
-              { 
-                evaluatorId: 1, 
+              {
+                evaluatorId: 1,
                 text: '새로운 기술 스택에 대한 학습 속도를 높이고, 주니어 개발자들에게 더 체계적인 멘토링을 제공했으면 좋겠습니다.'
               },
-              { 
-                evaluatorId: 2, 
+              {
+                evaluatorId: 2,
                 text: '프로젝트 일정 관리와 우선순위 설정 능력을 개선하여 더 효율적인 업무 진행이 가능할 것 같습니다.'
               },
-              { 
-                evaluatorId: 3, 
+              {
+                evaluatorId: 3,
                 text: '타 부서와의 커뮤니케이션에서 좀 더 적극적인 자세를 보여주시면 좋을 것 같습니다.'
               }
             ]
           },
-          { 
-            questionId: 4, 
+          {
+            questionId: 4,
             sectionId: 2,
             evaluations: [
               { evaluatorId: 1, score: 4, option: '우수' },
@@ -143,8 +143,8 @@ const mockCompletedSurveys = [
         evaluatedCount: 3,
         totalEvaluators: 3,
         responses: [
-          { 
-            questionId: 1, 
+          {
+            questionId: 1,
             sectionId: 1,
             evaluations: [
               { evaluatorId: 1, score: 4, option: '우수' },
@@ -152,8 +152,8 @@ const mockCompletedSurveys = [
               { evaluatorId: 3, score: 4, option: '우수' }
             ]
           },
-          { 
-            questionId: 2, 
+          {
+            questionId: 2,
             sectionId: 1,
             evaluations: [
               { evaluatorId: 1, option: '창의적이고 유연한 소통' },
@@ -161,26 +161,26 @@ const mockCompletedSurveys = [
               { evaluatorId: 3, option: '창의적이고 유연한 소통' }
             ]
           },
-          { 
-            questionId: 3, 
+          {
+            questionId: 3,
             sectionId: 2,
             evaluations: [
-              { 
-                evaluatorId: 1, 
+              {
+                evaluatorId: 1,
                 text: '사용자 리서치 역량을 강화하여 더 데이터 기반의 디자인 결정을 내릴 수 있도록 발전했으면 좋겠습니다.'
               },
-              { 
-                evaluatorId: 2, 
+              {
+                evaluatorId: 2,
                 text: '개발팀과의 협업에서 기술적 제약사항을 더 잘 이해하고 현실적인 디자인 제안을 했으면 합니다.'
               },
-              { 
-                evaluatorId: 3, 
+              {
+                evaluatorId: 3,
                 text: '프로젝트 전체 일정을 고려한 디자인 우선순위 설정 능력을 기를 필요가 있습니다.'
               }
             ]
           },
-          { 
-            questionId: 4, 
+          {
+            questionId: 4,
             sectionId: 2,
             evaluations: [
               { evaluatorId: 1, score: 4, option: '우수' },
@@ -200,8 +200,8 @@ const mockCompletedSurveys = [
         evaluatedCount: 2,
         totalEvaluators: 3,
         responses: [
-          { 
-            questionId: 1, 
+          {
+            questionId: 1,
             sectionId: 1,
             evaluations: [
               { evaluatorId: 1, score: 4, option: '우수' },
@@ -209,8 +209,8 @@ const mockCompletedSurveys = [
               { evaluatorId: 3, score: 3, option: '보통' }
             ]
           },
-          { 
-            questionId: 2, 
+          {
+            questionId: 2,
             sectionId: 1,
             evaluations: [
               { evaluatorId: 1, option: '분석적이고 논리적인 소통' },
@@ -218,22 +218,22 @@ const mockCompletedSurveys = [
               { evaluatorId: 3, option: '��석적이고 논리적인 소통' }
             ]
           },
-          { 
-            questionId: 3, 
+          {
+            questionId: 3,
             sectionId: 2,
             evaluations: [
-              { 
-                evaluatorId: 1, 
+              {
+                evaluatorId: 1,
                 text: '시장 분석과 경쟁사 분석 능력을 더 체계적으로 발전시켜 전략적 의사결정에 활용했으면 좋겠습니다.'
               },
-              { 
-                evaluatorId: 2, 
+              {
+                evaluatorId: 2,
                 text: '팀 내 커뮤니케이션에서 더 명확하고 구체적인 지시사항 전달이 필요합니다.'
               }
             ]
           },
-          { 
-            questionId: 4, 
+          {
+            questionId: 4,
             sectionId: 2,
             evaluations: [
               { evaluatorId: 1, score: 4, option: '우수' },
@@ -343,12 +343,12 @@ interface GradeSettings {
 }
 
 // 등급 설정 모달 컴포넌트
-function GradeSettingsModal({ 
-  isOpen, 
-  onClose, 
+function GradeSettingsModal({
+  isOpen,
+  onClose,
   gradeSettings,
-  onSave 
-}: { 
+  onSave
+}: {
   isOpen: boolean;
   onClose: () => void;
   gradeSettings: GradeSettings;
@@ -359,7 +359,7 @@ function GradeSettingsModal({
   const addGradeRange = () => {
     const newRange: GradeRange = {
       grade: '',
-      ...(tempSettings.type === 'absolute' 
+      ...(tempSettings.type === 'absolute'
         ? { minScore: 0, maxScore: 100 }
         : { percentage: 0 }
       )
@@ -389,7 +389,7 @@ function GradeSettingsModal({
   const handleTypeChange = (type: 'absolute' | 'relative') => {
     setTempSettings({
       type,
-      ranges: type === 'absolute' 
+      ranges: type === 'absolute'
         ? [
             { grade: 'S', minScore: 90, maxScore: 100 },
             { grade: 'A', minScore: 80, maxScore: 89 },
@@ -428,19 +428,19 @@ function GradeSettingsModal({
           {/* 평가 방식 선택 */}
           <div className="space-y-3">
             <Label className="text-sm font-semibold text-slate-900">평가 방식</Label>
-            <RadioGroup 
-              value={tempSettings.type} 
+            <RadioGroup
+              value={tempSettings.type}
               onValueChange={(value: string) => handleTypeChange(value as 'absolute' | 'relative')}
               className="grid grid-cols-2 gap-3"
             >
               <div className="relative">
-                <RadioGroupItem 
-                  value="absolute" 
-                  id="absolute" 
-                  className="peer sr-only" 
+                <RadioGroupItem
+                  value="absolute"
+                  id="absolute"
+                  className="peer sr-only"
                 />
-                <Label 
-                  htmlFor="absolute" 
+                <Label
+                  htmlFor="absolute"
                   className="flex flex-col p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#1e40af]/50 hover:bg-slate-50 transition-all peer-data-[state=checked]:border-[#1e40af] peer-data-[state=checked]:bg-blue-50/50"
                 >
                   <span className="font-semibold text-slate-900 mb-1">절대평가</span>
@@ -450,13 +450,13 @@ function GradeSettingsModal({
                 </Label>
               </div>
               <div className="relative">
-                <RadioGroupItem 
-                  value="relative" 
-                  id="relative" 
-                  className="peer sr-only" 
+                <RadioGroupItem
+                  value="relative"
+                  id="relative"
+                  className="peer sr-only"
                 />
-                <Label 
-                  htmlFor="relative" 
+                <Label
+                  htmlFor="relative"
                   className="flex flex-col p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#1e40af]/50 hover:bg-slate-50 transition-all peer-data-[state=checked]:border-[#1e40af] peer-data-[state=checked]:bg-blue-50/50"
                 >
                   <span className="font-semibold text-slate-900 mb-1">상대평가</span>
@@ -560,14 +560,14 @@ function GradeSettingsModal({
         </div>
 
         <DialogFooter className="px-6 py-4 border-t border-slate-200 bg-slate-50">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={onClose}
             className="border-slate-300 text-slate-700 hover:bg-white"
           >
             취소
           </Button>
-          <Button 
+          <Button
             onClick={handleSave}
             disabled={tempSettings.type === 'relative' && totalPercentage !== 100}
             className="bg-[#1e40af] hover:bg-[#1e40af]/90"
@@ -581,30 +581,30 @@ function GradeSettingsModal({
 }
 
 // 개인별 결과 상세 페이지 - 실제 인사평가 시스템 스타일 (사용되지 않음 - 새 컴포넌트로 대체)
-function IndividualResultViewOld({ survey, employee }: { survey: any, employee: Employee }) {
+function IndividualResultViewOld({ review, employee }: { review: any, employee: Employee }) {
   // 평균 점수만 계산 (민감 정보인 평가 인원 등은 제외)
   const getAverageScore = (questionId: number) => {
     const response = employee.responses.find(r => r.questionId === questionId);
     if (!response || response.evaluations.length === 0) return null;
-    
+
     const scores = response.evaluations.map((e: any) => e.score).filter(score => score !== undefined);
     if (scores.length === 0) return null;
-    
+
     const sum = scores.reduce((acc: number, score: number) => acc + score, 0);
     return (sum / scores.length).toFixed(1);
   };
 
   // 섹션별 평균 계산
   const getSectionAverage = (sectionId: number) => {
-    const section = survey.sections.find((s: any) => s.id === sectionId);
+    const section = review.sections.find((s: any) => s.id === sectionId);
     if (!section) return null;
-    
+
     const ratingQuestions = section.questions.filter((q: any) => q.type === 'rating');
     if (ratingQuestions.length === 0) return null;
-    
+
     let totalScore = 0;
     let validQuestions = 0;
-    
+
     ratingQuestions.forEach((question: any) => {
       const avgScore = getAverageScore(question.id);
       if (avgScore !== null) {
@@ -612,17 +612,17 @@ function IndividualResultViewOld({ survey, employee }: { survey: any, employee: 
         validQuestions += 1;
       }
     });
-    
+
     return validQuestions > 0 ? (totalScore / validQuestions).toFixed(1) : null;
   };
 
   // 전체 평균 점수 계산 (등급형 문항만)
   const calculateFinalScore = () => {
     if (!employee.responses || employee.responses.length === 0) return 0;
-    
+
     let totalScore = 0;
     let totalQuestions = 0;
-    
+
     employee.responses.forEach(response => {
       if (response.evaluations && response.evaluations.length > 0) {
         const scores = response.evaluations.map((e: any) => e.score).filter(score => score !== undefined);
@@ -634,14 +634,14 @@ function IndividualResultViewOld({ survey, employee }: { survey: any, employee: 
         }
       }
     });
-    
+
     return totalQuestions > 0 ? totalScore / totalQuestions : 0;
   };
 
   const finalScore = calculateFinalScore();
-  
+
   // 등급형 문항 수 계산
-  const ratingQuestionsCount = survey.sections.reduce((acc: number, s: any) => 
+  const ratingQuestionsCount = review.sections.reduce((acc: number, s: any) =>
     acc + s.questions.filter((q: any) => q.type === 'rating').length, 0
   );
 
@@ -651,9 +651,9 @@ function IndividualResultViewOld({ survey, employee }: { survey: any, employee: 
       <div className="bg-white border border-slate-200 rounded-lg p-6">
         <div className="mb-5">
           <h4 className="text-sm font-semibold text-slate-900">피평가자 정보</h4>
-          <p className="text-xs text-slate-500 mt-0.5">{survey.title}</p>
+          <p className="text-xs text-slate-500 mt-0.5">{review.title}</p>
         </div>
-        
+
         <div className="grid grid-cols-5 gap-6">
           <div>
             <p className="text-xs text-slate-500 mb-1">이름</p>
@@ -683,11 +683,11 @@ function IndividualResultViewOld({ survey, employee }: { survey: any, employee: 
 
       {/* 섹션별 평가 결과 - 테이블 레이아웃 */}
       <div className="space-y-4">
-        {survey.sections.map((section: any, sectionIndex: number) => {
+        {review.sections.map((section: any, sectionIndex: number) => {
           const sectionAvg = getSectionAverage(section.id);
           const ratingQuestions = section.questions.filter((q: any) => q.type === 'rating');
           const otherQuestions = section.questions.filter((q: any) => q.type !== 'rating');
-          
+
           return (
             <div key={section.id} className="bg-white border border-slate-200 rounded-lg overflow-hidden">
               {/* 섹션 헤더 - 더 심플하게 */}
@@ -730,7 +730,7 @@ function IndividualResultViewOld({ survey, employee }: { survey: any, employee: 
                       {ratingQuestions.map((question: any, qIndex: number) => {
                         const avgScore = getAverageScore(question.id);
                         const scorePercentage = avgScore ? (parseFloat(avgScore) / 5) * 100 : 0;
-                        
+
                         return (
                           <tr key={question.id} className="hover:bg-slate-50/50 transition-colors">
                             <td className="px-4 py-3 text-center">
@@ -759,7 +759,7 @@ function IndividualResultViewOld({ survey, employee }: { survey: any, employee: 
                             <td className="px-4 py-3">
                               <div className="flex items-center gap-2.5">
                                 <div className="flex-1 bg-slate-200 rounded-full h-1.5 overflow-hidden">
-                                  <div 
+                                  <div
                                     className={`h-1.5 rounded-full transition-all duration-500 ${
                                       scorePercentage >= 80 ? 'bg-emerald-500' :
                                       scorePercentage >= 60 ? 'bg-blue-500' :
@@ -790,8 +790,8 @@ function IndividualResultViewOld({ survey, employee }: { survey: any, employee: 
                       {otherQuestions.map((question: any) => (
                         <tr key={question.id} className="hover:bg-slate-50/50 transition-colors">
                           <td className="px-4 py-3 w-24">
-                            <Badge 
-                              variant="secondary" 
+                            <Badge
+                              variant="secondary"
                               className={`text-xs ${
                                 question.type === 'multiple' 
                                   ? 'bg-blue-50 text-blue-700 border-blue-200' 
@@ -831,7 +831,7 @@ function IndividualResultViewOld({ survey, employee }: { survey: any, employee: 
   );
 }
 
-function QuestionAnalysisView({ survey }: { survey: any }) {
+function QuestionAnalysisView({ review }: { review: any }) {
   // 최종 등급 분포 계산 (mock 데이터)
   const gradeDistribution = [
     { name: 'S', value: 2, color: '#8B5CF6', label: 'S등급' },
@@ -841,8 +841,8 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
   ];
 
   // 전체 문항 수 계산
-  const totalQuestions = survey.sections.reduce((acc: number, s: any) => acc + s.questions.length, 0);
-  const ratingQuestionsCount = survey.sections.reduce((acc: number, s: any) => 
+  const totalQuestions = review.sections.reduce((acc: number, s: any) => acc + s.questions.length, 0);
+  const ratingQuestionsCount = review.sections.reduce((acc: number, s: any) =>
     acc + s.questions.filter((q: any) => q.type === 'rating').length, 0
   );
 
@@ -880,7 +880,7 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
             <div>
               <p className="text-xs text-slate-500 mb-1">전체 평균 점수</p>
               <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-[#1e40af]">{survey.avgScore}</span>
+                <span className="text-3xl font-bold text-[#1e40af]">{review.avgScore}</span>
                 <span className="text-sm text-slate-400">/ 5.0</span>
               </div>
             </div>
@@ -901,7 +901,7 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
         <div className="bg-white border border-slate-200 rounded-lg p-5">
           <p className="text-xs text-slate-500 mb-1">참여 인원</p>
           <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-bold text-slate-900">{survey.participants}</span>
+            <span className="text-2xl font-bold text-slate-900">{review.participants}</span>
             <span className="text-xs text-slate-400">명</span>
           </div>
         </div>
@@ -909,7 +909,7 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
         <div className="bg-white border border-slate-200 rounded-lg p-5">
           <p className="text-xs text-slate-500 mb-1">응답률</p>
           <div className="flex items-baseline gap-1">
-            <span className="text-2xl font-bold text-emerald-600">{Math.round((survey.responses / survey.participants) * 100)}</span>
+            <span className="text-2xl font-bold text-emerald-600">{Math.round((review.responses / review.participants) * 100)}</span>
             <span className="text-xs text-slate-400">%</span>
           </div>
         </div>
@@ -919,9 +919,9 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
       <div className="bg-white border border-slate-200 rounded-lg p-6">
         <div className="mb-5">
           <h4 className="text-sm font-semibold text-slate-900">최종 등급 분포 현황</h4>
-          <p className="text-xs text-slate-500 mt-0.5">전체 {survey.participants}명의 등급 분포</p>
+          <p className="text-xs text-slate-500 mt-0.5">전체 {review.participants}명의 등급 분포</p>
         </div>
-        
+
         <div className="flex items-center gap-10">
           {/* 도넛 차트 */}
           <div className="w-52 h-52 relative flex-shrink-0">
@@ -944,7 +944,7 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
             </ResponsiveContainer>
             <div className="absolute inset-0 flex items-center justify-center flex-col">
               <p className="text-xs text-slate-500 mb-0.5">총 인원</p>
-              <p className="text-3xl font-bold text-slate-900">{survey.participants}</p>
+              <p className="text-3xl font-bold text-slate-900">{review.participants}</p>
               <p className="text-xs text-slate-500 mt-0.5">명</p>
             </div>
           </div>
@@ -958,7 +958,7 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: grade.color }}></div>
                     <span className="text-sm font-semibold text-slate-900">{grade.label}</span>
                   </div>
-                  <span className="text-xs font-medium text-slate-500">{Math.round((grade.value / survey.participants) * 100)}%</span>
+                  <span className="text-xs font-medium text-slate-500">{Math.round((grade.value / review.participants) * 100)}%</span>
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-2xl font-bold text-slate-900">{grade.value}</span>
@@ -972,9 +972,9 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
 
       {/* 섹션별 상세 - 문항별 응답 현황 */}
       <div className="space-y-6">
-        {survey.sections.map((section: any, sectionIndex: number) => {
+        {review.sections.map((section: any, sectionIndex: number) => {
           const allQuestions = section.questions;
-          
+
           return (
             <div key={section.id} className="bg-white border border-slate-200 rounded-lg overflow-hidden">
               {/* 섹션 헤더 */}
@@ -1008,7 +1008,7 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
                             {question.description && (
                               <p className="text-xs text-slate-500 mt-1">{question.description}</p>
                             )}
-                            <p className="text-xs text-slate-500 mt-2">응답 수: {survey.participants}개</p>
+                            <p className="text-xs text-slate-500 mt-2">응답 수: {review.participants}개</p>
                           </div>
                         </div>
                       </div>
@@ -1026,8 +1026,8 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <span className="text-xs font-medium text-slate-500">Q{qIndex + 1}</span>
-                            <Badge 
-                              variant="secondary" 
+                            <Badge
+                              variant="secondary"
                               className={`text-xs ${
                                 question.type === 'rating'
                                   ? 'bg-purple-50 text-purple-700 border-purple-200'
@@ -1090,8 +1090,8 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
                                 <div key={index} className="space-y-1.5">
                                   <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                      <div 
-                                        className="w-3 h-3 rounded-sm flex-shrink-0" 
+                                      <div
+                                        className="w-3 h-3 rounded-sm flex-shrink-0"
                                         style={{ backgroundColor: colors[index % colors.length] }}
                                       ></div>
                                       <span className="text-sm font-medium text-slate-900">{item.name}</span>
@@ -1102,9 +1102,9 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
                                     </div>
                                   </div>
                                   <div className="w-full bg-white rounded-full h-2 overflow-hidden">
-                                    <div 
+                                    <div
                                       className="h-2 rounded-full transition-all duration-500"
-                                      style={{ 
+                                      style={{
                                         width: `${percentage}%`,
                                         backgroundColor: colors[index % colors.length]
                                       }}
@@ -1129,7 +1129,7 @@ function QuestionAnalysisView({ survey }: { survey: any }) {
 }
 
 export default function ReviewResultsPage() {
-  const [selectedSurvey, setSelectedSurvey] = useState<any>(null);
+  const [selectedReview, setSelectedReview] = useState<any>(null);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [activeTab, setActiveTab] = useState<'individual' | 'question'>('individual');
   const [searchTerm, setSearchTerm] = useState('');
@@ -1148,8 +1148,8 @@ export default function ReviewResultsPage() {
     ]
   });
 
-  const handleSurveySelect = (survey: any) => {
-    setSelectedSurvey(survey);
+  const handleReviewSelect = (review: any) => {
+    setSelectedReview(review);
     setSelectedEmployee(null);
   };
 
@@ -1159,14 +1159,14 @@ export default function ReviewResultsPage() {
   };
 
   const handleBackToList = () => {
-    setSelectedSurvey(null);
+    setSelectedReview(null);
     setSelectedEmployee(null);
   };
 
   // 체크박스 전체 선택/해제
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const allIds = selectedSurvey.participants_data.map((emp: Employee) => emp.id);
+      const allIds = selectedReview.participants_data.map((emp: Employee) => emp.id);
       setSelectedEmployeeIds(allIds);
     } else {
       setSelectedEmployeeIds([]);
@@ -1204,9 +1204,9 @@ export default function ReviewResultsPage() {
 
   // 등급 미리보기 계산 함수
   const calculateGradePreview = () => {
-    if (!selectedSurvey || selectedEmployeeIds.length === 0) return [];
+    if (!selectedReview || selectedEmployeeIds.length === 0) return [];
 
-    const selectedEmployees = selectedSurvey.participants_data.filter((emp: Employee) => 
+    const selectedEmployees = selectedReview.participants_data.filter((emp: Employee) =>
       selectedEmployeeIds.includes(emp.id)
     );
 
@@ -1274,10 +1274,10 @@ export default function ReviewResultsPage() {
 
   // 등급 적용 함수 - 선택된 직원들에게만 적용
   const applyGrades = () => {
-    if (!selectedSurvey || selectedEmployeeIds.length === 0) return;
+    if (!selectedReview || selectedEmployeeIds.length === 0) return;
 
     // 선택된 피평가자들만 필터링
-    const selectedEmployees = selectedSurvey.participants_data.filter((emp: Employee) => 
+    const selectedEmployees = selectedReview.participants_data.filter((emp: Employee) =>
       selectedEmployeeIds.includes(emp.id)
     );
 
@@ -1348,28 +1348,28 @@ export default function ReviewResultsPage() {
       }
     }
 
-    // selectedSurvey 업데이트 - 선택된 직원들만 업데이트
-    const updatedParticipants = selectedSurvey.participants_data.map((emp: Employee) => {
+    // selectedReview 업데이트 - 선택된 직원들만 업데이트
+    const updatedParticipants = selectedReview.participants_data.map((emp: Employee) => {
       const updatedEmp = employeesWithScores.find((e: any) => e.id === emp.id);
       return updatedEmp || emp;
     });
 
-    setSelectedSurvey({
-      ...selectedSurvey,
+    setSelectedReview({
+      ...selectedReview,
       participants_data: updatedParticipants
     });
   };
 
-  const handleBackToSurvey = () => {
+  const handleBackToReview = () => {
     setSelectedEmployee(null);
   };
 
-  const filteredSurveys = mockCompletedSurveys.filter(survey =>
-    survey.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredReviews = mockCompletedReviews.filter(review =>
+    review.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // 리뷰 목록 화면 (테이블 구조)
-  if (!selectedSurvey) {
+  if (!selectedReview) {
     return (
       <div className="bg-white h-full overflow-auto">
         <div className="w-full max-w-[1280px] mx-auto px-16 py-16">
@@ -1401,13 +1401,13 @@ export default function ReviewResultsPage() {
           </div>
 
           {/* 리뷰 목록 테이블 */}
-          {filteredSurveys.length === 0 ? (
+          {filteredReviews.length === 0 ? (
             <div className="text-center py-24">
               <FileText className="h-12 w-12 text-gray-300 mx-auto mb-4" />
               <h3 className="text-lg text-gray-900 mb-2">완료된 리뷰가 없습니다</h3>
               <p className="text-gray-500 mb-6">
-                {searchTerm 
-                  ? '검색 조건에 맞는 리뷰를 찾을 수 없습니다.' 
+                {searchTerm
+                  ? '검색 조건에 맞는 리뷰를 찾을 수 없습니다.'
                   : '아직 완료된 리뷰가 없습니다.'}
               </p>
             </div>
@@ -1437,58 +1437,58 @@ export default function ReviewResultsPage() {
                   <div className="w-20 px-2 py-[10.25px]"></div>
                 </div>
               </div>
-              
+
               {/* 테이블 바디 */}
               <div className="divide-y divide-gray-200">
-                {filteredSurveys.map((survey) => (
-                  <div key={survey.id} className="flex items-center hover:bg-gray-50 border-b border-gray-200">
+                {filteredReviews.map((review) => (
+                  <div key={review.id} className="flex items-center hover:bg-gray-50 border-b border-gray-200">
                     {/* 리뷰명 */}
                     <div className="w-[300px] px-2 py-[20.5px]">
                       <button
-                        onClick={() => handleSurveySelect(survey)}
+                        onClick={() => handleReviewSelect(review)}
                         className="text-left hover:text-blue-700 transition-colors text-[#101828] text-sm leading-5 truncate max-w-[280px] block"
                       >
-                        {survey.title}
+                        {review.title}
                       </button>
                     </div>
-                    
+
                     {/* 상태 */}
                     <div className="w-[101.59px] px-2 py-[17.5px]">
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border bg-green-50 text-green-600 border-green-500">
-                        {survey.status}
+                        {review.status}
                       </span>
                     </div>
-                    
+
                     {/* 리뷰 기간 */}
                     <div className="w-[200px] px-2 py-0">
                       <div className="flex flex-col gap-1">
-                        <div className="text-sm text-[#101828] leading-5">{survey.period}</div>
-                        <div className="text-sm text-[#6a7282] leading-5">{survey.duration}</div>
+                        <div className="text-sm text-[#101828] leading-5">{review.period}</div>
+                        <div className="text-sm text-[#6a7282] leading-5">{review.duration}</div>
                       </div>
                     </div>
-                    
+
                     {/* 참여자 */}
                     <div className="w-[100px] px-2 py-[20.5px]">
                       <div className="flex items-center gap-1">
                         <Users className="h-4 w-4 text-[#4A5565]" />
-                        <span className="text-sm font-medium text-[#4a5565] leading-5">{survey.participants}명</span>
+                        <span className="text-sm font-medium text-[#4a5565] leading-5">{review.participants}명</span>
                       </div>
                     </div>
-                    
+
                     {/* 평균점수 */}
                     <div className="w-[100px] px-2 py-[20.5px]">
-                      <span className="text-sm font-medium text-[#1e40af] leading-5">{survey.avgScore}</span>
+                      <span className="text-sm font-medium text-[#1e40af] leading-5">{review.avgScore}</span>
                     </div>
-                    
+
                     {/* 완료일 */}
                     <div className="w-[120px] px-2 py-[20.5px]">
-                      <span className="text-sm text-[#6a7282] leading-5">{survey.completedDate}</span>
+                      <span className="text-sm text-[#6a7282] leading-5">{review.completedDate}</span>
                     </div>
-                    
+
                     {/* 액션 */}
                     <div className="w-20 px-2 py-[14.5px]">
-                      <button 
-                        onClick={() => handleSurveySelect(survey)}
+                      <button
+                        onClick={() => handleReviewSelect(review)}
                         className="flex items-center justify-center w-8 h-8 rounded-[4px] hover:bg-gray-100 transition-colors"
                       >
                         <ChevronRight className="h-4 w-4 text-[#99A1AF]" />
@@ -1513,7 +1513,7 @@ export default function ReviewResultsPage() {
           <div className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-200">
             <Button
               variant="ghost"
-              onClick={handleBackToSurvey}
+              onClick={handleBackToReview}
               className="flex items-center gap-2 text-slate-600 hover:text-slate-900"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -1522,12 +1522,12 @@ export default function ReviewResultsPage() {
             <div className="h-6 border-l border-slate-300" />
             <div>
               <h1 className="text-xl font-bold text-slate-900">{selectedEmployee.name} 평가 결과</h1>
-              <p className="text-sm text-slate-500">{selectedSurvey.title}</p>
+              <p className="text-sm text-slate-500">{selectedReview.title}</p>
             </div>
           </div>
 
           {/* 개인 결과 내용 */}
-          <IndividualResultView survey={selectedSurvey} employee={selectedEmployee} />
+          <IndividualResultView review={selectedReview} employee={selectedEmployee} />
         </div>
       </div>
     );
@@ -1550,16 +1550,16 @@ export default function ReviewResultsPage() {
             </Button>
             <div className="h-6 border-l border-slate-300" />
             <div>
-              <h1 className="text-xl font-bold text-slate-900">{selectedSurvey.title}</h1>
-              <p className="text-sm text-slate-500">{selectedSurvey.description}</p>
+              <h1 className="text-xl font-bold text-slate-900">{selectedReview.title}</h1>
+              <p className="text-sm text-slate-500">{selectedReview.description}</p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-              {selectedSurvey.status}
+              {selectedReview.status}
             </Badge>
-            <span className="text-sm text-slate-500">{selectedSurvey.period}</span>
+            <span className="text-sm text-slate-500">{selectedReview.period}</span>
           </div>
         </div>
 
@@ -1578,7 +1578,7 @@ export default function ReviewResultsPage() {
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            
+
             {/* 마감 상태 표시 - 개인별 결과 탭에서만 */}
             {activeTab === 'individual' && isResultFinalized && (
               <Badge className="bg-slate-100 text-slate-700 border-slate-300">
@@ -1638,7 +1638,7 @@ export default function ReviewResultsPage() {
                 <div className="flex">
                   <div className="w-[48px] px-2 py-[10.25px] flex items-center justify-center">
                     <Checkbox
-                      checked={selectedEmployeeIds.length === selectedSurvey.participants_data.length && selectedSurvey.participants_data.length > 0}
+                      checked={selectedEmployeeIds.length === selectedReview.participants_data.length && selectedReview.participants_data.length > 0}
                       onCheckedChange={handleSelectAll}
                     />
                   </div>
@@ -1665,10 +1665,10 @@ export default function ReviewResultsPage() {
                   </div>
                 </div>
               </div>
-              
+
               {/* 테이블 바디 */}
               <div className="divide-y divide-gray-200">
-                {selectedSurvey.participants_data.map((employee: Employee) => (
+                {selectedReview.participants_data.map((employee: Employee) => (
                   <div key={employee.id} className="flex items-center border-b border-gray-200 group hover:bg-gray-50 transition-colors">
                     {/* 체크박스 */}
                     <div className="w-[48px] px-2 py-[20.5px] flex items-center justify-center">
@@ -1678,7 +1678,7 @@ export default function ReviewResultsPage() {
                         onClick={(e: React.MouseEvent) => e.stopPropagation()}
                       />
                     </div>
-                    
+
                     {/* 이름 */}
                     <div className="w-[160px] px-2 py-[20.5px] cursor-pointer" onClick={() => handleEmployeeSelect(employee)}>
                       <div className="flex items-center gap-3">
@@ -1688,22 +1688,22 @@ export default function ReviewResultsPage() {
                         <span className="text-sm font-medium text-slate-900 group-hover:text-[#1e40af] transition-colors truncate">{employee.name}</span>
                       </div>
                     </div>
-                    
+
                     {/* 소속팀 */}
                     <div className="w-[120px] px-2 py-[20.5px] cursor-pointer" onClick={() => handleEmployeeSelect(employee)}>
                       <span className="text-sm text-slate-600 truncate block">{employee.department}</span>
                     </div>
-                    
+
                     {/* 직위 */}
                     <div className="w-[100px] px-2 py-[20.5px] cursor-pointer" onClick={() => handleEmployeeSelect(employee)}>
                       <span className="text-sm text-slate-600 truncate block">{employee.position}</span>
                     </div>
-                    
+
                     {/* 이메일 */}
                     <div className="w-[220px] px-2 py-[20.5px] cursor-pointer" onClick={() => handleEmployeeSelect(employee)}>
                       <span className="text-sm text-slate-600 truncate block">{employee.email}</span>
                     </div>
-                    
+
                     {/* 총점수 */}
                     <div className="w-[100px] px-2 py-[20.5px] cursor-pointer" onClick={() => handleEmployeeSelect(employee)}>
                       <div className="flex items-baseline justify-center gap-0.5">
@@ -1711,7 +1711,7 @@ export default function ReviewResultsPage() {
                         <span className="text-xs text-slate-400">/ 5</span>
                       </div>
                     </div>
-                    
+
                     {/* 최종 등급 */}
                     <div className="w-[100px] px-2 py-[20.5px] cursor-pointer" onClick={() => handleEmployeeSelect(employee)}>
                       {employee.finalGrade ? (
@@ -1720,7 +1720,7 @@ export default function ReviewResultsPage() {
                         <span className="text-sm text-slate-400">미적용</span>
                       )}
                     </div>
-                    
+
                     {/* 평가 진행률 */}
                     <div className="w-[100px] px-2 py-[20.5px] cursor-pointer" onClick={() => handleEmployeeSelect(employee)}>
                       <span className="text-sm text-slate-600">{employee.evaluatedCount}/{employee.totalEvaluators}</span>
@@ -1734,7 +1734,7 @@ export default function ReviewResultsPage() {
 
         {activeTab === 'question' && (
           <div>
-            <QuestionAnalysisView survey={selectedSurvey} />
+            <QuestionAnalysisView review={selectedReview} />
           </div>
         )}
       </div>
@@ -1757,7 +1757,7 @@ export default function ReviewResultsPage() {
           <DialogHeader className="px-6 pt-6 pb-4 border-b border-slate-200">
             <DialogTitle className="text-lg font-semibold text-slate-900">등급 적용 확인</DialogTitle>
             <DialogDescription className="text-sm text-slate-600 mt-2">
-              선택한 <span className="font-semibold text-slate-900">{selectedEmployeeIds.length}명</span>에게 
+              선택한 <span className="font-semibold text-slate-900">{selectedEmployeeIds.length}명</span>에게
               <span className="font-semibold text-slate-900"> {gradeSettings.type === 'absolute' ? '절대평가' : '상대평가'}</span> 방식으로 등급을 적용합니다.
             </DialogDescription>
           </DialogHeader>
@@ -1770,7 +1770,7 @@ export default function ReviewResultsPage() {
                 <span className="w-[110px] text-center">기존 등급</span>
                 <span className="w-[110px] text-center">변경 등급</span>
               </div>
-              
+
               {calculateGradePreview().map((employee: any) => (
                 <div key={employee.id} className="flex items-center justify-between px-3 py-3 border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">
                   <div className="w-[200px] flex items-center gap-3">
@@ -1782,14 +1782,14 @@ export default function ReviewResultsPage() {
                       <span className="text-xs text-slate-500">{employee.department}</span>
                     </div>
                   </div>
-                  
+
                   <div className="w-[100px] text-center">
                     <div className="flex items-baseline justify-center gap-0.5">
                       <span className="text-lg font-bold text-slate-900">{employee.avgScore.toFixed(1)}</span>
                       <span className="text-xs text-slate-400">/ 5</span>
                     </div>
                   </div>
-                  
+
                   <div className="w-[110px] text-center">
                     {employee.finalGrade ? (
                       <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-slate-100 text-sm font-medium text-slate-700">
@@ -1799,7 +1799,7 @@ export default function ReviewResultsPage() {
                       <span className="text-sm text-slate-400">미적용</span>
                     )}
                   </div>
-                  
+
                   <div className="w-[110px] text-center">
                     <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-blue-50 text-sm font-semibold text-[#1e40af]">
                       {employee.newGrade}
@@ -1811,8 +1811,8 @@ export default function ReviewResultsPage() {
           </div>
 
           <DialogFooter className="px-6 py-4 border-t border-slate-200 bg-slate-50">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setIsConfirmDialogOpen(false)}
               className="border-slate-300 text-slate-700 hover:bg-white"
             >

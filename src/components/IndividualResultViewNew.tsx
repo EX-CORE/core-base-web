@@ -23,30 +23,30 @@ interface Employee {
   }>;
 }
 
-export function IndividualResultView({ survey, employee }: { survey: any, employee: Employee }) {
+export function IndividualResultView({ review, employee }: { review: any, employee: Employee }) {
   // 평균 점수만 계산 (민감 정보인 평가 인원 등은 제외)
   const getAverageScore = (questionId: number) => {
     const response = employee.responses.find(r => r.questionId === questionId);
     if (!response || response.evaluations.length === 0) return null;
-    
+
     const scores = response.evaluations.map((e: any) => e.score).filter(score => score !== undefined);
     if (scores.length === 0) return null;
-    
+
     const sum = scores.reduce((acc: number, score: number) => acc + score, 0);
     return (sum / scores.length).toFixed(1);
   };
 
   // 섹션별 평균 계산
   const getSectionAverage = (sectionId: number) => {
-    const section = survey.sections.find((s: any) => s.id === sectionId);
+    const section = review.sections.find((s: any) => s.id === sectionId);
     if (!section) return null;
-    
+
     const ratingQuestions = section.questions.filter((q: any) => q.type === 'rating');
     if (ratingQuestions.length === 0) return null;
-    
+
     let totalScore = 0;
     let validQuestions = 0;
-    
+
     ratingQuestions.forEach((question: any) => {
       const avgScore = getAverageScore(question.id);
       if (avgScore !== null) {
@@ -54,17 +54,17 @@ export function IndividualResultView({ survey, employee }: { survey: any, employ
         validQuestions += 1;
       }
     });
-    
+
     return validQuestions > 0 ? (totalScore / validQuestions).toFixed(1) : null;
   };
 
   // 전체 평균 점수 계산 (등급형 문항만)
   const calculateFinalScore = () => {
     if (!employee.responses || employee.responses.length === 0) return 0;
-    
+
     let totalScore = 0;
     let totalQuestions = 0;
-    
+
     employee.responses.forEach(response => {
       if (response.evaluations && response.evaluations.length > 0) {
         const scores = response.evaluations.map((e: any) => e.score).filter(score => score !== undefined);
@@ -76,14 +76,14 @@ export function IndividualResultView({ survey, employee }: { survey: any, employ
         }
       }
     });
-    
+
     return totalQuestions > 0 ? totalScore / totalQuestions : 0;
   };
 
   const finalScore = calculateFinalScore();
-  
+
   // 등급형 문항 수 계산
-  const ratingQuestionsCount = survey.sections.reduce((acc: number, s: any) => 
+  const ratingQuestionsCount = review.sections.reduce((acc: number, s: any) =>
     acc + s.questions.filter((q: any) => q.type === 'rating').length, 0
   );
 
@@ -93,9 +93,9 @@ export function IndividualResultView({ survey, employee }: { survey: any, employ
       <div className="bg-white border border-slate-200 rounded-lg p-6">
         <div className="mb-5">
           <h4 className="text-sm font-semibold text-slate-900">피평가자 정보</h4>
-          <p className="text-xs text-slate-500 mt-0.5">{survey.title}</p>
+          <p className="text-xs text-slate-500 mt-0.5">{review.title}</p>
         </div>
-        
+
         <div className="grid grid-cols-5 gap-6">
           <div>
             <p className="text-xs text-slate-500 mb-1">이름</p>
@@ -125,9 +125,9 @@ export function IndividualResultView({ survey, employee }: { survey: any, employ
 
       {/* 섹션별 평가 결과 */}
       <div className="space-y-4">
-        {survey.sections.map((section: any, sectionIndex: number) => {
+        {review.sections.map((section: any, sectionIndex: number) => {
           const sectionAvg = getSectionAverage(section.id);
-          
+
           return (
             <div key={section.id} className="bg-white border border-slate-200 rounded-lg overflow-hidden">
               {/* 섹션 헤더 */}
@@ -159,7 +159,7 @@ export function IndividualResultView({ survey, employee }: { survey: any, employ
                 {section.questions.map((question: any, qIndex: number) => {
                   const avgScore = question.type === 'rating' ? getAverageScore(question.id) : null;
                   const isRequired = question.required || question.type === 'rating';
-                  
+
                   return (
                     <div key={question.id} className="flex items-center hover:bg-slate-50/50 transition-colors">
                       {/* No와 유형 */}
@@ -167,8 +167,8 @@ export function IndividualResultView({ survey, employee }: { survey: any, employ
                         <div className="bg-slate-100 rounded-full size-6 flex items-center justify-center flex-shrink-0">
                           <span className="text-xs font-medium text-[#45556c]">{qIndex + 1}</span>
                         </div>
-                        <Badge 
-                          variant="secondary" 
+                        <Badge
+                          variant="secondary"
                           className={`text-xs h-[22px] ${
                             question.type === 'rating' 
                               ? 'bg-purple-50 text-purple-700 border-purple-200' 

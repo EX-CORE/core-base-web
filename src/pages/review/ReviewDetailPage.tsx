@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Switch } from './ui/switch';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
-import { Progress } from './ui/progress';
-import svgPaths from '../imports/svg-25i530eo2g';
-import EvaluatorMappingModal from './EvaluatorMappingModal';
-import { 
-  ArrowLeft, 
-  Eye, 
+import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import { Switch } from '../../components/ui/switch';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../components/ui/collapsible';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialog';
+import { Progress } from '../../components/ui/progress';
+import svgPaths from '../../imports/svg-25i530eo2g';
+import EvaluatorMappingModal from '../../components/EvaluatorMappingModal';
+import {
+  ArrowLeft,
+  Eye,
   Save,
   Edit3,
   ChevronUp,
@@ -24,14 +24,10 @@ import {
   BarChart3,
   Play
 } from 'lucide-react';
+import {useNavigate, useParams} from "react-router-dom";
 
-interface SurveyDetailPageProps {
-  surveyId: number;
-  onBack: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
+interface ReviewDetailPageProps {
   onPreview?: () => void;
-  onSave?: () => void;
 }
 
 // 등급형 문항 설정 인터페이스
@@ -41,7 +37,7 @@ interface RatingOption {
 }
 
 // 임시 데이터 - 실제 리뷰 상세 정보
-const mockSurveyData = {
+const mockReviewData = {
   1: {
     id: 1,
     title: '상반기 인사평가',
@@ -131,7 +127,9 @@ const mockSurveyData = {
   }
 };
 
-export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, onPreview, onSave }: SurveyDetailPageProps) {
+export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
+  const navigate = useNavigate();
+  const { reviewId } = useParams<{ reviewId?: string }>();
   const [ratingConfigExpanded, setRatingConfigExpanded] = useState(true);
   const [questionRatingExpanded, setQuestionRatingExpanded] = useState(true);
   const [statisticsExpanded, setStatisticsExpanded] = useState(true);
@@ -139,7 +137,15 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
   const [isTargetModalOpen, setIsTargetModalOpen] = useState(false);
   const [isParticipationModalOpen, setIsParticipationModalOpen] = useState(false);
   const [isMappingModalOpen, setIsMappingModalOpen] = useState(false);
-  const surveyData = mockSurveyData[1]; // 읽기 전용으로 변경
+  const reviewData = mockReviewData[1]; // 읽기 전용으로 변경
+
+  const onEditClicked = () => {
+    navigate(`/management/review/${reviewId}/edit`);
+  };
+
+  const onBack = () => {
+    navigate(`/management/review/list`);
+  };
 
   // 문항으로 스크롤하는 함수
   const scrollToQuestion = (questionId: number) => {
@@ -157,7 +163,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
     }
   };
 
-  const handleStartSurvey = () => {
+  const handleStartReview = () => {
     setIsMappingModalOpen(true);
   };
 
@@ -211,22 +217,22 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
             </button>
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-bold text-[#101828] leading-8">리뷰 상세</h1>
-              {getStatusBadge(surveyData.status)}
+              {getStatusBadge(reviewData.status)}
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="bg-white border-gray-200 text-[#4a5565] hover:bg-gray-50 h-9 px-4 py-2 gap-2 rounded-[4px]"
               onClick={handlePreview}
             >
               <Eye className="h-4 w-4" />
               <span className="text-sm font-medium leading-5">미리보기</span>
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="bg-white border-gray-200 text-[#4a5565] hover:bg-gray-50 h-9 px-4 py-2 gap-2 rounded-[4px]"
-              onClick={onEdit}
+              onClick={onEditClicked}
             >
               <Edit3 className="h-4 w-4" />
               <span className="text-sm font-medium leading-5">수정하기</span>
@@ -239,7 +245,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
           <main className="flex-1">
             <div className="flex flex-col gap-8">
               {/* 완료된 리뷰 통계 배너 */}
-              {surveyData.status === 'completed' && (
+              {reviewData.status === 'completed' && (
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-[8px] p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -251,7 +257,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                         <p className="text-xs text-blue-700">상세한 결과 분석과 인사이트를 확인하세요</p>
                       </div>
                     </div>
-                    <Button 
+                    <Button
                       className="bg-blue-600 hover:bg-blue-700 text-white h-9 px-4 py-2 gap-2 rounded-[4px]"
                       onClick={() => alert('리뷰 통계 페이지로 이동합니다.')}
                     >
@@ -263,7 +269,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
               )}
 
               {/* 임시저장된 리뷰 시작하기 배너 */}
-              {surveyData.status === 'draft' && (
+              {reviewData.status === 'draft' && (
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-[8px] p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -275,9 +281,9 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                         <p className="text-xs text-green-700">평가자와 피평가자 매핑을 설정하여 리뷰를 시작하세요</p>
                       </div>
                     </div>
-                    <Button 
+                    <Button
                       className="bg-green-600 hover:bg-green-700 text-white h-9 px-4 py-2 gap-2 rounded-[4px]"
-                      onClick={handleStartSurvey}
+                      onClick={handleStartReview}
                     >
                       <Play className="h-4 w-4" />
                       <span className="text-sm font-medium leading-5">리뷰 시작하기</span>
@@ -292,33 +298,33 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                   {/* 리뷰 제목과 설명 */}
                   <div className="flex flex-col gap-2">
                     <h2 className="text-[22px] font-medium text-[#101828] leading-7">
-                      {surveyData.title}
+                      {reviewData.title}
                     </h2>
                     <p className="text-base text-[#101828] leading-5 pt-1">
-                      {surveyData.description}
+                      {reviewData.description}
                     </p>
                   </div>
-                  
+
                   {/* 기본 정보 그리드 */}
                   <div className="grid grid-cols-2 gap-6">
                     <div className="flex flex-col gap-2">
                       <Label className="text-sm font-medium text-[#6a7282] leading-5">진행 기간</Label>
                       <div className="bg-white border border-[#eaeaea] rounded-[4px] h-9 px-4 py-2 flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-zinc-700 leading-[14px]">{surveyData.startDate}</span>
+                          <span className="text-sm font-medium text-zinc-700 leading-[14px]">{reviewData.startDate}</span>
                           <span className="text-sm font-medium text-zinc-700 leading-[14px]">~</span>
-                          <span className="text-sm font-medium text-zinc-700 leading-[14px]">{surveyData.endDate}</span>
+                          <span className="text-sm font-medium text-zinc-700 leading-[14px]">{reviewData.endDate}</span>
                         </div>
                         <div className="h-[13.125px] w-3.5">
                           <Calendar className="h-4 w-4 text-black" />
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex flex-col gap-2">
                       <Label className="text-sm font-medium text-[#6a7282] leading-5">생성일</Label>
                       <div className="bg-white border border-[#eaeaea] rounded-[4px] h-9 px-4 py-2 flex items-center">
-                        <span className="text-sm font-medium text-zinc-700 leading-[14px]">{surveyData.createdDate}</span>
+                        <span className="text-sm font-medium text-zinc-700 leading-[14px]">{reviewData.createdDate}</span>
                       </div>
                     </div>
                   </div>
@@ -334,11 +340,11 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                       >
                         <Users className="h-4 w-4" />
                         <span className="text-sm font-medium leading-5">
-                          {surveyData.participants.evaluators.length}명 선택됨
+                          {reviewData.participants.evaluators.length}명 선택됨
                         </span>
                       </Button>
                     </div>
-                    
+
                     <div className="flex flex-col gap-2">
                       <Label className="text-sm font-medium text-[#6a7282] leading-5">피평가자</Label>
                       <Button
@@ -348,7 +354,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                       >
                         <UserCheck className="h-4 w-4" />
                         <span className="text-sm font-medium leading-5">
-                          {surveyData.participants.targets.length}명 선택됨
+                          {reviewData.participants.targets.length}명 선택됨
                         </span>
                       </Button>
                     </div>
@@ -370,9 +376,9 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                       <ChevronDown className="h-6 w-6 mt-1" />
                     )}
                   </CollapsibleTrigger>
-                  
+
                   <div className="h-0 border-b border-[#E4E4E7] mb-4"></div>
-                  
+
                   <CollapsibleContent>
                     <div className="space-y-6">
                       {/* 참여율 바 그래프 */}
@@ -381,20 +387,20 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                           <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-1">
                               <span className="text-sm font-medium text-blue-700">참여율</span>
-                              <span className="text-2xl font-bold text-blue-800">{surveyData.statistics.responseRate}%</span>
+                              <span className="text-2xl font-bold text-blue-800">{reviewData.statistics.responseRate}%</span>
                             </div>
                             <button
                               onClick={() => setIsParticipationModalOpen(true)}
                               className="text-xs text-blue-600 hover:text-blue-800 underline"
                             >
-                              {surveyData.statistics.totalResponses}/{surveyData.statistics.totalTargets}명 참여
+                              {reviewData.statistics.totalResponses}/{reviewData.statistics.totalTargets}명 참여
                             </button>
                           </div>
                           <div className="space-y-2">
-                            <Progress value={surveyData.statistics.responseRate} className="h-3" />
+                            <Progress value={reviewData.statistics.responseRate} className="h-3" />
                             <div className="flex justify-between text-xs text-blue-600">
-                              <span>완료: {surveyData.participants.evaluators.filter(e => e.completed).length}명</span>
-                              <span>미완료: {surveyData.participants.evaluators.filter(e => !e.completed).length}명</span>
+                              <span>완료: {reviewData.participants.evaluators.filter(e => e.completed).length}명</span>
+                              <span>미완료: {reviewData.participants.evaluators.filter(e => !e.completed).length}명</span>
                             </div>
                           </div>
                         </div>
@@ -403,7 +409,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                   </CollapsibleContent>
                 </div>
               </Collapsible>
-                
+
               {/* 등급형 문항 설정 */}
               <Collapsible open={ratingConfigExpanded} onOpenChange={setRatingConfigExpanded}>
                 <div className="bg-[#fdfdfd] border border-[#f1f1f1] rounded-[8px] p-6">
@@ -418,12 +424,12 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                       <ChevronDown className="h-6 w-6 mt-1" />
                     )}
                   </CollapsibleTrigger>
-                  
+
                   <div className="h-0 border-b border-[#E4E4E7] mb-4"></div>
-                  
+
                   <CollapsibleContent>
                     <div className="flex flex-col gap-2">
-                      {surveyData.ratingOptions.map((option, index) => (
+                      {reviewData.ratingOptions.map((option, index) => (
                         <div key={index} className="flex items-center gap-4 pl-4">
                           <div className="flex-1 flex items-center gap-6">
                             <div className="flex-1 bg-white border border-[#eaeaea] rounded-[4px] px-[8.67px] py-[8.667px] min-h-9">
@@ -445,7 +451,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
 
               {/* 문항들 */}
               <div className="flex flex-col gap-6">
-                {surveyData.questions.map((question, questionIndex) => (
+                {reviewData.questions.map((question, questionIndex) => (
                   <div id={`question-${question.id}`} key={question.id} className="bg-white border border-slate-200 rounded-[10px] p-6">
                     <div className="flex flex-col gap-9">
                       {/* 문항 헤더 */}
@@ -465,7 +471,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                               </span>
                             </div>
                             <div className="flex items-center gap-2 pl-2">
-                              <Switch 
+                              <Switch
                                 checked={question.required}
                                 disabled={true}
                                 className="opacity-50"
@@ -477,7 +483,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="flex flex-col gap-2">
                             <h3 className="text-[22px] font-semibold text-[#101828] leading-7 w-full">
                               {question.title}
@@ -503,9 +509,9 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                                 <ChevronDown className="h-6 w-6 mt-1" />
                               )}
                             </CollapsibleTrigger>
-                            
+
                             <div className="h-0 border-b border-[#E4E4E7] mb-4"></div>
-                            
+
                             <CollapsibleContent>
                               <div className="px-1 flex flex-col gap-2">
                                 {question.ratingOptions?.map((option, index) => (
@@ -533,7 +539,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                               <h4 className="text-sm font-medium text-slate-800 leading-[14px] text-left">선택지</h4>
                             </div>
                           </div>
-                          
+
                           <div className="px-1 flex flex-col gap-2">
                             {question.options?.map((option, index) => (
                               <div key={index} className="flex items-center gap-2">
@@ -553,7 +559,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                               <h4 className="text-sm font-medium text-slate-800 leading-[14px] text-left">주관식 응답</h4>
                             </div>
                           </div>
-                          
+
                           <div className="px-1">
                             <div className="bg-gray-50 border border-gray-200 rounded-[4px] p-3">
                               <p className="text-sm text-gray-500">답변자가 텍스트로 자유롭게 응답할 수 있습니다.</p>
@@ -577,10 +583,10 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                   <div className="flex items-center justify-between">
                     <h3 className="text-base font-medium text-[#101828] leading-5">리뷰 구조</h3>
                     <div className="bg-slate-50 px-[9px] py-[3px] rounded-[4px]">
-                      <span className="text-xs font-medium text-slate-600 leading-4">{surveyData.questions.length}개 문항</span>
+                      <span className="text-xs font-medium text-slate-600 leading-4">{reviewData.questions.length}개 문항</span>
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -589,9 +595,9 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                         </svg>
                         <span className="text-sm text-slate-500 leading-5">객관식</span>
                       </div>
-                      <span className="text-sm text-slate-500 leading-5">{surveyData.questions.filter(q => q.type === 'multiple').length}개</span>
+                      <span className="text-sm text-slate-500 leading-5">{reviewData.questions.filter(q => q.type === 'multiple').length}개</span>
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 16 16">
@@ -599,9 +605,9 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                         </svg>
                         <span className="text-sm text-slate-500 leading-5">등급형</span>
                       </div>
-                      <span className="text-sm text-slate-500 leading-5">{surveyData.questions.filter(q => q.type === 'rating').length}개</span>
+                      <span className="text-sm text-slate-500 leading-5">{reviewData.questions.filter(q => q.type === 'rating').length}개</span>
                     </div>
-                    
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 16 16">
@@ -613,7 +619,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                         </svg>
                         <span className="text-sm text-slate-500 leading-5">주관식</span>
                       </div>
-                      <span className="text-sm text-slate-500 leading-5">{surveyData.questions.filter(q => q.type === 'text').length}개</span>
+                      <span className="text-sm text-slate-500 leading-5">{reviewData.questions.filter(q => q.type === 'text').length}개</span>
                     </div>
                   </div>
                 </div>
@@ -622,7 +628,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
                 <div className="flex flex-col gap-3">
                   <h4 className="text-sm font-medium text-[#101828] leading-5">목차</h4>
                   <div className="flex flex-col gap-1">
-                    {surveyData.questions.map((question, index) => (
+                    {reviewData.questions.map((question, index) => (
                       <button
                         key={question.id}
                         onClick={() => scrollToQuestion(question.id)}
@@ -659,7 +665,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
-              {surveyData.participants.evaluators.map((evaluator) => (
+              {reviewData.participants.evaluators.map((evaluator) => (
                 <div key={evaluator.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex flex-col">
                     <span className="font-medium">{evaluator.name}</span>
@@ -688,7 +694,7 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
-              {surveyData.participants.targets.map((target) => (
+              {reviewData.participants.targets.map((target) => (
                 <div key={target.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex flex-col">
                     <span className="font-medium">{target.name}</span>
@@ -713,21 +719,21 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-green-50 p-4 rounded-lg">
                   <div className="text-2xl font-bold text-green-700">
-                    {surveyData.participants.evaluators.filter(e => e.completed).length}명
+                    {reviewData.participants.evaluators.filter(e => e.completed).length}명
                   </div>
                   <div className="text-sm text-green-600">완료</div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-2xl font-bold text-gray-700">
-                    {surveyData.participants.evaluators.filter(e => !e.completed).length}명
+                    {reviewData.participants.evaluators.filter(e => !e.completed).length}명
                   </div>
                   <div className="text-sm text-gray-600">미완료</div>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <h4 className="font-medium">평가자별 현황</h4>
-                {surveyData.participants.evaluators.map((evaluator) => (
+                {reviewData.participants.evaluators.map((evaluator) => (
                   <div key={evaluator.id} className="flex items-center justify-between p-2 border rounded">
                     <span>{evaluator.name}</span>
                     <div className={`px-2 py-1 rounded text-xs font-medium ${
@@ -749,8 +755,8 @@ export default function SurveyDetailPage({ surveyId, onBack, onEdit, onDelete, o
           isOpen={isMappingModalOpen}
           onClose={() => setIsMappingModalOpen(false)}
           onConfirm={handleMappingConfirm}
-          evaluators={surveyData.participants.evaluators}
-          targets={surveyData.participants.targets}
+          evaluators={reviewData.participants.evaluators}
+          targets={reviewData.participants.targets}
         />
       </div>
     </div>

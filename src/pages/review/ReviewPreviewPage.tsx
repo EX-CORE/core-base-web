@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
-import { Label } from './ui/label';
-import { Badge } from './ui/badge';
-import { Progress } from './ui/progress';
+import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
+import { Textarea } from '../../components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
+import { Label } from '../../components/ui/label';
+import { Badge } from '../../components/ui/badge';
+import { Progress } from '../../components/ui/progress';
 import { ArrowLeft, Star, Clock } from 'lucide-react';
 
 interface Question {
@@ -25,19 +25,19 @@ interface Employee {
   email: string;
 }
 
-interface SurveyPreviewPageProps {
+interface ReviewPreviewPageProps {
   questions: Question[];
   selectedEvaluators: Employee[];
   selectedTargets: Employee[];
   onBack: () => void;
 }
 
-export default function SurveyPreviewPage({
+export default function ReviewPreviewPage({
   questions,
   selectedEvaluators,
   selectedTargets,
   onBack
-}: SurveyPreviewPageProps) {
+}: ReviewPreviewPageProps) {
   const [answers, setAnswers] = useState<{ [key: number]: any }>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -124,7 +124,7 @@ export default function SurveyPreviewPage({
                     id={`${question.id}-rating-${rating}`}
                     className="w-6 h-6"
                   />
-                  <Label 
+                  <Label
                     htmlFor={`${question.id}-rating-${rating}`}
                     className="cursor-pointer text-center"
                   >
@@ -166,7 +166,7 @@ export default function SurveyPreviewPage({
             </div>
           </div>
         </header>
-        
+
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="text-center space-y-4">
             <div className="w-16 h-16 mx-auto bg-muted rounded-full flex items-center justify-center">
@@ -216,7 +216,7 @@ export default function SurveyPreviewPage({
                   각 문항에 대해 신중히 답변해 주세요.
                 </p>
               </div>
-              
+
               {/* 진행률 */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
@@ -248,7 +248,7 @@ export default function SurveyPreviewPage({
                       </div>
                     </div>
                   )}
-                  
+
                   {selectedTargets.length > 0 && (
                     <div className="space-y-2">
                       <h4 className="text-sm text-muted-foreground">평가 대상</h4>
@@ -318,7 +318,7 @@ export default function SurveyPreviewPage({
             >
               이전
             </Button>
-            
+
             <div className="flex gap-2">
               {currentQuestionIndex < questions.length - 1 ? (
                 <Button onClick={handleNext}>
