@@ -1,5 +1,5 @@
 import * as React from "react";
-import svgPathsSidebar from '../imports/svg-63i0icnlwn';
+import svgPathsSidebar from '../../imports/svg-63i0icnlwn';
 
 type Props = {
     onClick?: () => void;

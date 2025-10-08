@@ -2,7 +2,7 @@ import { useSidebar } from "src/store/use-sidebar";
 import SideInfoBox from "./SideInfoBox";
 import SideLogoBox from "./SideLogoBox";
 import SideMenuList from "./SideMenuList";
-import SideBarToggleButton from "../SideBarToggleButton";
+import SideBarToggleButton from "./SideBarToggleButton";
 
 export default function Toggle() {
   const { isOpen, onOpen, onClose, temporaryOpen, onMouseOver, onMouseLeave } =
