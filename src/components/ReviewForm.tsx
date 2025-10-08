@@ -12,14 +12,14 @@ interface RatingConfig {
   scores: number[];
 }
 
-interface SurveyFormProps {
+interface ReviewFormProps {
   onAddQuestion: (type?: 'multiple' | 'text' | 'rating') => void;
   ratingConfig: RatingConfig;
   onUpdateRatingConfig: (config: RatingConfig) => void;
 }
 
-export default function SurveyForm({ onAddQuestion, ratingConfig, onUpdateRatingConfig }: SurveyFormProps) {
-  const [surveyData, setSurveyData] = useState({
+export default function ReviewForm({ onAddQuestion, ratingConfig, onUpdateRatingConfig }: ReviewFormProps) {
+  const [reviewData, setReviewData] = useState({
     title: '',
     description: '',
     startDate: '',
@@ -30,7 +30,7 @@ export default function SurveyForm({ onAddQuestion, ratingConfig, onUpdateRating
   const [newRatingOption, setNewRatingOption] = useState('');
 
   const handleInputChange = (field: string, value: string | boolean) => {
-    setSurveyData(prev => ({
+    setReviewData(prev => ({
       ...prev,
       [field]: value
     }));
@@ -83,26 +83,26 @@ export default function SurveyForm({ onAddQuestion, ratingConfig, onUpdateRating
             <h2 className="text-xl text-gray-900 mb-2">기본 정보</h2>
             <p className="text-gray-600 text-sm">리뷰의 기본 정보를 입력하세요</p>
           </div>
-          
+
           <div className="space-y-4">
             <div>
               <Label htmlFor="title">리뷰 제목</Label>
               <Input
                 id="title"
                 placeholder="리뷰 제목을 입력해주세요"
-                value={surveyData.title}
+                value={reviewData.title}
                 onChange={(e) => handleInputChange('title', e.target.value)}
                 className="mt-1"
               />
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="startDate">시작일</Label>
                 <Input
                   id="startDate"
                   type="date"
-                  value={surveyData.startDate}
+                  value={reviewData.startDate}
                   onChange={(e) => handleInputChange('startDate', e.target.value)}
                   className="mt-1"
                 />
@@ -112,7 +112,7 @@ export default function SurveyForm({ onAddQuestion, ratingConfig, onUpdateRating
                 <Input
                   id="endDate"
                   type="date"
-                  value={surveyData.endDate}
+                  value={reviewData.endDate}
                   onChange={(e) => handleInputChange('endDate', e.target.value)}
                   className="mt-1"
                 />
@@ -143,7 +143,7 @@ export default function SurveyForm({ onAddQuestion, ratingConfig, onUpdateRating
             </div>
           </Button>
         </CollapsibleTrigger>
-        
+
         <CollapsibleContent className="pt-6">
           <div className="bg-white border border-gray-200 rounded-lg p-6 space-y-8">
             {/* 리뷰 설명 */}
@@ -160,7 +160,7 @@ export default function SurveyForm({ onAddQuestion, ratingConfig, onUpdateRating
               <Textarea
                 id="description"
                 placeholder="리뷰에 대한 설명을 입력해주세요 (선택사항)"
-                value={surveyData.description}
+                value={reviewData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
                 rows={4}
                 className="border-gray-200 resize-none"
@@ -180,16 +180,16 @@ export default function SurveyForm({ onAddQuestion, ratingConfig, onUpdateRating
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-sm text-gray-600">{surveyData.useRating ? '활성화' : '비활성화'}</span>
+                  <span className="text-sm text-gray-600">{reviewData.useRating ? '활성화' : '비활성화'}</span>
                   <Switch
                     id="useRating"
-                    checked={surveyData.useRating}
+                    checked={reviewData.useRating}
                     onCheckedChange={(checked) => handleInputChange('useRating', checked)}
                   />
                 </div>
               </div>
 
-              {surveyData.useRating && (
+              {reviewData.useRating && (
                 <div className="space-y-4 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
                   <div className="space-y-3">
                     <Label className="font-medium text-gray-900">등급별 라벨 및 점수</Label>
@@ -230,7 +230,7 @@ export default function SurveyForm({ onAddQuestion, ratingConfig, onUpdateRating
                         </Button>
                       </div>
                     ))}
-                    
+
                     <div className="flex items-center gap-3 p-3 border-2 border-dashed border-blue-300 rounded-lg bg-white/50">
                       <div className="flex items-center gap-2 flex-1">
                         <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center border-2 border-dashed border-blue-300">
@@ -275,7 +275,7 @@ export default function SurveyForm({ onAddQuestion, ratingConfig, onUpdateRating
                       <div>
                         <p className="text-sm text-blue-800 font-medium mb-1">등급형 문항 일괄 적용</p>
                         <p className="text-sm text-blue-700">
-                          이 설정은 모든 등급형 문항에 자동으로 적용됩니다. 
+                          이 설정은 모든 등급형 문항에 자동으로 적용됩니다.
                           등급형 문항 추가 시 동일한 설정이 사용됩니다.
                         </p>
                       </div>

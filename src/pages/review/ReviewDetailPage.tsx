@@ -27,7 +27,6 @@ import {
 import {useNavigate, useParams} from "react-router-dom";
 
 interface ReviewDetailPageProps {
-  onBack?: () => void;
   onPreview?: () => void;
 }
 
@@ -128,7 +127,7 @@ const mockReviewData = {
   }
 };
 
-export default function ReviewDetailPage({onBack, onPreview }: ReviewDetailPageProps) {
+export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
   const navigate = useNavigate();
   const { reviewId } = useParams<{ reviewId?: string }>();
   const [ratingConfigExpanded, setRatingConfigExpanded] = useState(true);
@@ -142,6 +141,10 @@ export default function ReviewDetailPage({onBack, onPreview }: ReviewDetailPageP
 
   const onEditClicked = () => {
     navigate(`/management/review/${reviewId}/edit`);
+  };
+
+  const onBack = () => {
+    navigate(`/management/review/list`);
   };
 
   // 문항으로 스크롤하는 함수
