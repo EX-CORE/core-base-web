@@ -1,5 +1,5 @@
 import "../../style/App.css";
-import { Button } from "src/components/Button";
+import { Button } from "../../components/Button";
 import SearchInput from "src/components/SearchInput";
 
 import { EllipsisVertical } from "lucide-react";

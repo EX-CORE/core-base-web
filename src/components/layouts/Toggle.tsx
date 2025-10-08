@@ -1,9 +1,8 @@
-import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
 import { useSidebar } from "src/store/use-sidebar";
-import { Button } from "../Button";
 import SideInfoBox from "./SideInfoBox";
 import SideLogoBox from "./SideLogoBox";
 import SideMenuList from "./SideMenuList";
+import SideBarToggleButton from "../SideBarToggleButton";
 
 export default function Toggle() {
   const { isOpen, onOpen, onClose, temporaryOpen, onMouseOver, onMouseLeave } =
@@ -13,9 +12,7 @@ export default function Toggle() {
     <>
       {isOpen && (
         <div className="flex flex-col w-full h-full p-6 relative">
-          <Button variant={"ghost"} onClick={onClose}>
-            <ArrowLeftFromLine className="h-4 w-4 ml-auto" />
-          </Button>
+          <SideBarToggleButton onClick={onClose}></SideBarToggleButton>
           <SideLogoBox />
           <SideMenuList />
           <SideInfoBox className="absolute bottom-4" />
@@ -27,9 +24,7 @@ export default function Toggle() {
           className="flex flex-col w-full h-full p-6 relative"
           onMouseLeave={onMouseLeave}
         >
-          <Button variant={"ghost"} onClick={onOpen}>
-            <ArrowRightFromLine className="h-4 w-4 ml-auto" />
-          </Button>
+          <SideBarToggleButton onClick={onOpen}></SideBarToggleButton>
           <SideLogoBox />
           <SideMenuList />
           <SideInfoBox className="absolute bottom-4" />
@@ -38,9 +33,7 @@ export default function Toggle() {
 
       {!isOpen && !temporaryOpen && (
         <div className="flex flex-col w-full h-full pt-6 relative ">
-          <Button variant={"ghost"} onClick={onOpen} onMouseOver={onMouseOver}>
-            <ArrowRightFromLine className="h-4 w-4 " />
-          </Button>
+          <SideBarToggleButton onClick={onOpen} onMouseOver={onMouseOver}></SideBarToggleButton>
         </div>
       )}
     </>
