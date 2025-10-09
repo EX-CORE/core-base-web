@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
-import { Switch } from './ui/switch';
-import { Button } from './ui/button';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import { Textarea } from '../../components/ui/textarea';
+import { Switch } from '../../components/ui/switch';
+import { Button } from '../../components/ui/button';
 import { ChevronDown, ChevronUp, Settings, Plus, X } from 'lucide-react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../components/ui/collapsible';
 
 interface RatingConfig {
   options: string[];
@@ -13,12 +13,11 @@ interface RatingConfig {
 }
 
 interface ReviewFormProps {
-  onAddQuestion: (type?: 'multiple' | 'text' | 'rating') => void;
-  ratingConfig: RatingConfig;
-  onUpdateRatingConfig: (config: RatingConfig) => void;
+  onAddQuestion?: (type?: 'multiple' | 'text' | 'rating') => void;
+  onUpdateRatingConfig: (newConfig: RatingConfig) => void;
 }
 
-export default function ReviewForm({ onAddQuestion, ratingConfig, onUpdateRatingConfig }: ReviewFormProps) {
+export default function ReviewForm({ onAddQuestion, onUpdateRatingConfig }: ReviewFormProps) {
   const [reviewData, setReviewData] = useState({
     title: '',
     description: '',
@@ -28,6 +27,10 @@ export default function ReviewForm({ onAddQuestion, ratingConfig, onUpdateRating
   });
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
   const [newRatingOption, setNewRatingOption] = useState('');
+  const ratingConfig = {
+    options: ['매우 부족', '부족', '보통', '우수', '매우 우수'],
+    scores: [1, 2, 3, 4, 5]
+  };
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setReviewData(prev => ({
