@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { client } from "./axios";
 import {dummyFetch} from "./dummy"
-import {mockReviews} from "../pages/review/mockData";
+import {mockReviews, mockReviewDetails} from "../pages/review/mockData";
 import {ReviewState} from "../types";
 
 // export const useGetOrganizationReviews = (organizationId: string) => {
@@ -34,6 +34,38 @@ export const useGetOrganizationReviews = (organizationId: string) => {
         state: r.state,
       }));
       return await dummyFetch<ReviewRes[]>(mapped);
+    },
+  });
+};
+
+export interface ReviewDetailRes {
+  id: number;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  createdDate: string;
+  state: ReviewState;
+  participants: {
+    evaluators: any[];
+    targets: any[];
+  };
+  statistics: {
+    totalResponses: number;
+    totalTargets: number;
+    responseRate: number;
+    averageScore: number;
+  };
+  ratingOptions: { label: string; score: number }[];
+  questions: any[];
+}
+
+export const useGetReviewDetails = (reviewId: number) => {
+  return useQuery<ReviewDetailRes | undefined>({
+    queryKey: ["reviewDetail", reviewId],
+    queryFn: async () => {
+      const data = mockReviewDetails[reviewId as keyof typeof mockReviewDetails] as ReviewDetailRes | undefined;
+      return await dummyFetch<ReviewDetailRes | undefined>(data);
     },
   });
 };

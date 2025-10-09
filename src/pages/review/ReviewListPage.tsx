@@ -21,6 +21,7 @@ import { useGetOrganizationReviews } from '../../services/review';
 import { getCookieValue } from '../../lib/cookies';
 import { mockReviews } from './mockData';
 import {ReviewState} from "../../types";
+import ReviewStateBadge, { getStateBadge } from 'src/components/review/ReviewStateBadge';
 
 interface Person {
   id: number;
@@ -64,37 +65,7 @@ export default function ReviewListPage() {
   const [modalTitle, setModalTitle] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getStateBadge = (status: ReviewItem['state']) => {
-    const stateConfig = {
-      [ReviewState.READY]: {
-        label: '시작전',
-        className: 'bg-amber-50 text-amber-600 border-amber-500'
-      },
-      [ReviewState.PROCESS]: {
-        label: '진행중',
-        className: 'bg-green-50 text-green-600 border-green-500'
-      },
-      [ReviewState.DONE]: {
-        label: '종료',
-        className: 'bg-gray-50 text-gray-500 border-gray-200'
-      },
-      [ReviewState.STOPPED]: {
-        label: '중단됨',
-        className: 'bg-red-50 text-red-600 border-red-500'
-      },
-      [ReviewState.DELETED]: {
-        label: '삭제됨',
-        className: 'bg-gray-50 text-gray-400 border-gray-200'
-      },
-    };
-
-    const config = stateConfig[status];
-    return (
-      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${config.className}`}>
-        {config.label}
-      </span>
-    );
-  };
+  // getStateBadge는 StateBadge에서 export된 공통 유틸을 사용합니다.
 
   const getActionButton = (review: ReviewItem) => {
     if (review.state === ReviewState.READY) {

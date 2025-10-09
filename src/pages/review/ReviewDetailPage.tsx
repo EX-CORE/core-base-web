@@ -8,7 +8,8 @@ import {Progress} from '../../components/ui/progress';
 import EvaluatorMappingModal from '../../components/EvaluatorMappingModal';
 import {ArrowLeft, BarChart3, Calendar, ChevronDown, ChevronUp, Edit3, Eye, Play, UserCheck, Users} from 'lucide-react';
 import {useNavigate, useParams} from "react-router-dom";
-import {mockReviewDetails} from "./mockData";
+import {useGetReviewDetails} from "src/services/review";
+import { getStateBadge } from 'src/components/review/ReviewStateBadge';
 import {ReviewState} from "../../types";
 
 interface ReviewDetailPageProps {
@@ -25,7 +26,9 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
   const [isTargetModalOpen, setIsTargetModalOpen] = useState(false);
   const [isParticipationModalOpen, setIsParticipationModalOpen] = useState(false);
   const [isMappingModalOpen, setIsMappingModalOpen] = useState(false);
-  const reviewData = mockReviewDetails[1]; // 읽기 전용으로 변경
+
+  const id = reviewId ? parseInt(reviewId, 10) : 1;
+  const { data: reviewData, isLoading } = useGetReviewDetails(id);
 
   const onEditClicked = () => {
     navigate(`/management/review/${reviewId}/edit`);
@@ -61,34 +64,38 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
     // 실제로는 API 호출하여 리뷰 시작 처리
   };
 
-  const getStatusBadge = (state: string) => {
-    switch (state) {
-      case 'active':
-        return (
-          <span className="bg-green-50 text-green-700 px-2 py-1 rounded-[4px] text-xs font-medium">
-            진행중
-          </span>
-        );
-      case 'completed':
-        return (
-          <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded-[4px] text-xs font-medium">
-            완료
-          </span>
-        );
-      case 'draft':
-        return (
-          <span className="bg-gray-50 text-gray-700 px-2 py-1 rounded-[4px] text-xs font-medium">
-            임시저장
-          </span>
-        );
-      default:
-        return (
-          <span className="bg-gray-50 text-gray-700 px-2 py-1 rounded-[4px] text-xs font-medium">
-            {state}
-          </span>
-        );
-    }
-  };
+  // 로딩 상태 처리
+  if (isLoading) {
+    return (
+      <div className="bg-white h-full overflow-auto">
+        <div className="w-full max-w-[1280px] mx-auto px-16 py-16">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin h-8 w-8 border-2 border-blue-600 border-t-transparent rounded-full" />
+            <span className="ml-2 text-gray-600">리뷰 정보를 불러오는 중...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 데이터가 없는 경우 처리
+  if (!reviewData) {
+    return (
+      <div className="bg-white h-full overflow-auto">
+        <div className="w-full max-w-[1280px] mx-auto px-16 py-16">
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <h2 className="text-xl font-semibold text-gray-700 mb-2">리뷰를 찾을 수 없습니다</h2>
+              <p className="text-gray-500 mb-4">요청하신 리뷰가 존재하지 않거나 삭제되었습니다.</p>
+              <Button onClick={onBack} variant="outline">
+                목록으로 돌아가기
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white h-full overflow-auto">
@@ -105,7 +112,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
             </button>
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-bold text-[#101828] leading-8">리뷰 상세</h1>
-              {getStatusBadge(reviewData.state)}
+              {getStateBadge(reviewData?.state)}
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -133,7 +140,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
           <main className="flex-1">
             <div className="flex flex-col gap-8">
               {/* 완료된 리뷰 통계 배너 */}
-              {reviewData.state === ReviewState.DONE && (
+              {reviewData?.state === ReviewState.DONE && (
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-[8px] p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -157,7 +164,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
               )}
 
               {/* 임시저장된 리뷰 시작하기 배너 */}
-              {reviewData.state === ReviewState.READY && (
+              {reviewData?.state === ReviewState.READY && (
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-[8px] p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -186,10 +193,10 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                   {/* 리뷰 제목과 설명 */}
                   <div className="flex flex-col gap-2">
                     <h2 className="text-[22px] font-medium text-[#101828] leading-7">
-                      {reviewData.title}
+                      {reviewData?.title}
                     </h2>
                     <p className="text-base text-[#101828] leading-5 pt-1">
-                      {reviewData.description}
+                      {reviewData?.description}
                     </p>
                   </div>
 
@@ -199,9 +206,9 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                       <Label className="text-sm font-medium text-[#6a7282] leading-5">진행 기간</Label>
                       <div className="bg-white border border-[#eaeaea] rounded-[4px] h-9 px-4 py-2 flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-zinc-700 leading-[14px]">{reviewData.startDate}</span>
+                          <span className="text-sm font-medium text-zinc-700 leading-[14px]">{reviewData?.startDate}</span>
                           <span className="text-sm font-medium text-zinc-700 leading-[14px]">~</span>
-                          <span className="text-sm font-medium text-zinc-700 leading-[14px]">{reviewData.endDate}</span>
+                          <span className="text-sm font-medium text-zinc-700 leading-[14px]">{reviewData?.endDate}</span>
                         </div>
                         <div className="h-[13.125px] w-3.5">
                           <Calendar className="h-4 w-4 text-black" />
@@ -212,7 +219,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                     <div className="flex flex-col gap-2">
                       <Label className="text-sm font-medium text-[#6a7282] leading-5">생성일</Label>
                       <div className="bg-white border border-[#eaeaea] rounded-[4px] h-9 px-4 py-2 flex items-center">
-                        <span className="text-sm font-medium text-zinc-700 leading-[14px]">{reviewData.createdDate}</span>
+                        <span className="text-sm font-medium text-zinc-700 leading-[14px]">{reviewData?.createdDate}</span>
                       </div>
                     </div>
                   </div>
@@ -228,7 +235,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                       >
                         <Users className="h-4 w-4" />
                         <span className="text-sm font-medium leading-5">
-                          {reviewData.participants.evaluators.length}명 선택됨
+                          {reviewData?.participants?.evaluators?.length || 0}명 선택됨
                         </span>
                       </Button>
                     </div>
@@ -242,7 +249,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                       >
                         <UserCheck className="h-4 w-4" />
                         <span className="text-sm font-medium leading-5">
-                          {reviewData.participants.targets.length}명 선택됨
+                          {reviewData?.participants?.targets?.length || 0}명 선택됨
                         </span>
                       </Button>
                     </div>
@@ -275,20 +282,20 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                           <div className="flex items-center justify-between">
                             <div className="flex flex-col gap-1">
                               <span className="text-sm font-medium text-blue-700">참여율</span>
-                              <span className="text-2xl font-bold text-blue-800">{reviewData.statistics.responseRate}%</span>
+                              <span className="text-2xl font-bold text-blue-800">{reviewData?.statistics?.responseRate || 0}%</span>
                             </div>
                             <button
                               onClick={() => setIsParticipationModalOpen(true)}
                               className="text-xs text-blue-600 hover:text-blue-800 underline"
                             >
-                              {reviewData.statistics.totalResponses}/{reviewData.statistics.totalTargets}명 참여
+                              {reviewData?.statistics?.totalResponses || 0}/{reviewData?.statistics?.totalTargets || 0}명 참여
                             </button>
                           </div>
                           <div className="space-y-2">
-                            <Progress value={reviewData.statistics.responseRate} className="h-3" />
+                            <Progress value={reviewData?.statistics?.responseRate || 0} className="h-3" />
                             <div className="flex justify-between text-xs text-blue-600">
-                              <span>완료: {reviewData.participants.evaluators.filter(e => e.completed).length}명</span>
-                              <span>미완료: {reviewData.participants.evaluators.filter(e => !e.completed).length}명</span>
+                              <span>완료: {reviewData?.participants?.evaluators?.filter(e => e.completed).length || 0}명</span>
+                              <span>미완료: {reviewData?.participants?.evaluators?.filter(e => !e.completed).length || 0}명</span>
                             </div>
                           </div>
                         </div>
@@ -317,7 +324,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
 
                   <CollapsibleContent>
                     <div className="flex flex-col gap-2">
-                      {reviewData.ratingOptions.map((option, index) => (
+                      {reviewData?.ratingOptions?.map((option, index) => (
                         <div key={index} className="flex items-center gap-4 pl-4">
                           <div className="flex-1 flex items-center gap-6">
                             <div className="flex-1 bg-white border border-[#eaeaea] rounded-[4px] px-[8.67px] py-[8.667px] min-h-9">
@@ -339,7 +346,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
 
               {/* 문항들 */}
               <div className="flex flex-col gap-6">
-                {reviewData.questions.map((question, questionIndex) => (
+                {reviewData?.questions?.map((question, questionIndex) => (
                   <div id={`question-${question.id}`} key={question.id} className="bg-white border border-slate-200 rounded-[10px] p-6">
                     <div className="flex flex-col gap-9">
                       {/* 문항 헤더 */}
@@ -402,7 +409,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
 
                             <CollapsibleContent>
                               <div className="px-1 flex flex-col gap-2">
-                                {question.ratingOptions?.map((option, index) => (
+                                {question.ratingOptions?.map((option: { label: string; score: number }, index: number) => (
                                   <div key={index} className="flex items-center gap-2">
                                     <div className="flex-1 flex items-center gap-2">
                                       <div className="flex-1 bg-white border-white rounded-[4px] h-9 flex items-center justify-between px-3">
@@ -429,7 +436,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                           </div>
 
                           <div className="px-1 flex flex-col gap-2">
-                            {question.options?.map((option, index) => (
+                            {question.options?.map((option: string, index: number) => (
                               <div key={index} className="flex items-center gap-2">
                                 <div className="flex-1 flex items-center gap-2">
                                   <div className="flex-1 bg-white border-white rounded-[4px] h-9 px-3 flex items-center">
@@ -471,7 +478,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                   <div className="flex items-center justify-between">
                     <h3 className="text-base font-medium text-[#101828] leading-5">리뷰 구조</h3>
                     <div className="bg-slate-50 px-[9px] py-[3px] rounded-[4px]">
-                      <span className="text-xs font-medium text-slate-600 leading-4">{reviewData.questions.length}개 문항</span>
+                      <span className="text-xs font-medium text-slate-600 leading-4">{reviewData?.questions?.length || 0}개 문항</span>
                     </div>
                   </div>
 
@@ -483,7 +490,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                         </svg>
                         <span className="text-sm text-slate-500 leading-5">객관식</span>
                       </div>
-                      <span className="text-sm text-slate-500 leading-5">{reviewData.questions.filter(q => q.type === 'multiple').length}개</span>
+                      <span className="text-sm text-slate-500 leading-5">{reviewData?.questions?.filter(q => q.type === 'multiple').length || 0}개</span>
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -493,7 +500,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                         </svg>
                         <span className="text-sm text-slate-500 leading-5">등급형</span>
                       </div>
-                      <span className="text-sm text-slate-500 leading-5">{reviewData.questions.filter(q => q.type === 'rating').length}개</span>
+                      <span className="text-sm text-slate-500 leading-5">{reviewData?.questions?.filter(q => q.type === 'rating').length || 0}개</span>
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -507,7 +514,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                         </svg>
                         <span className="text-sm text-slate-500 leading-5">주관식</span>
                       </div>
-                      <span className="text-sm text-slate-500 leading-5">{reviewData.questions.filter(q => q.type === 'text').length}개</span>
+                      <span className="text-sm text-slate-500 leading-5">{reviewData?.questions?.filter(q => q.type === 'text').length || 0}개</span>
                     </div>
                   </div>
                 </div>
@@ -516,7 +523,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
                 <div className="flex flex-col gap-3">
                   <h4 className="text-sm font-medium text-[#101828] leading-5">목차</h4>
                   <div className="flex flex-col gap-1">
-                    {reviewData.questions.map((question, index) => (
+                    {reviewData?.questions?.map((question, index) => (
                       <button
                         key={question.id}
                         onClick={() => scrollToQuestion(question.id)}
@@ -553,7 +560,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
-              {reviewData.participants.evaluators.map((evaluator) => (
+              {reviewData?.participants?.evaluators?.map((evaluator) => (
                 <div key={evaluator.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex flex-col">
                     <span className="font-medium">{evaluator.name}</span>
@@ -582,7 +589,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
-              {reviewData.participants.targets.map((target) => (
+              {reviewData?.participants?.targets?.map((target) => (
                 <div key={target.id} className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex flex-col">
                     <span className="font-medium">{target.name}</span>
@@ -607,13 +614,13 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-green-50 p-4 rounded-lg">
                   <div className="text-2xl font-bold text-green-700">
-                    {reviewData.participants.evaluators.filter(e => e.completed).length}명
+                    {reviewData?.participants?.evaluators?.filter(e => e.completed).length || 0}명
                   </div>
                   <div className="text-sm text-green-600">완료</div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="text-2xl font-bold text-gray-700">
-                    {reviewData.participants.evaluators.filter(e => !e.completed).length}명
+                    {reviewData?.participants?.evaluators?.filter(e => !e.completed).length || 0}명
                   </div>
                   <div className="text-sm text-gray-600">미완료</div>
                 </div>
@@ -621,7 +628,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
 
               <div className="space-y-2">
                 <h4 className="font-medium">평가자별 현황</h4>
-                {reviewData.participants.evaluators.map((evaluator) => (
+                {reviewData?.participants?.evaluators?.map((evaluator) => (
                   <div key={evaluator.id} className="flex items-center justify-between p-2 border rounded">
                     <span>{evaluator.name}</span>
                     <div className={`px-2 py-1 rounded text-xs font-medium ${
@@ -643,8 +650,8 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
           isOpen={isMappingModalOpen}
           onClose={() => setIsMappingModalOpen(false)}
           onConfirm={handleMappingConfirm}
-          evaluators={reviewData.participants.evaluators}
-          targets={reviewData.participants.targets}
+          evaluators={reviewData?.participants?.evaluators || []}
+          targets={reviewData?.participants?.targets || []}
         />
       </div>
     </div>

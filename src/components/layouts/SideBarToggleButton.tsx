@@ -1,17 +1,18 @@
 import * as React from "react";
 import svgPathsSidebar from '../../imports/svg-63i0icnlwn';
+import CoreBaseLogo from "../CoreBaseLogo";
 
 type Props = {
     onClick?: () => void;
-    onMouseOver?: () => void;
+    isOpen ?: boolean;
 };
 
-export default function SideBarToggleButton({ onClick, onMouseOver }:Props) {
-      return (
+export default function SideBarToggleButton({ onClick, isOpen = true }:Props) {
+      return (<div className={`relative shrink-0 w-full box-border flex flex-row `} >
+              {isOpen &&  <CoreBaseLogo className={`flex flex-col items-center font-light`} />}
         <button
             onClick={onClick}
-            onMouseOver={onMouseOver}
-            className="ml-auto mr-1.5 items-center relative rounded-[4px] shrink-0 size-8 hover:bg-slate-100 transition-colors"
+            className="flex flex-col ml-auto mr-1.5 mt-2 items-center relative rounded-[4px] shrink-0 size-8 hover:bg-slate-100 transition-colors"
         >
             <div className="relative shrink-0 size-4">
                 <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0">
@@ -22,5 +23,6 @@ export default function SideBarToggleButton({ onClick, onMouseOver }:Props) {
                 </svg>
             </div>
         </button>
+      </div>
     );
   }

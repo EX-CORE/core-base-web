@@ -28,33 +28,33 @@ export const mockReviews: Review[] = [
     title: '2024년 상반기 인사평가',
     evaluators: [mockEvaluators[0], mockEvaluators[1]],
     evaluatees: mockEvaluatees.slice(0, 5),
-    participatedEvaluators: 2,
-    startDate: '2024-02-01',
-    endDate: '2024-02-28',
-    createdDate: '2024-01-15',
-    state: ReviewState.PROCESS
+    participatedEvaluators: 0,
+    startDate: '2025-12-01',
+    endDate: '2025-12-15',
+    createdDate: '2025-10-01',
+    state: ReviewState.READY
   },
   {
     id: 2,
     title: '신입사원 온보딩 평가',
-    evaluators: [mockEvaluators[0]],
-    evaluatees: mockEvaluatees.slice(1, 3),
+    evaluators: [mockEvaluators[0], mockEvaluators[1]],
+    evaluatees: mockEvaluatees.slice(0, 5),
     participatedEvaluators: 1,
-    startDate: '2024-01-20',
-    endDate: '2024-01-31',
-    createdDate: '2024-01-10',
-    state: ReviewState.DONE
+    startDate: '2025-10-10',
+    endDate: '2025-11-30',
+    createdDate: '2025-10-01',
+    state: ReviewState.PROCESS
   },
   {
     id: 3,
     title: '팀장급 리더십 평가',
     evaluators: mockEvaluators,
     evaluatees: mockEvaluatees.slice(0, 4),
-    participatedEvaluators: 1,
+    participatedEvaluators: 3,
     startDate: '2024-02-15',
     endDate: '2024-03-15',
     createdDate: '2024-01-08',
-    state: ReviewState.READY
+    state: ReviewState.DONE
   },
   {
     id: 4,
@@ -65,7 +65,7 @@ export const mockReviews: Review[] = [
     startDate: '2024-03-01',
     endDate: '2024-03-31',
     createdDate: '2024-02-10',
-    state: ReviewState.READY
+    state: ReviewState.STOPPED
   }
 ];
 

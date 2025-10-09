@@ -7,7 +7,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 export default function Layout() {
   return (
-    <div className="w-full relative h-full flex">
+    <div className="flex h-screen w-full bg-white">
       <Sider />
       <DndProvider backend={HTML5Backend}>
         <Container>

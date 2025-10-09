@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Button } from 'src/components/ui/button';
-import { ArrowLeft, Eye, Plus, ChevronUp, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Eye, Plus } from 'lucide-react';
 import RatingConfigComponent from 'src/components/RatingConfigComponent';
 import DraggableReviewItem from 'src/components/DraggableReviewItem';
 import svgPaths from 'src/imports/svg-srkdro9it3';
 import type { EditMode } from '../../types';
 import { useReview } from '../../hooks/useReview';
 import { useParams } from 'react-router-dom';
-import { mockReviewDetails } from "./mockData";
+import { useGetReviewDetails } from "src/services/review";
 
 export default function ReviewMutatePage({
   editMode
@@ -61,10 +61,11 @@ export default function ReviewMutatePage({
 
   const { reviewId } = useParams();
 
+  const id = reviewId ? parseInt(reviewId, 10) : 1;
+  const { data: details } = useGetReviewDetails(id);
+
   useEffect(() => {
     if (editMode !== 'edit') return;
-    const id = reviewId ? parseInt(reviewId, 10) : 1;
-    const details = mockReviewDetails[id as keyof typeof mockReviewDetails];
     if (!details) return;
 
     // 기본 정보
@@ -80,16 +81,16 @@ export default function ReviewMutatePage({
     // 등급 설정
     if (details.ratingOptions && details.ratingOptions.length > 0) {
       updateRatingConfig({
-        options: details.ratingOptions.map(o => o.label),
-        scores: details.ratingOptions.map(o => o.score)
+        options: details.ratingOptions.map((o: { label: string; score: number }) => o.label),
+        scores: details.ratingOptions.map((o: { label: string; score: number }) => o.score)
       });
     }
 
     // 문항 구성
-    const mappedQuestions = (details.questions || []).map((q, idx) => {
+    const mappedQuestions = (details.questions || []).map((q: any, idx: number) => {
       if (q.type === 'rating') {
-        const opts = (q.ratingOptions || []).map(o => o.label);
-        const scores = (q.ratingOptions || []).map(o => o.score);
+        const opts = (q.ratingOptions || []).map((o: { label: string; score: number }) => o.label);
+        const scores = (q.ratingOptions || []).map((o: { label: string; score: number }) => o.score);
         return {
           id: idx + 1,
           type: 'rating' as const,
@@ -132,7 +133,7 @@ export default function ReviewMutatePage({
     setQuestions(mappedQuestions as any);
     setNextId(mappedQuestions.length + 1);
     setNextOrder(mappedQuestions.length + 1);
-  }, [editMode, reviewId]);
+  }, [editMode, details]);
 
   const handleCancelEdit = () => {
     window.history.back();

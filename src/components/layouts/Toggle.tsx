@@ -5,35 +5,24 @@ import SideMenuList from "./SideMenuList";
 import SideBarToggleButton from "./SideBarToggleButton";
 
 export default function Toggle() {
-  const { isOpen, onOpen, onClose, temporaryOpen, onMouseOver, onMouseLeave } =
+  const { isOpen, onOpen, onClose } =
     useSidebar();
 
   return (
     <>
       {isOpen && (
-        <div className="flex flex-col w-full h-full p-6 relative">
+        <div className="flex flex-col h-full p-6 relative w-60">
           <SideBarToggleButton onClick={onClose}></SideBarToggleButton>
-          <SideLogoBox />
-          <SideMenuList />
+          <SideLogoBox toggle={isOpen} />
+          <SideMenuList isOpen={isOpen}/>
           <SideInfoBox className="absolute bottom-4" />
         </div>
       )}
 
-      {!isOpen && temporaryOpen && (
-        <div
-          className="flex flex-col w-full h-full p-6 relative"
-          onMouseLeave={onMouseLeave}
-        >
+      {!isOpen && (
+        <div className="flex flex-col h-full p-6 relative w-20">
           <SideBarToggleButton onClick={onOpen}></SideBarToggleButton>
-          <SideLogoBox />
-          <SideMenuList />
-          <SideInfoBox className="absolute bottom-4" />
-        </div>
-      )}
-
-      {!isOpen && !temporaryOpen && (
-        <div className="flex flex-col w-full h-full pt-6 relative ">
-          <SideBarToggleButton onClick={onOpen} onMouseOver={onMouseOver}></SideBarToggleButton>
+          <SideMenuList isOpen={isOpen}/>
         </div>
       )}
     </>

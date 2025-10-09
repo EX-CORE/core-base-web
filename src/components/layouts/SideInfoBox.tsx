@@ -4,9 +4,10 @@ import { useGetUserInfo } from "src/services/profile";
 
 type Props = {
   className?: string;
+  toggle?: boolean;
 };
 
-export default function SideInfoBox({ className }: Props) {
+export default function SideInfoBox({ className, toggle }: Props) {
   const { data: userInfo } = useGetUserInfo();
 
   const { name, icon, email } = {

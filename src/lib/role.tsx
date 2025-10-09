@@ -1,4 +1,4 @@
-import { Building2, ClipboardPenLine, House, SmilePlus } from "lucide-react";
+import {Building2, ClipboardPenLine, House, SmilePlus, Star} from "lucide-react";
 
 export const ROLE = {
   // MATER_ADMIN: {
@@ -17,10 +17,10 @@ export const ROLE = {
 
 export const MENU = {
   HOME: {
-    LABEL: "기본홈",
+    LABEL: "대시보드",
     VALUE: "HOME",
     LINK: "/home",
-    ICON: <House />,
+    ICON: <House size={18}  />,
   },
   // 홈 서브메뉴
   DASH_BORAD: {
@@ -37,31 +37,31 @@ export const MENU = {
     LABEL: "리뷰",
     VALUE: "REVIEW",
     LINK: "/user/review",
-    ICON: <SmilePlus />,
+    ICON: <Star size={18} />,
   },
   MANAGEMENT_REVIEW: {
     LABEL: "리뷰 관리",
     VALUE: "MANAGEMENT_REVIEW",
     LINK: "/management/review",
-    ICON: <ClipboardPenLine />,
+    ICON: <ClipboardPenLine size={18}/>,
   },
   MANAGEMENT_REVIEW_LIST: {
     LABEL: "리뷰 관리",
     VALUE: "MANAGEMENT_REVIEW_LIST",
     LINK: "/management/review/list",
-    ICON: <ClipboardPenLine />,
+    ICON: <ClipboardPenLine size={18}/>,
   },
   MANAGEMENT_REVIEW_RESULT: {
     LABEL: "리뷰 결과",
     VALUE: "MANAGEMENT_REVIEW_LIST",
     LINK: "/management/review/results",
-    ICON: <ClipboardPenLine />,
+    ICON: <House size={18}/>,
   },
   MANAGEMENT_ORGANIZATION: {
     LABEL: "조직 관리",
     VALUE: "MANAGEMENT_ORGANIZATION",
     LINK: "/management/organization",
-    ICON: <Building2 />,
+    ICON: <Building2 size={18}/>,
   },
   // 조직관리 서브메뉴
   MANAGEMENT_ORGANIZTION_INFO: {
