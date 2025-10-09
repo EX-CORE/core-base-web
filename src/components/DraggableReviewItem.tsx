@@ -25,7 +25,7 @@ interface Section {
   order: number;
 }
 
-interface SurveyItem {
+interface ReviewItem {
   id: number;
   type: 'section' | 'question';
   data: Section | Question;
@@ -37,8 +37,8 @@ interface RatingConfig {
   scores: number[];
 }
 
-interface DraggableSurveyItemProps {
-  item: SurveyItem;
+interface DraggableReviewItemProps {
+  item: ReviewItem;
   index: number;
   moveItem: (dragIndex: number, hoverIndex: number) => void;
   selectItem: (id: number, type: 'section' | 'question') => void;
@@ -60,7 +60,7 @@ interface DraggableSurveyItemProps {
 
 const ItemType = 'SURVEY_ITEM';
 
-export default function DraggableSurveyItem({
+export default function DraggableReviewItem({
   item,
   index,
   moveItem,
@@ -79,7 +79,7 @@ export default function DraggableSurveyItem({
   questions = [],
   isCurrentRatingOpen = true,
   setIsCurrentRatingOpen
-}: DraggableSurveyItemProps) {
+}: DraggableReviewItemProps) {
   const [{ isDragging }, drag] = useDrag({
     type: ItemType,
     item: { index },

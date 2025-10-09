@@ -14,8 +14,9 @@ import {
   OrganizationMember,
   OrganizationStructure,
 } from "src/pages/organization";
-import {ReviewDetailPage, ReviewListPage} from "src/pages/review";
+import {ReviewDetailPage, ReviewListPage, ReviewMutatePage} from "src/pages/review";
 import ReviewResultsPage from "../pages/review/ReviewResultsPage";
+import ReviewForm from "../pages/review/ReviewForm";
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +84,14 @@ export const router = createBrowserRouter([
           {
             path: "review/:reviewId",
             element: <ReviewDetailPage />,
+          },
+          {
+            path: "review/:reviewId/edit",
+            element: <ReviewMutatePage editMode='edit'/>,
+          },
+          {
+            path: "review/create",
+            element: <ReviewMutatePage editMode='create'/>,
           },
           {
             path: "organization",
