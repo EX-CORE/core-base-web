@@ -58,7 +58,7 @@ interface DraggableReviewItemProps {
   setIsCurrentRatingOpen?: (open: boolean) => void;
 }
 
-const ItemType = 'SURVEY_ITEM';
+const ItemType = 'REVIEW_ITEM';
 
 export default function DraggableReviewItem({
   item,
@@ -98,8 +98,8 @@ export default function DraggableReviewItem({
     },
   });
 
-  const isSelected = item.type === 'section' 
-    ? selectedSectionId === item.id 
+  const isSelected = item.type === 'section'
+    ? selectedSectionId === item.id
     : selectedQuestionId === item.id;
 
   // 메인 컨텐츠 영역에서 섹션 렌더링
@@ -169,9 +169,9 @@ export default function DraggableReviewItem({
   if (isMainContent && item.type === 'question') {
     const questionData = item.data as Question;
     return (
-      <div 
+      <div
         ref={(node) => drag(drop(node))}
-        key={questionData.id} 
+        key={questionData.id}
         data-question-id={questionData.id}
         className={`group bg-white border rounded-[10px] w-full transition-all ${
           isDragging ? 'opacity-50' : ''
@@ -205,7 +205,7 @@ export default function DraggableReviewItem({
                       showQuestionTypeDropdown === questionData.id ? 'rotate-180' : ''
                     }`} />
                   </button>
-                  
+
                   {showQuestionTypeDropdown === questionData.id && (
                     <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-[4px] shadow-lg z-20 min-w-[120px] overflow-hidden">
                       <button
@@ -248,7 +248,7 @@ export default function DraggableReviewItem({
                   )}
                 </div>
                 <div className="flex gap-2 items-center pl-2">
-                  <Switch 
+                  <Switch
                     checked={questionData.required}
                     onCheckedChange={(checked: boolean) => updateQuestion?.(questionData.id, { required: checked })}
                     disabled={questionData.type === 'rating'}
@@ -295,7 +295,7 @@ export default function DraggableReviewItem({
                 </div>
               </div>
             </div>
-            
+
             {/* 삭제 버튼과 드래그 아이콘 */}
             <div className="flex items-center gap-2">
               <button
@@ -461,7 +461,7 @@ export default function DraggableReviewItem({
   if (item.type === 'question') {
     const questionData = item.data as Question;
     const questionIndex = questions.findIndex(q => q.id === questionData.id);
-    
+
     return (
       <div
         ref={(node) => drag(drop(node))}

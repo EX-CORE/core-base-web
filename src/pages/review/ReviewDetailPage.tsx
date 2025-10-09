@@ -1,131 +1,19 @@
-import React, { useState } from 'react';
-import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
-import { Label } from '../../components/ui/label';
-import { Switch } from '../../components/ui/switch';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../components/ui/collapsible';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialog';
-import { Progress } from '../../components/ui/progress';
-import svgPaths from '../../imports/svg-25i530eo2g';
+import React, {useState} from 'react';
+import {Button} from '../../components/ui/button';
+import {Label} from '../../components/ui/label';
+import {Switch} from '../../components/ui/switch';
+import {Collapsible, CollapsibleContent, CollapsibleTrigger} from '../../components/ui/collapsible';
+import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from '../../components/ui/dialog';
+import {Progress} from '../../components/ui/progress';
 import EvaluatorMappingModal from '../../components/EvaluatorMappingModal';
-import {
-  ArrowLeft,
-  Eye,
-  Save,
-  Edit3,
-  ChevronUp,
-  ChevronDown,
-  Calendar,
-  Plus,
-  Trash2,
-  X,
-  Users,
-  UserCheck,
-  BarChart3,
-  Play
-} from 'lucide-react';
+import {ArrowLeft, BarChart3, Calendar, ChevronDown, ChevronUp, Edit3, Eye, Play, UserCheck, Users} from 'lucide-react';
 import {useNavigate, useParams} from "react-router-dom";
+import {mockReviewDetails} from "./mockData";
+import {ReviewState} from "../../types";
 
 interface ReviewDetailPageProps {
   onPreview?: () => void;
 }
-
-// 등급형 문항 설정 인터페이스
-interface RatingOption {
-  label: string;
-  score: number;
-}
-
-// 임시 데이터 - 실제 리뷰 상세 정보
-const mockReviewData = {
-  1: {
-    id: 1,
-    title: '상반기 인사평가',
-    description: '2024년 상반기 직원 성과 및 역량 평가를 위한 리뷰입니다.',
-    startDate: '2024.06.01',
-    endDate: '2024.06.15',
-    createdDate: '2024.05.25',
-    status: 'draft' as 'draft' | 'active' | 'completed',
-    participants: {
-      evaluators: [
-        { id: 1, name: '김영수', department: '개발팀', position: '팀장', completed: false, email: 'kim.youngsu@company.com' },
-        { id: 2, name: '이민정', department: '개발팀', position: '선임', completed: false, email: 'lee.minjeong@company.com' },
-        { id: 3, name: '박준호', department: '개발팀', position: '책임', completed: false, email: 'park.junho@company.com' },
-        { id: 4, name: '최수영', department: '기획팀', position: '팀장', completed: false, email: 'choi.suyoung@company.com' },
-        { id: 5, name: '한지원', department: '기획팀', position: '선임', completed: false, email: 'han.jiwon@company.com' }
-      ],
-      targets: [
-        { id: 1, name: '홍길동', department: '개발팀', position: '주임', email: 'hong.gildong@company.com' },
-        { id: 2, name: '김철수', department: '개발팀', position: '사원', email: 'kim.chulsu@company.com' },
-        { id: 3, name: '이영희', department: '기획팀', position: '대리', email: 'lee.younghee@company.com' }
-      ]
-    },
-    statistics: {
-      totalResponses: 0,
-      totalTargets: 3,
-      responseRate: 0,
-      averageScore: 0
-    },
-    ratingOptions: [
-      { label: '매우 부족', score: 1 },
-      { label: '부족', score: 2 },
-      { label: '보통', score: 3 },
-      { label: '우수', score: 4 },
-      { label: '매우 우수', score: 5 }
-    ],
-    questions: [
-      {
-        id: 1,
-        type: 'rating' as const,
-        title: '업무 수행 능력',
-        description: '담당 업무를 정확하고 효율적으로 수행하는 정도를 평가해주세요.',
-        required: true,
-        ratingOptions: [
-          { label: '매우 우수', score: 5 },
-          { label: '우수', score: 4 },
-          { label: '보통', score: 3 },
-          { label: '부족', score: 2 },
-          { label: '매우 부족', score: 1 }
-        ]
-      },
-      {
-        id: 2,
-        type: 'rating' as const,
-        title: '의사소통 능력',
-        description: '동료 및 상급자와의 원활한 소통 능력을 평가해주세요.',
-        required: true,
-        ratingOptions: [
-          { label: '매우 우수', score: 5 },
-          { label: '우수', score: 4 },
-          { label: '보통', score: 3 },
-          { label: '부족', score: 2 },
-          { label: '매우 부족', score: 1 }
-        ]
-      },
-      {
-        id: 3,
-        type: 'multiple' as const,
-        title: '개선이 필요한 영역',
-        description: '해당 직원이 향후 개선해야 할 주요 영역을 선택해주세요.',
-        required: false,
-        options: [
-          '기술적 역량',
-          '리더십',
-          '협업 능력',
-          '시간 관리',
-          '문제 해결 능력'
-        ]
-      },
-      {
-        id: 4,
-        type: 'text' as const,
-        title: '추가 의견',
-        description: '평가에 대한 추가적인 의견이나 피드백을 자유롭게 작성해주세요.',
-        required: false
-      }
-    ]
-  }
-};
 
 export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
   const navigate = useNavigate();
@@ -137,7 +25,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
   const [isTargetModalOpen, setIsTargetModalOpen] = useState(false);
   const [isParticipationModalOpen, setIsParticipationModalOpen] = useState(false);
   const [isMappingModalOpen, setIsMappingModalOpen] = useState(false);
-  const reviewData = mockReviewData[1]; // 읽기 전용으로 변경
+  const reviewData = mockReviewDetails[1]; // 읽기 전용으로 변경
 
   const onEditClicked = () => {
     navigate(`/management/review/${reviewId}/edit`);
@@ -173,8 +61,8 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
     // 실제로는 API 호출하여 리뷰 시작 처리
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
+  const getStatusBadge = (state: string) => {
+    switch (state) {
       case 'active':
         return (
           <span className="bg-green-50 text-green-700 px-2 py-1 rounded-[4px] text-xs font-medium">
@@ -196,7 +84,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
       default:
         return (
           <span className="bg-gray-50 text-gray-700 px-2 py-1 rounded-[4px] text-xs font-medium">
-            {status}
+            {state}
           </span>
         );
     }
@@ -217,7 +105,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
             </button>
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-bold text-[#101828] leading-8">리뷰 상세</h1>
-              {getStatusBadge(reviewData.status)}
+              {getStatusBadge(reviewData.state)}
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -245,7 +133,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
           <main className="flex-1">
             <div className="flex flex-col gap-8">
               {/* 완료된 리뷰 통계 배너 */}
-              {reviewData.status === 'completed' && (
+              {reviewData.state === ReviewState.DONE && (
                 <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-[8px] p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -269,7 +157,7 @@ export default function ReviewDetailPage({onPreview }: ReviewDetailPageProps) {
               )}
 
               {/* 임시저장된 리뷰 시작하기 배너 */}
-              {reviewData.status === 'draft' && (
+              {reviewData.state === ReviewState.READY && (
                 <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-[8px] p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">

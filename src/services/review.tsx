@@ -1,5 +1,8 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { client } from "./axios";
+import {dummyFetch} from "./dummy"
+import {mockReviews} from "../pages/review/mockData";
+import {ReviewState} from "../types";
 
 // export const useGetOrganizationReviews = (organizationId: string) => {
 //   return useQuery({
@@ -17,13 +20,23 @@ import { client } from "./axios";
 //   return response.data;
 // }
 
-export enum ReviewState {
-  READY = "READY",
-  PROCESS = "PROCESS",
-  STOPPED = "STOPPED",
-  DONE = "DONE",
-  DELETED = "DELETED",
-}
+export const useGetOrganizationReviews = (organizationId: string) => {
+  return useQuery<ReviewRes[]>({
+    queryKey: ["reviewListData", organizationId],
+    queryFn: async () => {
+      const orgId = Number(organizationId) || 0;
+      const mapped: ReviewRes[] = mockReviews.map((r) => ({
+        id: String(r.id),
+        title: r.title,
+        organizationId: orgId,
+        reviewPeriod: `${r.startDate} ~ ${r.endDate}`,
+        description: undefined,
+        state: r.state,
+      }));
+      return await dummyFetch<ReviewRes[]>(mapped);
+    },
+  });
+};
 
 export interface ReviewCreateReq {
   name: string;

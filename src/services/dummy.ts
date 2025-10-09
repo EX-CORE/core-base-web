@@ -1,31 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { ReviewState, ReviewRes } from "./review";
-import { mockReviews } from "../pages/review/mockData";
 
-const dummyFetch = <T>(dummyData: T): Promise<T> =>
+export const dummyFetch = <T>(dummyData: T): Promise<T> =>
   new Promise((resolve) => {
     setTimeout(() => {
       resolve(dummyData);
     }, 1000);
   });
 
-export const useGetOrganizationReviews = (organizationId: string) => {
-  return useQuery<ReviewRes[]>({
-    queryKey: ["reviewListData", organizationId],
-    queryFn: async () => {
-      const orgId = Number(organizationId) || 0;
-      const mapped: ReviewRes[] = mockReviews.map((r) => ({
-        id: String(r.id),
-        title: r.title,
-        organizationId: orgId,
-        reviewPeriod: `${r.startDate} ~ ${r.endDate}`,
-        description: undefined,
-        state: r.status,
-      }));
-      return await dummyFetch<ReviewRes[]>(mapped);
-    },
-  });
-};
 export const useGetOrganizationStructure = () => {
   return useQuery({
     queryKey: ["organizationStructure"],

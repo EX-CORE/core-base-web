@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Button } from 'src/components/ui/button';
 import { ArrowLeft, Eye, Plus, ChevronUp, ChevronDown } from 'lucide-react';
 import RatingConfigComponent from 'src/components/RatingConfigComponent';
@@ -6,6 +6,8 @@ import DraggableReviewItem from 'src/components/DraggableReviewItem';
 import svgPaths from 'src/imports/svg-srkdro9it3';
 import type { EditMode } from '../../types';
 import { useReview } from '../../hooks/useReview';
+import { useParams } from 'react-router-dom';
+import { mockReviewDetails } from "./mockData";
 
 export default function ReviewMutatePage({
   editMode
@@ -40,6 +42,13 @@ export default function ReviewMutatePage({
     setReviewDescription,
     setStartDate,
     setEndDate,
+    // 추가 setters
+    setQuestions,
+    setSections,
+    setSelectedEvaluators,
+    setSelectedTargets,
+    setNextId,
+    setNextOrder,
   } = useReview();
 
   const [isSaving, setIsSaving] = useState(false);
@@ -49,6 +58,81 @@ export default function ReviewMutatePage({
   const [isRatingConfigOpen, setIsRatingConfigOpen] = useState(true);
   const [isCurrentRatingOpen, setIsCurrentRatingOpen] = useState(true);
   const [showQuestionTypeDropdown, setShowQuestionTypeDropdown] = useState<number | null>(null);
+
+  const { reviewId } = useParams();
+
+  useEffect(() => {
+    if (editMode !== 'edit') return;
+    const id = reviewId ? parseInt(reviewId, 10) : 1;
+    const details = mockReviewDetails[id as keyof typeof mockReviewDetails];
+    if (!details) return;
+
+    // 기본 정보
+    setReviewTitle(details.title || '');
+    setReviewDescription(details.description || '');
+    setStartDate((details.startDate || '').replace(/\./g, '-'));
+    setEndDate((details.endDate || '').replace(/\./g, '-'));
+
+    // 참가자
+    setSelectedEvaluators(details.participants?.evaluators || []);
+    setSelectedTargets(details.participants?.targets || []);
+
+    // 등급 설정
+    if (details.ratingOptions && details.ratingOptions.length > 0) {
+      updateRatingConfig({
+        options: details.ratingOptions.map(o => o.label),
+        scores: details.ratingOptions.map(o => o.score)
+      });
+    }
+
+    // 문항 구성
+    const mappedQuestions = (details.questions || []).map((q, idx) => {
+      if (q.type === 'rating') {
+        const opts = (q.ratingOptions || []).map(o => o.label);
+        const scores = (q.ratingOptions || []).map(o => o.score);
+        return {
+          id: idx + 1,
+          type: 'rating' as const,
+          title: q.title,
+          description: q.description,
+          required: true,
+          options: opts,
+          optionScores: scores,
+          sectionId: undefined,
+          order: idx,
+        };
+      }
+      if (q.type === 'multiple') {
+        return {
+          id: idx + 1,
+          type: 'multiple' as const,
+          title: q.title,
+          description: q.description,
+          required: false,
+          options: q.options || [],
+          optionScores: undefined,
+          sectionId: undefined,
+          order: idx,
+        };
+      }
+      return {
+        id: idx + 1,
+        type: 'text' as const,
+        title: q.title,
+        description: q.description,
+        required: false,
+        options: undefined,
+        optionScores: undefined,
+        sectionId: undefined,
+        order: idx,
+      };
+    });
+
+    setSections([]);
+    setQuestions(mappedQuestions as any);
+    setNextId(mappedQuestions.length + 1);
+    setNextOrder(mappedQuestions.length + 1);
+  }, [editMode, reviewId]);
 
   const handleCancelEdit = () => {
     window.history.back();
