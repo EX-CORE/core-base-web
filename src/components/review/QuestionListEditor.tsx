@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Card, CardHeader, CardContent } from './ui/card';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Button } from './ui/button';
+import { Card, CardHeader, CardContent } from '../ui/card';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Textarea } from '../ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Button } from '../ui/button';
 import { Trash2, Plus, X, FileQuestion, FolderPlus, Settings } from 'lucide-react';
-import { Switch } from './ui/switch';
-import SectionHeader from './SectionHeader';
+import { Switch } from '../ui/switch';
+import SectionHeader from '../SectionHeader';
 
 interface Question {
   id: number;
@@ -45,12 +45,12 @@ interface QuestionListEditorProps {
   ratingConfig: RatingConfig;
 }
 
-export default function QuestionListEditor({ 
-  questions, 
+export default function QuestionListEditor({
+  questions,
   sections,
-  selectedQuestionId, 
+  selectedQuestionId,
   selectedSectionId,
-  onUpdate, 
+  onUpdate,
   onDelete,
   onAddQuestion,
   onAddSection,
@@ -72,7 +72,7 @@ export default function QuestionListEditor({
 
   // 섹션별로 문항 그룹화
   const questionsWithoutSection = questions.filter(q => !q.sectionId);
-  const getSectionQuestions = (sectionId: number) => 
+  const getSectionQuestions = (sectionId: number) =>
     questions.filter(q => q.sectionId === sectionId);
 
   // 전체 문항 번호 매핑
@@ -92,7 +92,7 @@ export default function QuestionListEditor({
               바로 문항을 추가해서 시작하세요
             </p>
             <div className="flex gap-3">
-              <Button 
+              <Button
                 onClick={onAddSection}
                 variant="outline"
                 className="gap-2"
@@ -100,7 +100,7 @@ export default function QuestionListEditor({
                 <FolderPlus className="h-4 w-4" />
                 섹션 추가
               </Button>
-              <Button 
+              <Button
                 onClick={() => onAddQuestion('multiple')}
                 className="gap-2 bg-blue-600 text-primary-foreground hover:bg-blue-700"
               >
@@ -148,7 +148,7 @@ export default function QuestionListEditor({
               onStartEdit={() => setEditingSectionId(section.id)}
               onCancelEdit={() => setEditingSectionId(undefined)}
             />
-            
+
             {/* 해당 섹션의 문항들 */}
             {sectionQuestions.map((question) => (
               <QuestionEditorItem
@@ -165,7 +165,7 @@ export default function QuestionListEditor({
           </div>
         );
       })}
-      
+
       {/* 최하단 추가 버튼들 */}
       <div className="flex justify-center gap-3 pt-4">
         <Button
@@ -212,7 +212,7 @@ const QuestionEditorItem = React.forwardRef<HTMLDivElement, QuestionEditorItemPr
 
     const handleTypeChange = (type: 'multiple' | 'text' | 'rating') => {
       const updates: Partial<Question> = { type };
-      
+
       if (type === 'multiple' && !question.options) {
         updates.options = ['옵션 1', '옵션 2'];
         updates.optionScores = undefined;
@@ -225,7 +225,7 @@ const QuestionEditorItem = React.forwardRef<HTMLDivElement, QuestionEditorItemPr
         updates.options = undefined;
         updates.optionScores = undefined;
       }
-      
+
       onUpdate(question.id, updates);
     };
 
@@ -262,13 +262,13 @@ const QuestionEditorItem = React.forwardRef<HTMLDivElement, QuestionEditorItemPr
 
     const getSelectTriggerStyle = (type: string) => {
       switch (type) {
-        case 'multiple': 
+        case 'multiple':
           return 'border-blue-200 bg-blue-50/50 text-blue-700 hover:bg-blue-100/50 hover:border-blue-300 focus:ring-blue-500/20';
-        case 'text': 
+        case 'text':
           return 'border-green-200 bg-green-50/50 text-green-700 hover:bg-green-100/50 hover:border-green-300 focus:ring-green-500/20';
-        case 'rating': 
+        case 'rating':
           return 'border-purple-200 bg-purple-50/50 text-purple-700 hover:bg-purple-100/50 hover:border-purple-300 focus:ring-purple-500/20';
-        default: 
+        default:
           return 'border-gray-200 bg-gray-50 text-gray-700 hover:bg-gray-100';
       }
     };
@@ -298,7 +298,7 @@ const QuestionEditorItem = React.forwardRef<HTMLDivElement, QuestionEditorItemPr
                       <SelectItem value="rating">등급형</SelectItem>
                     </SelectContent>
                   </Select>
-                  
+
                   {/* 필수 입력 토글 */}
                   <div className="flex items-center gap-2 ml-2">
                     <Switch
@@ -307,7 +307,7 @@ const QuestionEditorItem = React.forwardRef<HTMLDivElement, QuestionEditorItemPr
                       onCheckedChange={handleRequiredChange}
                       disabled={question.type === 'rating'} // 등급형은 필수 설정 변경 불가
                     />
-                    <Label 
+                    <Label
                       htmlFor={`required-${question.id}`}
                       className={`text-sm cursor-pointer ${
                         question.required ? 'text-red-600' : 'text-muted-foreground'
@@ -424,7 +424,7 @@ const QuestionEditorItem = React.forwardRef<HTMLDivElement, QuestionEditorItemPr
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label className="text-sm text-purple-800">현재 적용된 등급:</Label>
                     <div className="grid gap-2">

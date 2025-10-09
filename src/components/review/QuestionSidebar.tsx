@@ -1,11 +1,11 @@
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
+import { Button } from '../ui/button';
+import { Badge } from '../ui/badge';
 import { Plus, FileText, MessageSquare, Star, FolderPlus, Folder, FileQuestion } from 'lucide-react';
-import { ScrollArea } from './ui/scroll-area';
-import DraggableQuestionItem from './DraggableQuestionItem';
+import { ScrollArea } from '../ui/scroll-area';
+import DraggableQuestionItem from '../DraggableQuestionItem';
 
 interface Question {
   id: number;
@@ -36,12 +36,12 @@ interface QuestionSidebarProps {
   onMoveSection: (dragIndex: number, hoverIndex: number) => void;
 }
 
-export default function QuestionSidebar({ 
-  questions, 
+export default function QuestionSidebar({
+  questions,
   sections,
-  selectedQuestionId, 
+  selectedQuestionId,
   selectedSectionId,
-  onQuestionSelect, 
+  onQuestionSelect,
   onSectionSelect,
   onQuestionAdd,
   onSectionAdd,
@@ -60,7 +60,7 @@ export default function QuestionSidebar({
 
   // 섹션별로 문항 그룹화
   const questionsWithoutSection = questions.filter(q => !q.sectionId);
-  const getSectionQuestions = (sectionId: number) => 
+  const getSectionQuestions = (sectionId: number) =>
     questions.filter(q => q.sectionId === sectionId);
 
   const getStatItems = () => {

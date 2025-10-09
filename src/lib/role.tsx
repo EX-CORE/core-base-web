@@ -17,7 +17,7 @@ export const ROLE = {
 
 export const MENU = {
   HOME: {
-    LABEL: "대시보드",
+    LABEL: "홈",
     VALUE: "HOME",
     LINK: "/home",
     ICON: <House size={18}  />,
@@ -27,6 +27,7 @@ export const MENU = {
     LABEL: "대시보드",
     VALUE: "DASH_BORAD",
     LINK: "/home/dashboard",
+    ICON: <House size={18}  />,
   },
   NOTICE: {
     LABEL: "공지사항",
@@ -98,7 +99,7 @@ export const MENU = {
 
 export const ROLE_MENULIST_MAP = {
   [ROLE.COMPANY_ADMIN.VALUE]: [
-    { MENU: MENU.HOME, SUB_MENU: [MENU.DASH_BORAD, MENU.NOTICE] },
+    { MENU: MENU.DASH_BORAD },
     { MENU: MENU.REVIEW, SUB_MENU: [] },
     { MENU: MENU.MANAGEMENT_REVIEW_LIST},
     { MENU: MENU.MANAGEMENT_REVIEW_RESULT},
@@ -112,7 +113,7 @@ export const ROLE_MENULIST_MAP = {
     },
   ],
   [ROLE.COMPANY_USER.VALUE]: [
-    { MENU: MENU.HOME, SUB_MENU: [MENU.DASH_BORAD, MENU.NOTICE] },
+    { MENU: MENU.HOME, SUB_MENU: [MENU.NOTICE] },
     { MENU: MENU.REVIEW, SUB_MENU: [] },
     { MENU: MENU.MANAGEMENT_REVIEW, SUB_MENU: [] },
     {

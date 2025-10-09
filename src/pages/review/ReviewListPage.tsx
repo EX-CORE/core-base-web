@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialogFigma';
 import {
   Search,
   Plus,
@@ -20,8 +20,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useGetOrganizationReviews } from '../../services/review';
 import { getCookieValue } from '../../lib/cookies';
 import { mockReviews } from './mockData';
-import {ReviewState} from "../../types";
-import ReviewStateBadge, { getStateBadge } from 'src/components/review/ReviewStateBadge';
+import { ReviewState } from "../../types";
+import { getStateBadge } from 'src/components/review/ReviewStateBadge';
 
 interface Person {
   id: number;
