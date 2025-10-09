@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialog';
-import { 
-  Search, 
-  Plus, 
-  Eye, 
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../../components/ui/dialogFigma';
+import {
+  Search,
+  Plus,
+  Eye,
   Filter,
   Play,
   Square,
@@ -17,10 +17,11 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../components/ui/dropdown-menu';
-import { ReviewState } from '../../services/review';
-import { useGetOrganizationReviews } from '../../services/dummy';
+import { useGetOrganizationReviews } from '../../services/review';
 import { getCookieValue } from '../../lib/cookies';
 import { mockReviews } from './mockData';
+import { ReviewState } from "../../types";
+import { getStateBadge } from 'src/components/review/ReviewStateBadge';
 
 interface Person {
   id: number;
@@ -38,7 +39,7 @@ interface ReviewItem {
   startDate: string;
   endDate: string;
   createdDate: string;
-  status: ReviewState;
+  state: ReviewState;
 }
 
 // mockReviews 데이터는 './mockData'에서 import함
@@ -64,47 +65,17 @@ export default function ReviewListPage() {
   const [modalTitle, setModalTitle] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getStatusBadge = (status: ReviewItem['status']) => {
-    const statusConfig = {
-      [ReviewState.READY]: { 
-        label: '시작전', 
-        className: 'bg-amber-50 text-amber-600 border-amber-500'
-      },
-      [ReviewState.PROCESS]: { 
-        label: '진행중', 
-        className: 'bg-green-50 text-green-600 border-green-500'
-      },
-      [ReviewState.DONE]: { 
-        label: '종료', 
-        className: 'bg-gray-50 text-gray-500 border-gray-200'
-      },
-      [ReviewState.STOPPED]: { 
-        label: '중단됨', 
-        className: 'bg-red-50 text-red-600 border-red-500'
-      },
-      [ReviewState.DELETED]: { 
-        label: '삭제됨', 
-        className: 'bg-gray-50 text-gray-400 border-gray-200'
-      },
-    };
-    
-    const config = statusConfig[status];
-    return (
-      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${config.className}`}>
-        {config.label}
-      </span>
-    );
-  };
+  // getStateBadge는 StateBadge에서 export된 공통 유틸을 사용합니다.
 
   const getActionButton = (review: ReviewItem) => {
-    if (review.status === ReviewState.READY) {
+    if (review.state === ReviewState.READY) {
       return (
         <Button size="sm" className="gap-2 bg-blue-600 hover:bg-blue-700">
           <Play className="h-4 w-4" />
           시작
         </Button>
       );
-    } else if (review.status === ReviewState.PROCESS) {
+    } else if (review.state === ReviewState.PROCESS) {
       return (
         <Button size="sm" variant="destructive" className="gap-2">
           <Square className="h-4 w-4" />
@@ -150,13 +121,13 @@ export default function ReviewListPage() {
       startDate,
       endDate,
       createdDate: base?.createdDate ?? '',
-      status: r.state ?? ReviewState.READY,
+      state: r.state ?? ReviewState.READY,
     };
   });
 
   const filteredReviews = serviceReviews.filter(review => {
     const matchesSearch = review.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || review.status === statusFilter;
+    const matchesStatus = statusFilter === 'all' || review.state === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
@@ -165,7 +136,7 @@ export default function ReviewListPage() {
     const end = new Date(endDate);
     const diffTime = Math.abs(end.getTime() - start.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     return {
       range: `${startDate} ~ ${endDate}`,
       duration: `${diffDays}일간`
@@ -183,8 +154,8 @@ export default function ReviewListPage() {
               <p className="text-sm text-[#6a7282] leading-5">인사평가 리뷰를 생성하고 관리하세요</p>
             </div>
           </div>
-          <Button 
-            onClick={onCreateReview} 
+          <Button
+            onClick={onCreateReview}
             className="bg-[#1447e6] hover:bg-[#1447e6]/90 text-white h-9 px-3 py-2 gap-2 rounded-[4px] text-sm font-medium leading-5"
           >
             <Plus className="h-4 w-4" />
@@ -220,8 +191,8 @@ export default function ReviewListPage() {
           <FileText className="h-12 w-12 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg text-gray-900 mb-2">리뷰가 없습니다</h3>
           <p className="text-gray-500 mb-6">
-              {searchTerm || statusFilter !== 'all' 
-              ? '검색 조건에 맞는 리뷰를 찾을 수 없습니다.' 
+              {searchTerm || statusFilter !== 'all'
+              ? '검색 조건에 맞는 리뷰를 찾을 수 없습니다.'
               : '첫 번째 리뷰를 생성해서 시작해보세요.'}
           </p>
           {(!searchTerm && statusFilter === 'all') && (
@@ -260,13 +231,13 @@ export default function ReviewListPage() {
                 <div className="w-20 px-2 py-[10.25px]"></div>
               </div>
             </div>
-            
+
             {/* 테이블 바디 */}
             <div className="divide-y divide-gray-200">
               {filteredReviews.map((review) => {
                 const dateInfo = formatDateRange(review.startDate, review.endDate);
                 const progressInfo = calculateProgress(review);
-                
+
                 return (
                   <div key={review.id} className="flex items-center hover:bg-gray-50 border-b border-gray-200">
                     {/* 리뷰명 */}
@@ -278,12 +249,12 @@ export default function ReviewListPage() {
                         {review.title}
                       </button>
                     </div>
-                    
+
                     {/* 상태 */}
                     <div className="w-[101.59px] px-2 py-[17.5px]">
-                      {getStatusBadge(review.status)}
+                      {getStateBadge(review.state)}
                     </div>
-                    
+
                     {/* 리뷰 기간 */}
                     <div className="w-[276.61px] px-2 py-0">
                       <div className="flex flex-col gap-1">
@@ -291,7 +262,7 @@ export default function ReviewListPage() {
                         <div className="text-sm text-[#6a7282] leading-5">{dateInfo.duration}</div>
                       </div>
                     </div>
-                    
+
                     {/* 평가자 */}
                     <div className="w-[121.03px] px-4 py-[12.5px]">
                       <button
@@ -302,7 +273,7 @@ export default function ReviewListPage() {
                         <span className="text-sm font-medium text-[#4a5565] leading-5">{review.evaluators.length}명</span>
                       </button>
                     </div>
-                    
+
                     {/* 피평가자 */}
                     <div className="w-[113.03px] px-2 py-[12.5px]">
                       <button
@@ -313,17 +284,17 @@ export default function ReviewListPage() {
                         <span className="text-sm font-medium text-[#4a5565] leading-5">{review.evaluatees.length}명</span>
                       </button>
                     </div>
-                    
+
                     {/* 진행도 */}
                     <div className="w-[79.2px] px-2 py-[20.5px]">
                       <span className="text-sm text-[#101828] leading-5">{progressInfo.percentage}%</span>
                     </div>
-                    
+
                     {/* 생성일 */}
                     <div className="w-[142.53px] px-2 py-[20.5px]">
                       <span className="text-sm text-[#6a7282] leading-5">{review.createdDate}</span>
                     </div>
-                    
+
                     {/* 액션 메뉴 */}
                     <div className="w-20 px-2 py-[14.5px]">
                       <DropdownMenu>
@@ -341,13 +312,13 @@ export default function ReviewListPage() {
                             <Edit className="h-4 w-4" />
                             수정
                           </DropdownMenuItem>
-                          {review.status === ReviewState.READY && (
+                          {review.state === ReviewState.READY && (
                             <DropdownMenuItem className="gap-2">
                               <Play className="h-4 w-4" />
                               시작
                             </DropdownMenuItem>
                           )}
-                          {review.status === ReviewState.PROCESS && (
+                          {review.state === ReviewState.PROCESS && (
                             <DropdownMenuItem className="gap-2">
                               <Square className="h-4 w-4" />
                               종료
@@ -369,8 +340,8 @@ export default function ReviewListPage() {
           <DialogHeader>
             <DialogTitle>{modalTitle}</DialogTitle>
             <DialogDescription>
-              {modalTitle === '평가자 목록' 
-                ? '이 리뷰의 평가자 목록입니다.' 
+              {modalTitle === '평가자 목록'
+                ? '이 리뷰의 평가자 목록입니다.'
                 : '이 리뷰의 피평가자 목록입니다.'}
             </DialogDescription>
           </DialogHeader>

@@ -3,10 +3,10 @@ import { getRoleMenuList, getRoleSubMenuList } from "src/lib/utils";
 import { useSidebar } from "src/store/use-sidebar";
 
 type Props = {
-  toggle?: boolean;
+  isOpen?: boolean;
 };
 
-export default function SideMenuList({ toggle = true }: Props) {
+export default function SideMenuList({ isOpen = true }: Props) {
   const navigate = useNavigate();
 
   const USER_ROLE = "ADMIN";
@@ -15,23 +15,18 @@ export default function SideMenuList({ toggle = true }: Props) {
 
   return (
     <>
-      {toggle
-        ? MENU_LIST.map(({ MENU }) => (
-            <p
+      {MENU_LIST.map(({ MENU }) => (
+            <button
               key={MENU.VALUE}
               onClick={() => navigate(MENU.LINK)}
-              className="p-2"
+              className={`h-10 relative items-center rounded-[4px] shrink-0 w-full transition-colors hover:bg-slate-100`}
             >
-              {MENU.LABEL}
-            </p>
+              <div className={`flex flex-row overflow-clip relative size-full box-border content-stretch items-center gap-3 py-2 w-full px-0 text-[14px]`}>
+                {MENU.ICON}{isOpen && MENU.LABEL}
+              </div>
+            </button>
           ))
-        : MENU_LIST.map(({ MENU }) => {
-            return (
-              <p key={MENU.VALUE} onClick={() => navigate(MENU.LINK)}>
-                {MENU.ICON}
-              </p>
-            );
-          })}
+        }
     </>
   );
 }

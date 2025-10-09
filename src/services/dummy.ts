@@ -1,31 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { ReviewState, ReviewRes } from "./review";
-import { mockReviews } from "../pages/review/mockData";
 
-const dummyFetch = <T>(dummyData: T): Promise<T> =>
+export const dummyFetch = <T>(dummyData: T): Promise<T> =>
   new Promise((resolve) => {
     setTimeout(() => {
       resolve(dummyData);
     }, 1000);
   });
 
-export const useGetOrganizationReviews = (organizationId: string) => {
-  return useQuery<ReviewRes[]>({
-    queryKey: ["reviewListData", organizationId],
-    queryFn: async () => {
-      const orgId = Number(organizationId) || 0;
-      const mapped: ReviewRes[] = mockReviews.map((r) => ({
-        id: String(r.id),
-        title: r.title,
-        organizationId: orgId,
-        reviewPeriod: `${r.startDate} ~ ${r.endDate}`,
-        description: undefined,
-        state: r.status,
-      }));
-      return await dummyFetch<ReviewRes[]>(mapped);
-    },
-  });
-};
 export const useGetOrganizationStructure = () => {
   return useQuery({
     queryKey: ["organizationStructure"],
@@ -191,6 +172,34 @@ export const useGetDummyOrganizationStructure = () => {
       ]),
   });
 };
+
+export interface Employee {
+    id: number;
+    name: string;
+    department: string;
+    position: string;
+    email: string;
+}
+
+// 모든 임직원 데이터 (실제로는 API에서 가져올 데이터)
+export const allEmployees: Employee[] = [
+    { id: 1, name: '김민수', department: '개발팀', position: '팀장', email: 'kim.minsu@company.com' },
+    { id: 2, name: '이영희', department: '개발팀', position: '선임', email: 'lee.younghee@company.com' },
+    { id: 3, name: '박준호', department: '개발팀', position: '주임', email: 'park.junho@company.com' },
+    { id: 4, name: '최수진', department: '디자인팀', position: '팀장', email: 'choi.sujin@company.com' },
+    { id: 5, name: '정현우', department: '디자인팀', position: '선임', email: 'jung.hyunwoo@company.com' },
+    { id: 6, name: '강미영', department: '마케팅팀', position: '팀장', email: 'kang.miyoung@company.com' },
+    { id: 7, name: '윤서준', department: '마케팅팀', position: '주임', email: 'yoon.seojun@company.com' },
+    { id: 8, name: '임도현', department: '인사팀', position: '팀장', email: 'lim.dohyun@company.com' },
+    { id: 9, name: '한지우', department: '인사팀', position: '선임', email: 'han.jiwoo@company.com' },
+    { id: 10, name: '조은서', department: '재무팀', position: '팀장', email: 'cho.eunseo@company.com' },
+    { id: 11, name: '신재현', department: '재무팀', position: '주임', email: 'shin.jaehyun@company.com' },
+    { id: 12, name: '오세영', department: '영업팀', position: '팀장', email: 'oh.seyoung@company.com' },
+    { id: 13, name: '송민지', department: '영업팀', position: '선임', email: 'song.minji@company.com' },
+    { id: 14, name: '배현수', department: '영업팀', position: '주임', email: 'bae.hyunsu@company.com' },
+    { id: 15, name: '안소희', department: '기획팀', position: '팀장', email: 'an.sohee@company.com' }
+];
+
 
 // flex - GET /search
 // [

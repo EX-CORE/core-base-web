@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
-import { Badge } from './ui/badge';
-import { Separator } from './ui/separator';
-import { Checkbox } from './ui/checkbox';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '../ui/dialogFigma';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { Badge } from '../ui/badge';
+import { Separator } from '../ui/separator';
+import { Checkbox } from '../ui/checkbox';
 import { X, Search } from 'lucide-react';
-import svgPaths from '../imports/svg-skuy1a01o5';
+import svgPaths from '../../imports/svg-skuy1a01o5';
 
 interface Employee {
   id: number;
@@ -95,7 +95,7 @@ export default function EvaluatorMappingModal({
     const maxPossible = evaluators.length;
     const adjustedValue = Math.min(value, maxPossible);
     setMaxEvaluators(adjustedValue);
-    
+
     if (minEvaluators > adjustedValue) {
       setMinEvaluators(adjustedValue);
     }
@@ -110,7 +110,7 @@ export default function EvaluatorMappingModal({
     setAssignments(prev => {
       const currentAssignments = prev[targetId] || [];
       const isSelected = currentAssignments.includes(evaluatorId);
-      
+
       if (isSelected) {
         return {
           ...prev,
@@ -131,7 +131,7 @@ export default function EvaluatorMappingModal({
   const getAssignmentValidation = () => {
     let validCount = 0;
     let invalidTargets: string[] = [];
-    
+
     targets.forEach(target => {
       const assignedCount = assignments[target.id]?.length || 0;
       if (assignedCount >= minEvaluators && assignedCount <= maxEvaluators) {
@@ -140,7 +140,7 @@ export default function EvaluatorMappingModal({
         invalidTargets.push(target.name);
       }
     });
-    
+
     return {
       isValid: validCount === targets.length,
       validCount,
@@ -158,7 +158,7 @@ export default function EvaluatorMappingModal({
         <DialogContent className="max-w-[1200px] max-h-[90vh] p-0 gap-0 overflow-hidden">
           <DialogTitle className="sr-only">평가자 매핑 설정</DialogTitle>
           <DialogDescription className="sr-only">평가자와 피평가자 간의 매핑 방식을 설정하세요</DialogDescription>
-          
+
           {/* 기존 config 화면 유지 */}
           <div className="flex flex-col h-full">
             {/* 헤더 */}
@@ -196,7 +196,7 @@ export default function EvaluatorMappingModal({
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="p-4 border border-slate-200 rounded-lg">
                     <div className="flex items-center gap-3">
                       <div className="p-2 bg-green-50 rounded-lg">
@@ -225,7 +225,7 @@ export default function EvaluatorMappingModal({
                       각 피평가자를 평가할 최소/최대 평가자 수를 설정하세요
                     </p>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="minEvaluators" className="text-sm font-medium text-slate-700">
@@ -241,7 +241,7 @@ export default function EvaluatorMappingModal({
                         className="w-full"
                       />
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label htmlFor="maxEvaluators" className="text-sm font-medium text-slate-700">
                         최대 평가자 수
@@ -271,9 +271,9 @@ export default function EvaluatorMappingModal({
                       평가자와 피평가자를 어떻게 매핑할지 선택하세요
                     </p>
                   </div>
-                  
-                  <RadioGroup 
-                    value={assignmentMethod} 
+
+                  <RadioGroup
+                    value={assignmentMethod}
                     onValueChange={(value: 'manual' | 'random') => setAssignmentMethod(value)}
                     className="space-y-3"
                   >
@@ -286,7 +286,7 @@ export default function EvaluatorMappingModal({
                         </div>
                       </Label>
                     </div>
-                    
+
                     <div className="flex items-center space-x-3 p-3 border border-slate-200 rounded-lg opacity-50 cursor-not-allowed">
                       <RadioGroupItem value="random" id="random" disabled />
                       <Label htmlFor="random" className="flex-1 cursor-not-allowed">
@@ -299,7 +299,7 @@ export default function EvaluatorMappingModal({
                         </div>
                       </Label>
                     </div>
-                    
+
                     <div className="flex items-center space-x-3 p-3 border border-slate-200 rounded-lg opacity-50 cursor-not-allowed">
                       <RadioGroupItem value="self" id="evaluator-select" disabled />
                       <Label htmlFor="evaluator-select" className="flex-1 cursor-not-allowed">
@@ -319,14 +319,14 @@ export default function EvaluatorMappingModal({
 
             {/* 액션 버튼 */}
             <div className="flex items-center justify-end gap-3 p-6 border-t border-slate-200">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={handleClose}
                 className="px-4 py-2"
               >
                 취소
               </Button>
-              <Button 
+              <Button
                 onClick={handleNext}
                 className="bg-[#1e40af] hover:bg-[#1e40af]/90 text-white px-6 py-2"
               >
@@ -363,7 +363,7 @@ export default function EvaluatorMappingModal({
       <DialogContent className="!max-w-[1200px] sm:!max-w-[1200px] w-[1200px] max-h-[90vh] p-0 gap-0 overflow-hidden bg-white rounded-[6px]">
         <DialogTitle className="sr-only">평가자 직접 선택</DialogTitle>
         <DialogDescription className="sr-only">평가자와 피평가자를 각각 선택해 주세요.</DialogDescription>
-        
+
         <div className="box-border content-stretch flex flex-col h-[69px] items-start pb-px pt-0 px-0 relative shrink-0 w-full">
           <div aria-hidden="true" className="absolute border-[0px_0px_1px] border-slate-200 border-solid inset-0 pointer-events-none" />
           <div className="h-[52px] relative shrink-0 w-full">
@@ -400,7 +400,7 @@ export default function EvaluatorMappingModal({
                 진행률: <span className="font-medium text-[#0f172b]">{validation.validCount}</span> / {validation.totalCount} 완료
               </div>
               <div className="w-32 bg-slate-200 rounded-full h-2">
-                <div 
+                <div
                   className="bg-blue-800 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${(validation.validCount / validation.totalCount) * 100}%` }}
                 />
@@ -420,7 +420,7 @@ export default function EvaluatorMappingModal({
                     <h3 className="text-base font-medium text-[#0f172b]">피평가자 목록</h3>
                     <p className="text-sm text-[#62748e]">총 {targets.length}명</p>
                   </div>
-                  
+
                   {/* 검색 */}
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[#90A1B9]" />
@@ -438,7 +438,7 @@ export default function EvaluatorMappingModal({
                   <div className="space-y-4">
                     {targetDepartments.map(department => {
                       const deptTargets = filteredTargets.filter(t => t.department === department);
-                      
+
                       return (
                         <div key={department} className="space-y-2">
                           <h4 className="text-sm text-slate-500 border-b border-slate-200 pb-1">
@@ -449,7 +449,7 @@ export default function EvaluatorMappingModal({
                               const assignedCount = assignments[target.id]?.length || 0;
                               const isValid = assignedCount >= minEvaluators && assignedCount <= maxEvaluators;
                               const isSelected = selectedTargetId === target.id;
-                              
+
                               return (
                                 <div
                                   key={target.id}
@@ -475,7 +475,7 @@ export default function EvaluatorMappingModal({
                                       </p>
                                     </div>
                                     <div className="flex flex-col items-end gap-1">
-                                      <Badge 
+                                      <Badge
                                         variant={isValid ? "default" : "secondary"}
                                         className={`text-xs ${
                                           isValid 
@@ -516,7 +516,7 @@ export default function EvaluatorMappingModal({
                         <div className="flex items-center gap-2">
                           <h3 className="text-base font-medium text-[#0f172b]">{selectedTarget?.name}</h3>
                         </div>
-                        <Badge 
+                        <Badge
                           variant="secondary"
                           className="bg-slate-50 text-slate-600"
                         >
@@ -524,7 +524,7 @@ export default function EvaluatorMappingModal({
                         </Badge>
                       </div>
                       <p className="text-sm text-[#62748e]">{selectedTarget?.department} · {selectedTarget?.position}</p>
-                      
+
                       {/* 검색 */}
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[#90A1B9]" />
@@ -542,7 +542,7 @@ export default function EvaluatorMappingModal({
                       <div className="space-y-4">
                         {evaluatorDepartments.map(department => {
                           const deptEvaluators = filteredEvaluators.filter(e => e.department === department);
-                          
+
                           return (
                             <div key={department} className="space-y-2">
                               <h4 className="text-sm text-slate-500 border-b border-slate-200 pb-1">
@@ -552,7 +552,7 @@ export default function EvaluatorMappingModal({
                                 {deptEvaluators.map((evaluator) => {
                                   const isSelected = assignedEvaluators.includes(evaluator.id);
                                   const canSelect = !isSelected && assignedEvaluators.length < maxEvaluators;
-                                  
+
                                   return (
                                     <div
                                       key={evaluator.id}
@@ -626,14 +626,14 @@ export default function EvaluatorMappingModal({
               )}
             </div>
             <div className="flex items-center gap-3">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={handleBack}
                 className="px-4 py-2 h-9 bg-white border-slate-200"
               >
                 이전
               </Button>
-              <Button 
+              <Button
                 onClick={handleConfirm}
                 disabled={!validation?.isValid}
                 className="bg-blue-800 hover:bg-blue-800/90 text-white px-6 py-2 h-9 disabled:opacity-50 disabled:cursor-not-allowed"

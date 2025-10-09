@@ -1,6 +1,15 @@
 /**
  * 리뷰(설문) 관련 타입 정의
  */
+import {Person} from "../pages/review/mockData";
+
+export enum ReviewState {
+  READY = "READY",
+  PROCESS = "PROCESS",
+  STOPPED = "STOPPED",
+  DONE = "DONE",
+  DELETED = "DELETED",
+}
 
 export interface Question {
   id: number;
@@ -12,6 +21,18 @@ export interface Question {
   required: boolean;
   sectionId?: number;
   order: number; // 전체 순서
+}
+
+export interface Review {
+  id: number;
+  title: string;
+  evaluators: Person[];
+  evaluatees: Person[];
+  participatedEvaluators: number;
+  startDate: string;
+  endDate: string;
+  createdDate: string;
+  state: ReviewState;
 }
 
 export interface Section {

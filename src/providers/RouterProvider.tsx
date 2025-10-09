@@ -1,22 +1,27 @@
-import { createBrowserRouter, Link } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Layout from "src/components/layouts";
 import SubMenu from "src/components/layouts/SubMenu";
 import {
-  Dashboard,
   Login,
-  Notice,
-  NoticeEditor,
-  Review,
-  NoticeDetail,
 } from "src/pages";
 import {
   OrganizationInfo,
   OrganizationMember,
   OrganizationStructure,
 } from "src/pages/organization";
-import {ReviewDetailPage, ReviewListPage, ReviewMutatePage} from "src/pages/review";
-import ReviewResultsPage from "../pages/review/ReviewResultsPage";
-import ReviewForm from "../pages/review/ReviewForm";
+import {
+  ReviewDetailPage,
+  ReviewListPage,
+  ReviewMutatePage,
+  ReviewResultsPage,
+  ReviewsPage
+} from "src/pages/review";
+import {
+  Notice,
+  NoticeEditor,
+  NoticeDetail,
+  DashboardPage
+} from "src/pages/home";
 
 export const router = createBrowserRouter([
   {
@@ -29,7 +34,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "dashboard",
-            element: <Dashboard />,
+            element: <DashboardPage />,
           },
           {
             path: "notice",
@@ -56,12 +61,7 @@ export const router = createBrowserRouter([
       {
         path: "/user/review",
         element: (
-          <Review
-            title="리뷰"
-            surveyPeriod={{ startDate: "2022-02-04", endDate: "2022-02-04" }}
-            reviewPeriod={{ startDate: "2022-02-04", endDate: "2022-02-04" }}
-            state={{ text: "TEMP" }}
-          />
+            <ReviewsPage />
         ),
       },
       {

@@ -1,4 +1,4 @@
-import { Building2, ClipboardPenLine, House, SmilePlus } from "lucide-react";
+import {Building2, ClipboardPenLine, House, SmilePlus, Star} from "lucide-react";
 
 export const ROLE = {
   // MATER_ADMIN: {
@@ -17,16 +17,17 @@ export const ROLE = {
 
 export const MENU = {
   HOME: {
-    LABEL: "기본홈",
+    LABEL: "홈",
     VALUE: "HOME",
     LINK: "/home",
-    ICON: <House />,
+    ICON: <House size={18}  />,
   },
   // 홈 서브메뉴
   DASH_BORAD: {
     LABEL: "대시보드",
     VALUE: "DASH_BORAD",
     LINK: "/home/dashboard",
+    ICON: <House size={18}  />,
   },
   NOTICE: {
     LABEL: "공지사항",
@@ -37,31 +38,31 @@ export const MENU = {
     LABEL: "리뷰",
     VALUE: "REVIEW",
     LINK: "/user/review",
-    ICON: <SmilePlus />,
+    ICON: <Star size={18} />,
   },
   MANAGEMENT_REVIEW: {
     LABEL: "리뷰 관리",
     VALUE: "MANAGEMENT_REVIEW",
     LINK: "/management/review",
-    ICON: <ClipboardPenLine />,
+    ICON: <ClipboardPenLine size={18}/>,
   },
   MANAGEMENT_REVIEW_LIST: {
     LABEL: "리뷰 관리",
     VALUE: "MANAGEMENT_REVIEW_LIST",
     LINK: "/management/review/list",
-    ICON: <ClipboardPenLine />,
+    ICON: <ClipboardPenLine size={18}/>,
   },
   MANAGEMENT_REVIEW_RESULT: {
     LABEL: "리뷰 결과",
     VALUE: "MANAGEMENT_REVIEW_LIST",
     LINK: "/management/review/results",
-    ICON: <ClipboardPenLine />,
+    ICON: <House size={18}/>,
   },
   MANAGEMENT_ORGANIZATION: {
     LABEL: "조직 관리",
     VALUE: "MANAGEMENT_ORGANIZATION",
     LINK: "/management/organization",
-    ICON: <Building2 />,
+    ICON: <Building2 size={18}/>,
   },
   // 조직관리 서브메뉴
   MANAGEMENT_ORGANIZTION_INFO: {
@@ -98,7 +99,7 @@ export const MENU = {
 
 export const ROLE_MENULIST_MAP = {
   [ROLE.COMPANY_ADMIN.VALUE]: [
-    { MENU: MENU.HOME, SUB_MENU: [MENU.DASH_BORAD, MENU.NOTICE] },
+    { MENU: MENU.DASH_BORAD },
     { MENU: MENU.REVIEW, SUB_MENU: [] },
     { MENU: MENU.MANAGEMENT_REVIEW_LIST},
     { MENU: MENU.MANAGEMENT_REVIEW_RESULT},
@@ -112,7 +113,7 @@ export const ROLE_MENULIST_MAP = {
     },
   ],
   [ROLE.COMPANY_USER.VALUE]: [
-    { MENU: MENU.HOME, SUB_MENU: [MENU.DASH_BORAD, MENU.NOTICE] },
+    { MENU: MENU.HOME, SUB_MENU: [MENU.NOTICE] },
     { MENU: MENU.REVIEW, SUB_MENU: [] },
     { MENU: MENU.MANAGEMENT_REVIEW, SUB_MENU: [] },
     {

@@ -5,10 +5,10 @@ import { useSidebar } from "src/store/use-sidebar";
 export default function Container({ children }: { children: React.ReactNode }) {
   // useScreenSize();
 
-  const { isOpen, temporaryOpen } = useSidebar();
+  const { isOpen } = useSidebar();
 
   return (
-    <div className={cn("flex-1 ml-72", !isOpen && !temporaryOpen && "ml-16")}>
+    <div className={cn("flex-1 overflow-auto bg-white", !isOpen && "ml-20")}>
       {children}
     </div>
   );

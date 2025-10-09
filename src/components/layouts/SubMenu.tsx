@@ -11,7 +11,7 @@ export default function SubMenu() {
       new RegExp(MENU.LINK).test(targetPath)
     )?.SUB_MENU || [];
 
-  const hideSubMenuBar = /^\/management\/review/.test(targetPath);
+  const hideSubMenuBar = /^\/management\/review/.test(targetPath) || /^\/home\/dashboard/.test(targetPath);
 
   return (
     <div>

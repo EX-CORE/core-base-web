@@ -13,7 +13,7 @@ import {
 import { Separator } from "../ui/separator";
 import { Router, useLocation, useNavigate } from "react-router-dom";
 
-import { Button } from "../Button";
+import { Button } from "../button/Button";
 
 import { useGetOrganizationList, List } from "../../services/profile";
 import {
@@ -23,7 +23,11 @@ import {
 import { MODAL_TYPES, useModal } from "src/store/use-modal";
 import { getCookieValue, setCookie } from "src/lib/cookies";
 
-export default function SideLogoBox() {
+type Props = {
+  toggle?: boolean;
+};
+
+export default function SideLogoBox({ toggle = true }: Props) {
   const navigate = useNavigate();
 
   const { data: companyList } = useGetOrganizationList();
@@ -44,11 +48,11 @@ export default function SideLogoBox() {
     navigate("/management/organization/info");
   };
   return (
-    <div className={cn("flex items-center")}>
+    <div className={cn("flex items-center mt-6 mb-8 w-full")}>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="flex items-center gap-2 px-3 py-2">
+            <NavigationMenuTrigger className="flex items-center gap-2 px-3 py-2 ">
               {company ? (
                 <CompanyLogo
                   title={company.name}
@@ -59,7 +63,7 @@ export default function SideLogoBox() {
               )}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="w-[300px] p-2 space-y-2">
+              <ul className="p-2 space-y-2 w-full">
                 <li className="px-2 py-1">
                   {(companyList?.participationOrganizations?.length || 0) >
                   0 ? (
@@ -146,7 +150,6 @@ const CompanyLogo = React.forwardRef<
       ) : (
         <img
           src={content}
-          // alt={title}
           width={24}
           height={24}
           className="rounded-sm object-cover"

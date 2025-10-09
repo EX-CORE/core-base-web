@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
-import { Button } from './ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
+import { Button } from '../ui/button';
 import { Plus, FileQuestion } from 'lucide-react';
 import QuestionItem from './QuestionItem';
 
@@ -83,7 +83,7 @@ export default function QuestionList({ onQuestionAdd, resetQuestionAdd }: Questi
               문항 추가
             </Button>
           </div>
-          
+
           <div className="space-y-4">
             {questions.map(question => (
               <QuestionItem
